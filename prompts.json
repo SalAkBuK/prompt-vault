@@ -69,6 +69,22 @@
     "rel_path": "prompts/creative-web-design/reference-benchmark-website-builder.md"
   },
   {
+    "title": "Scroll-Driven Image Sequence Website",
+    "category": "creative-web-design",
+    "tags": [
+      "scroll-animation",
+      "image-sequence",
+      "scrollytelling",
+      "cinematic-web",
+      "scroll-timeline",
+      "creative-web-design"
+    ],
+    "description": "Builds a cinematic scroll-controlled website using a sequence of still images, one master scroll value, scene ranges, blended transitions, progressive loading, and synchronized text.",
+    "version": "1.0",
+    "prompt": "Build a cinematic scroll-driven experience for [SUBJECT / WEBSITE IDEA] using a sequence of still images rather than a conventional video.\n\nThe sequence should contain [IMAGE SEQUENCE / FRAME SOURCE].\n\nHere's how it should work:\n\n1. It's not a video. Use a sequence of still images played in order like a flipbook. Scrolling controls which frame is shown.\n\n2. Keep one primary image/canvas fixed or sticky on screen. Scrolling should change the displayed frame rather than moving the visual itself away.\n\n3. Convert the user's scroll position into one master progress value. That single value should control everything:\n   - which image frame is visible\n   - zoom or scale\n   - scene progression\n   - transitions\n   - when text appears or disappears\n\n4. Break the experience into [NUMBER / DESCRIPTION OF SCENES] like chapters. Give each scene its own section of the scroll timeline.\n\n5. Between scenes, don't simply cut. Blend them with an appropriate dissolve, wipe, overlap, or transition so the sequence feels continuous rather than choppy.\n\n6. Load the image sequence intelligently. Prioritize nearby frames and use lower-quality versions first if necessary, then load sharper versions as the user approaches them. Avoid loading everything at full resolution at once.\n\n7. Tie all text to ranges of the same master scroll value so typography and imagery always stay synchronized.\n\nThe core system should be:\n\nscroll position → master progress → frames + motion + text + transitions\n\nDo not build a collection of unrelated scroll-triggered animations.\n\nThe final result should feel like a carefully timed cinematic sequence controlled directly by the user's scroll.",
+    "rel_path": "prompts/creative-web-design/scroll-driven-image-sequence-website.md"
+  },
+  {
     "title": "Signature Website Interaction Designer",
     "category": "creative-web-design",
     "tags": [
