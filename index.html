@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prompt Vault — Personal AI Prompt Library</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --card-border: #30363d;
+      --card-hover: #21262d;
+      --text: #c9d1d9;
+      --text-muted: #8b949e;
+      --text-bright: #f0f6fc;
+      --accent: #58a6ff;
+      --accent-glow: rgba(88, 166, 255, 0.15);
+      --accent-green: #3fb950;
+      --pill-bg: #21262d;
+      --pill-border: #363b42;
+      --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      padding: 2.5rem 1.5rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--text-bright);
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+    }
+
+    h1 span.badge {
+      font-size: 0.8rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      background: var(--accent-glow);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      font-size: 1.05rem;
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .search-box {
+      position: relative;
+      width: 100%;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 0.9rem 1.2rem 0.9rem 2.8rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--card-border);
+      background-color: var(--card-bg);
+      color: var(--text-bright);
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .search-box input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .cat-pill {
+      background: var(--pill-bg);
+      border: 1px solid var(--pill-border);
+      color: var(--text-muted);
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .cat-pill:hover {
+      background: var(--card-hover);
+      color: var(--text-bright);
+      border-color: var(--accent);
+    }
+
+    .cat-pill.active {
+      background: var(--accent);
+      color: #0d1117;
+      border-color: var(--accent);
+      font-weight: 600;
+    }
+
+    .cat-count {
+      font-size: 0.75rem;
+      opacity: 0.8;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 0.1rem 0.4rem;
+      border-radius: 999px;
+    }
+
+    .stats-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: #58a6ff66;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-category {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-bright);
+      line-height: 1.35;
+      margin-bottom: 0.6rem;
+    }
+
+    .card-desc {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+      flex-grow: 1;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .tag-badge {
+      font-size: 0.72rem;
+      background: #21262d;
+      color: var(--text-muted);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 0.6rem;
+      border-top: 1px solid var(--card-border);
+      padding-top: 1rem;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 0.6rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      transition: all 0.15s ease;
+      border: 1px solid transparent;
+    }
+
+    .btn-copy {
+      background: #238636;
+      color: #fff;
+    }
+
+    .btn-copy:hover {
+      background: #2ea043;
+    }
+
+    .btn-copy.copied {
+      background: var(--accent-green);
+    }
+
+    .btn-preview {
+      background: transparent;
+      color: var(--text);
+      border-color: var(--card-border);
+    }
+
+    .btn-preview:hover {
+      background: var(--card-hover);
+      color: var(--text-bright);
+    }
+
+    /* Modal for preview */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      width: 100%;
+      max-width: 800px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .modal-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-bright);
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      color: var(--text-bright);
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+      overflow-y: auto;
+    }
+
+    .prompt-code {
+      background: #0d1117;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 1rem;
+      color: #79c0ff;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.6;
+    }
+
+    .modal-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 1rem;
+      color: var(--text-muted);
+      grid-column: 1 / -1;
+    }
+
+    .empty-state h3 {
+      color: var(--text-bright);
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Prompt Vault <span class="badge">HQ</span></h1>
+      <p class="subtitle">Personal library of battle-tested AI prompts for coding, writing, design, and workflows</p>
+    </header>
+
+    <div class="controls">
+      <div class="search-box">
+        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="searchInput" placeholder="Search prompts by keyword, tag, or content (e.g. postgres, midjourney, copy)..." autofocus />
+      </div>
+
+      <div class="categories" id="categoryPills">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+
+    <div class="stats-bar">
+      <span id="resultsCount">Showing 0 prompts</span>
+      <span>Run <code>python vault.py build</code> to refresh</span>
+    </div>
+
+    <div class="cards-grid" id="cardsGrid">
+      <!-- Cards rendered here -->
+    </div>
+  </div>
+
+  <!-- Preview Modal -->
+  <div class="modal-overlay" id="previewModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title" id="modalTitle">Prompt Preview</div>
+        <button class="modal-close" id="modalClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <pre class="prompt-code" id="modalPromptCode"></pre>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-copy" id="modalCopyBtn">📋 Copy Prompt</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let allPrompts = [];
+    let activeCategory = 'all';
+    let searchQuery = '';
+
+    // Fetch catalog from prompts.json or fallback
+    async function loadPrompts() {
+      try {
+        const res = await fetch('prompts.json');
+        if (res.ok) {
+          allPrompts = await res.json();
+          render();
+          return;
+        }
+      } catch (e) {
+        console.warn('Could not load prompts.json via fetch, using embedded fallback');
+      }
+    }
+
+    function getCategories() {
+      const counts = {};
+      allPrompts.forEach(p => {
+        counts[p.category] = (counts[p.category] || 0) + 1;
+      });
+      return counts;
+    }
+
+    function renderCategories() {
+      const container = document.getElementById('categoryPills');
+      const counts = getCategories();
+      const categories = Object.keys(counts).sort();
+
+      let html = `
+        <button class="cat-pill ${activeCategory === 'all' ? 'active' : ''}" onclick="setCategory('all')">
+          All <span class="cat-count">${allPrompts.length}</span>
+        </button>
+      `;
+
+      categories.forEach(cat => {
+        const formatted = cat.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        html += `
+          <button class="cat-pill ${activeCategory === cat ? 'active' : ''}" onclick="setCategory('${cat}')">
+            ${formatted} <span class="cat-count">${counts[cat]}</span>
+          </button>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function filterPrompts() {
+      const q = searchQuery.toLowerCase().trim();
+      return allPrompts.filter(p => {
+        const matchesCat = (activeCategory === 'all') || (p.category === activeCategory);
+        if (!matchesCat) return false;
+        if (!q) return true;
+
+        const tagsStr = Array.isArray(p.tags) ? p.tags.join(' ') : (p.tags || '');
+        const haystack = `${p.title} ${p.category} ${tagsStr} ${p.description} ${p.prompt}`.toLowerCase();
+        return haystack.includes(q);
+      });
+    }
+
+    function renderCards() {
+      const grid = document.getElementById('cardsGrid');
+      const filtered = filterPrompts();
+      document.getElementById('resultsCount').textContent = `Showing ${filtered.length} of ${allPrompts.length} prompts`;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <h3>No prompts found</h3>
+            <p>Try clearing your search or adding a new prompt with <code>python vault.py new</code></p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = filtered.map((p, idx) => {
+        const tags = Array.isArray(p.tags) ? p.tags : [];
+        const tagsHtml = tags.map(t => `<span class="tag-badge">#${t}</span>`).join('');
+        const catFormatted = p.category.replace(/-/g, ' ').toUpperCase();
+
+        return `
+          <div class="card">
+            <div>
+              <div class="card-category">${catFormatted}</div>
+              <h3 class="card-title">${escapeHtml(p.title)}</h3>
+              <p class="card-desc">${escapeHtml(p.description || '')}</p>
+              <div class="card-tags">${tagsHtml}</div>
+            </div>
+            <div class="card-actions">
+              <button class="btn btn-preview" onclick="openPreview(${allPrompts.indexOf(p)})">
+                👁️ Preview
+              </button>
+              <button class="btn btn-copy" id="btn-copy-${idx}" onclick="copyPrompt(${allPrompts.indexOf(p)}, this)">
+                📋 Copy
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function render() {
+      renderCategories();
+      renderCards();
+    }
+
+    function setCategory(cat) {
+      activeCategory = cat;
+      render();
+    }
+
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      renderCards();
+    });
+
+    async function copyPrompt(index, btnElement) {
+      const p = allPrompts[index];
+      if (!p) return;
+      try {
+        await navigator.clipboard.writeText(p.prompt);
+        const originalText = btnElement.innerHTML;
+        btnElement.innerHTML = '✨ Copied!';
+        btnElement.classList.add('copied');
+        setTimeout(() => {
+          btnElement.innerHTML = originalText;
+          btnElement.classList.remove('copied');
+        }, 1800);
+      } catch (err) {
+        alert('Prompt copied!');
+      }
+    }
+
+    function openPreview(index) {
+      const p = allPrompts[index];
+      if (!p) return;
+      document.getElementById('modalTitle').textContent = p.title;
+      document.getElementById('modalPromptCode').textContent = p.prompt;
+
+      const modalCopyBtn = document.getElementById('modalCopyBtn');
+      modalCopyBtn.onclick = () => copyPrompt(index, modalCopyBtn);
+
+      document.getElementById('previewModal').classList.add('open');
+    }
+
+    function closePreview() {
+      document.getElementById('previewModal').classList.remove('open');
+    }
+
+    document.getElementById('modalClose').addEventListener('click', closePreview);
+    document.getElementById('previewModal').addEventListener('click', (e) => {
+      if (e.target.id === 'previewModal') closePreview();
+    });
+
+    function escapeHtml(str) {
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    loadPrompts();
+  </script>
+</body>
+</html>
