@@ -35,16 +35,32 @@ Do not simply delete them and leave empty holes. Solve the hierarchy, navigation
 | `[UNWANTED PATTERN]` | Specific visual cliché or repetitive trope to forbid (editable list) | `Bento grid cards with gradient borders`, `Floating pill tags with glowing dots` |
 
 ## 💡 Example
-### Input
-```text
-Review the current design and remove or redesign any elements that make it feel generic, templated, or obviously AI-generated.
 
-Do not use:
-- Dark mode glassmorphism cards with purple neon glows
-- Centered 3-column feature cards with generic SVG icons
-- Floating pill badges reading "FEATURE 01"
-- Center-aligned hero buttons with glowing outer rings
+### Example Usage
+```text
+No "01/03" counters, eyebrow labels, monospace text or long thin lines.
 ```
 
-### Expected Output
-A sophisticated critique and redesign proposal that restructures the page with organic whitespace, varied rhythm, asymmetric balance, and authentic editorial layout without empty holes.
+### Why This Is a Useful Example
+This is an example of **targeted cliché suppression after the first design pass**.
+
+The useful technique is not specifically banning those four things forever.
+
+The technique is:
+
+1. Generate the website first.
+2. Inspect what visual habits make it feel generic, templated, or obviously AI-generated.
+3. Explicitly name those patterns.
+4. Tell the agent not to use them.
+5. Make the agent solve the underlying hierarchy and composition instead of simply deleting the elements.
+
+The specific banned patterns should change depending on the current design.
+
+For example, another project might ban things such as:
+- glassmorphism cards
+- fake technical coordinates
+- pill-shaped buttons everywhere
+- scrolling marquees
+- giant generic serif headlines
+- decorative grid overlays
+- excessive gradient blobs
