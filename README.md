@@ -2,8 +2,8 @@
 
 > A clean, battle-tested personal repository for storing, categorizing, searching, and 1-click copying your AI prompts across ChatGPT, Claude, Gemini, Midjourney, and Flux.
 
-[![Prompts Count](https://img.shields.io/badge/Prompts-16-blue.svg)](#-master-prompt-catalog)
-[![Categories](https://img.shields.io/badge/Categories-8-brightgreen.svg)](#-categories)
+[![Prompts Count](https://img.shields.io/badge/Prompts-17-blue.svg)](#-master-prompt-catalog)
+[![Categories](https://img.shields.io/badge/Categories-9-brightgreen.svg)](#-categories)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ---
@@ -30,12 +30,13 @@ delightful-curie/
 └── prompts/                     # 📂 Categorized prompt storage
     ├── coding/                  # Code reviews, bug hunting, SQL optimization
     ├── creative-web-design/     # Reference benchmarks, anti-cliché cleanup, interactions, typography
-    ├── writing-copywriting/     # Landing page copy, viral social hooks
     ├── image-generation/        # Cinematic Midjourney & Flux prompts, 3D icons
     ├── productivity-workflows/  # Executive summaries, meeting notes
     ├── system-prompts/          # Socratic mentors, custom instructions
     ├── marketing-seo/           # Topical authority, content clusters
-    └── learning-research/       # Feynman technique, deep dives
+    ├── learning-research/       # Feynman technique, deep dives
+    ├── video-production/        # Programmatic launch films, motion timing, audio drops
+    └── writing-copywriting/     # Landing page copy, viral social hooks
 ```
 
 ---
@@ -103,6 +104,7 @@ Want a visual interface?
 | **`system-prompts`** | Personas, mentor prompts, custom directives | [Socratic Technical Mentor](prompts/system-prompts/socratic-technical-mentor.md) |
 | **`marketing-seo`** | Keyword clusters, pillar strategies, ads | [SEO Content Cluster Architect](prompts/marketing-seo/seo-content-cluster-architect.md) |
 | **`learning-research`** | First principles, mental models, ELI5 | [Feynman Explainer](prompts/learning-research/feynman-first-principles-breakdown.md) |
+| **`video-production`** | Launch films, motion design, audio drops, QA stills | [Programmatic Launch Film Director](prompts/video-production/programmatic-product-launch-film.md) |
 
 For the full detailed index, see **[`CATALOG.md`](file:///CATALOG.md)**.
 

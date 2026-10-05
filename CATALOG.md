@@ -1,6 +1,6 @@
 # 📚 Master Prompt Catalog
 
-> Auto-generated index of all **16 prompts** across **8 categories**.
+> Auto-generated index of all **17 prompts** across **9 categories**.
 > Update anytime with `python vault.py build`.
 
 ## 🧭 Quick Jump
@@ -12,6 +12,7 @@
 - [Marketing Seo](#marketing-seo) `(1)`
 - [Productivity Workflows](#productivity-workflows) `(1)`
 - [System Prompts](#system-prompts) `(1)`
+- [Video Production](#video-production) `(1)`
 - [Writing Copywriting](#writing-copywriting) `(2)`
 
 ---
@@ -64,6 +65,12 @@
 | Title | Tags | Models | File |
 | :--- | :--- | :--- | :--- |
 | **Socratic Technical Mentor System Prompt**<br>*A system prompt configuration that guides users through problem-solving using Socratic inquiry rather than spoon-feeding solutions.* | `system-prompt` `mentor` `socratic` `education` `custom-instructions` | Claude 3.5 Sonnet, GPT-4o | [socratic-technical-mentor.md](prompts/system-prompts/socratic-technical-mentor.md) |
+
+## Video Production
+
+| Title | Tags | Models | File |
+| :--- | :--- | :--- | :--- |
+| **Programmatic Product Launch Film Director**<br>*End-to-end director pipeline for writing, voicing, scoring, choreographing, programmatically rendering, and QAing cinematic product launch films.* | `video-production` `launch-film` `motion-design` `programmatic-video` `ffmpeg` `voiceover` `scriptwriting` `art-direction` | Claude 3.5 Sonnet, GPT-4o | [programmatic-product-launch-film.md](prompts/video-production/programmatic-product-launch-film.md) |
 
 ## Writing Copywriting
 
