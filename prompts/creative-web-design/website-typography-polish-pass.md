@@ -3,7 +3,6 @@ title: "Website Typography Polish Pass"
 category: "creative-web-design"
 tags: ["creative-web-design", "typography", "design-polish", "visual-hierarchy", "refinement", "ui-typography"]
 description: "Stage 4 (Final Polish): Elevates perceived visual quality by replacing generic fonts with an intentional typographic system retuned across hierarchy, tracking, and sizing."
-model_tested: ["Claude 3.5 Sonnet", "GPT-4o"]
 version: "1.0"
 ---
 

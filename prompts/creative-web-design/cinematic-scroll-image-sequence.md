@@ -3,7 +3,6 @@ title: "Cinematic Scroll-Driven Image Sequence Experience"
 category: "creative-web-design"
 tags: ["creative-web-design", "scroll-driven", "image-sequence", "cinematic", "scrollytelling", "motion", "master-timeline", "canvas-animation"]
 description: "Builds a cinematic, scroll-driven web experience using an image sequence synced to a normalized master progress timeline with intelligent frame loading."
-model_tested: ["Claude 3.5 Sonnet", "GPT-4o"]
 version: "1.0"
 ---
 

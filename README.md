@@ -2,8 +2,8 @@
 
 > A clean, battle-tested personal repository for storing, categorizing, searching, and 1-click copying your AI prompts across ChatGPT, Claude, Gemini, Midjourney, and Flux.
 
-[![Prompts Count](https://img.shields.io/badge/Prompts-17-blue.svg)](#-master-prompt-catalog)
-[![Categories](https://img.shields.io/badge/Categories-9-brightgreen.svg)](#-categories)
+[![Prompts Count](https://img.shields.io/badge/Prompts-6-blue.svg)](#-master-prompt-catalog)
+[![Categories](https://img.shields.io/badge/Categories-2-brightgreen.svg)](#-categories)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ---
@@ -13,7 +13,7 @@
 - 📁 **Organized by Category**: No more lost prompts across random notes or messy chat history.
 - ⚡ **Zero-Dependency CLI (`vault.py`)**: Search, create, and copy prompts directly to your system clipboard from terminal.
 - 🌐 **Interactive Web Gallery (`index.html`)**: Instant dark-mode browser dashboard with live filtering, tag search, and 1-click copy.
-- 📋 **Standardized Template**: Consistent structure with tags, variables (`{{INPUT}}`), and model compatibility tags.
+- 📋 **Standardized Template**: Consistent structure with tags, variables (`{{INPUT}}`), and versioning.
 - 🔄 **Auto-Updating Catalog**: Run one command to regenerate the master table of contents and JSON catalog.
 
 ---
@@ -28,15 +28,8 @@ delightful-curie/
 ├── CATALOG.md                   # 📚 Auto-generated master prompt catalog
 ├── prompts.json                 # 💾 JSON dump for tools & web UI
 └── prompts/                     # 📂 Categorized prompt storage
-    ├── coding/                  # Code reviews, bug hunting, SQL optimization
     ├── creative-web-design/     # Reference benchmarks, anti-cliché cleanup, interactions, typography
-    ├── image-generation/        # Cinematic Midjourney & Flux prompts, 3D icons
-    ├── productivity-workflows/  # Executive summaries, meeting notes
-    ├── system-prompts/          # Socratic mentors, custom instructions
-    ├── marketing-seo/           # Topical authority, content clusters
-    ├── learning-research/       # Feynman technique, deep dives
-    ├── video-production/        # Programmatic launch films, motion timing, audio drops
-    └── writing-copywriting/     # Landing page copy, viral social hooks
+    └── video-production/        # Programmatic launch films, motion timing, audio drops
 ```
 
 ---
@@ -52,25 +45,23 @@ python vault.py list
 
 ### 2. Search by Keyword or Tag
 ```bash
-python vault.py search postgres
-python vault.py search "midjourney"
-python vault.py search copywriting
+python vault.py search "creative web"
+python vault.py search "typography"
+python vault.py search "launch film"
 ```
 
 ### 3. Copy Prompt Directly to Clipboard
 Finds the prompt by name or keyword, extracts the prompt block, and copies it straight to your clipboard:
 ```bash
-python vault.py copy "sql optimizer"
-python vault.py copy "code reviewer"
-python vault.py copy "cinematic"
+python vault.py copy "signature interaction"
+python vault.py copy "anti-cliche"
+python vault.py copy "launch film"
 ```
-*(Now simply press `Ctrl + V` into ChatGPT, Claude, or Midjourney!)*
+*(Now simply press `Ctrl + V` into ChatGPT, Claude, or your LLM interface!)*
 
 ### 4. Create a New Prompt from Template
 ```bash
-python vault.py new coding "Docker Optimization Specialist"
-python vault.py new writing-copywriting "Cold Email Outreach Sequence"
-python vault.py new image-generation "Cyberpunk Portrait Lighting"
+python vault.py new creative-web-design "Bespoke Portfolio Animator"
 ```
 This generates a formatted file under `prompts/<category>/<slug>.md`.
 
@@ -92,18 +83,11 @@ Want a visual interface?
 
 ---
 
-## 🧭 Categories & Included Starter Prompts
+## 🧭 Categories & Prompts
 
-| Category | Description | Starter Prompts |
+| Category | Description | Prompts |
 | :--- | :--- | :--- |
-| **`coding`** | Architecture, debugging, reviews, DB tuning | [Senior Code Reviewer](prompts/coding/senior-code-reviewer.md), [Bug Root-Cause Debugger](prompts/coding/bug-root-cause-debugger.md), [SQL Optimizer](prompts/coding/sql-query-optimizer.md) |
 | **`creative-web-design`** | Benchmarks, anti-cliché review, signature mechanics, typography | [Reference Benchmark](prompts/creative-web-design/reference-benchmark-website-builder.md), [Anti-Cliché Review](prompts/creative-web-design/anti-cliche-website-design-review.md), [Signature Interaction](prompts/creative-web-design/signature-website-interaction-designer.md), [Typography Polish](prompts/creative-web-design/website-typography-polish-pass.md), [Cinematic Scroll](prompts/creative-web-design/cinematic-scroll-image-sequence.md) |
-| **`writing-copywriting`** | Direct response, landing pages, storytelling | [Landing Page PAS](prompts/writing-copywriting/landing-page-pas-framework.md), [Punchy Hook Storyteller](prompts/writing-copywriting/viral-hook-storyteller.md) |
-| **`image-generation`** | Midjourney, Flux, Stable Diffusion, 3D | [Cinematic Shot Generator](prompts/image-generation/hyper-detailed-cinematic-shot.md), [Isometric 3D App Icon](prompts/image-generation/isometric-3d-asset.md) |
-| **`productivity-workflows`** | Executive briefs, meeting action matrices | [Executive Summary & Action Extractor](prompts/productivity-workflows/executive-summary-action-extractor.md) |
-| **`system-prompts`** | Personas, mentor prompts, custom directives | [Socratic Technical Mentor](prompts/system-prompts/socratic-technical-mentor.md) |
-| **`marketing-seo`** | Keyword clusters, pillar strategies, ads | [SEO Content Cluster Architect](prompts/marketing-seo/seo-content-cluster-architect.md) |
-| **`learning-research`** | First principles, mental models, ELI5 | [Feynman Explainer](prompts/learning-research/feynman-first-principles-breakdown.md) |
 | **`video-production`** | Launch films, motion design, audio drops, QA stills | [Programmatic Launch Film Director](prompts/video-production/programmatic-product-launch-film.md) |
 
 For the full detailed index, see **[`CATALOG.md`](file:///CATALOG.md)**.
@@ -118,7 +102,7 @@ For the full detailed index, see **[`CATALOG.md`](file:///CATALOG.md)**.
    ```
 2. Open the created file in your editor (e.g. in `prompts/<category-name>/...md`).
 3. Fill in:
-   - Frontmatter tags & target models
+   - Frontmatter tags & description
    - The prompt text inside the fenced code block
    - Any variables (`{{VARIABLE_NAME}}`)
 4. Rebuild the catalog:

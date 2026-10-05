@@ -81,7 +81,6 @@ def get_all_prompts() -> list[dict]:
             "title": meta.get("title", md_path.stem.replace("-", " ").title()),
             "tags": meta.get("tags", []),
             "description": meta.get("description", ""),
-            "model_tested": meta.get("model_tested", []),
             "version": meta.get("version", "1.0"),
             "body": body,
             "content": content,
@@ -219,7 +218,6 @@ title: "{title}"
 category: "{category}"
 tags: []
 description: "Brief description of this prompt."
-model_tested: ["Claude 3.5 Sonnet", "GPT-4o"]
 version: "1.0"
 ---
 
@@ -354,15 +352,14 @@ def cmd_build(args=None):
         display_name = cat.replace("-", " ").title()
         lines.append(f"## {display_name}")
         lines.append("")
-        lines.append("| Title | Tags | Models | File |")
-        lines.append("| :--- | :--- | :--- | :--- |")
+        lines.append("| Title | Tags | File |")
+        lines.append("| :--- | :--- | :--- |")
 
         for item in items:
             title = item["title"]
             rel_link = f"[{item['path'].name}]({item['rel_path']})"
             tags = " ".join([f"`{t}`" for t in item["tags"]]) if isinstance(item["tags"], list) else f"`{item['tags']}`"
-            models = ", ".join(item["model_tested"]) if isinstance(item["model_tested"], list) else str(item["model_tested"])
-            lines.append(f"| **{title}**<br>*{item['description']}* | {tags or '-'} | {models or '-'} | {rel_link} |")
+            lines.append(f"| **{title}**<br>*{item['description']}* | {tags or '-'} | {rel_link} |")
 
         lines.append("")
 
@@ -379,7 +376,6 @@ def cmd_build(args=None):
             "category": p["category"],
             "tags": p["tags"],
             "description": p["description"],
-            "model_tested": p["model_tested"],
             "version": p["version"],
             "prompt": extract_prompt_code(p["body"]),
             "rel_path": p["rel_path"],

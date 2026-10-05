@@ -3,7 +3,6 @@ title: "Reference Benchmark Website Builder"
 category: "creative-web-design"
 tags: ["creative-web-design", "reference-analysis", "benchmark", "website-generation", "autonomous-design", "visual-quality", "agentic-iteration"]
 description: "Stage 1 (Initial Build): Analyzes an exceptional reference website and builds an original website targeting the same creative and technical benchmark without copying."
-model_tested: ["Claude 3.5 Sonnet", "GPT-4o"]
 version: "1.0"
 ---
 

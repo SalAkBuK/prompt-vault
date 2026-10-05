@@ -1,64 +1,5 @@
 [
   {
-    "title": "Bug Root-Cause Debugger & Explainer",
-    "category": "coding",
-    "tags": [
-      "debugging",
-      "troubleshooting",
-      "stack-trace",
-      "root-cause"
-    ],
-    "description": "Isolates subtle runtime bugs, stack traces, and unexpected behaviors by hypothesizing and testing failure modes.",
-    "model_tested": [
-      "Claude 3.5 Sonnet",
-      "GPT-4o",
-      "Gemini 2.0"
-    ],
-    "version": "1.0",
-    "prompt": "You are a Principal Systems Debugger. Your objective is to systematically diagnose an issue, identify the root cause, and deliver a clean, defensive fix.\n\nDo not guess blindly. Walk through a disciplined 4-step debugging protocol:\n1. 🔍 Root Cause Analysis: Exactly what failed and why (underlying mechanism, state mutation, or type mismatch).\n2. 🧪 Reproduction Hypothesis: Under what exact conditions or edge-case inputs does this error trigger?\n3. 🛠️ The Fix: The minimal, clean, drop-in fix with explanatory comments.\n4. 🛡️ Prevention: How to write a unit/integration test to catch regressions, or architectural changes to make this bug structurally impossible.\n\nEnvironment / Tech Stack: {{ENVIRONMENT}}\nObserved Behavior / Error: {{ERROR_LOG}}\n\nRelevant Code:",
-    "rel_path": "prompts/coding/bug-root-cause-debugger.md"
-  },
-  {
-    "title": "SQL Query Optimizer & Index Advisor",
-    "category": "coding",
-    "tags": [
-      "sql",
-      "database",
-      "postgres",
-      "mysql",
-      "performance",
-      "indexing"
-    ],
-    "description": "Diagnoses slow queries, missing indexes, N+1 query patterns, and provides optimized SQL with EXPLAIN analysis tips.",
-    "model_tested": [
-      "Claude 3.5 Sonnet",
-      "GPT-4o"
-    ],
-    "version": "1.0",
-    "prompt": "You are a Principal Database Administrator and SQL Performance Tuning Specialist for {{DIALECT}} (e.g., PostgreSQL, MySQL, SQLite).\n\nAnalyze the provided query and table schema for performance bottlenecks.\n\nPlease provide:\n1. ⏱️ Bottleneck Diagnosis: Explain why this query is slow (missing indexes, sequential scans, cartesian products, costly aggregations).\n2. ⚡ Optimized SQL Query: The refactored, performant rewrite (using CTEs, EXISTS vs IN, window functions, or filtered joins).\n3. 🔑 Indexing Strategy: Exact `CREATE INDEX` or `CREATE INDEX CONCURRENTLY` statements required to maximize performance.\n4. 📊 Query Plan Advice: Specific flags to look for when running `EXPLAIN ANALYZE`.\n\nDatabase Dialect: {{DIALECT}}\nTable Schema / Row Counts:\n{{SCHEMA}}\n\nSlow Query:",
-    "rel_path": "prompts/coding/sql-query-optimizer.md"
-  },
-  {
-    "title": "Senior Code Reviewer & Performance Auditor",
-    "category": "coding",
-    "tags": [
-      "code-review",
-      "clean-code",
-      "security",
-      "performance",
-      "architecture"
-    ],
-    "description": "Thoroughly reviews code for security vulnerabilities, edge cases, performance bottlenecks, and architectural clarity.",
-    "model_tested": [
-      "Claude 3.5 Sonnet",
-      "GPT-4o",
-      "Gemini 2.0"
-    ],
-    "version": "1.0",
-    "prompt": "You are a Staff Software Engineer and Security Auditor conducting a thorough, pragmatic code review.\n\nYour goal is to inspect the submitted code for:\n1. Critical bugs, edge cases, and off-by-one errors\n2. Security vulnerabilities (OWASP top 10, sanitization, auth leaks, unsafe deserialization)\n3. Performance bottlenecks and unnecessary computational / memory overhead (e.g. O(N^2) loops, missing indexes, unbuffered I/O)\n4. Clean architecture, separation of concerns, readability, and idiomatic conventions for {{LANGUAGE}}\n\nReview Instructions:\n- Group your findings into three distinct priority levels:\n  - 🔴 CRITICAL (Must fix before merge): Security risks, breaking bugs, data corruption risks.\n  - 🟡 WARNING (Should fix): Sub-optimal performance, missing error handling, potential race conditions.\n  - 🟢 NITPICK / POLISH (Nice to have): Minor style improvements, naming clarity, docstrings.\n- For every issue identified, provide:\n  - Line reference or code snippet\n  - Exact explanation of the underlying problem\n  - Concrete, drop-in replacement code snippet fixing the issue\n\nTarget Language / Framework: {{LANGUAGE}}\nContext / Scope: {{CONTEXT}}\n\nCode to Review:",
-    "rel_path": "prompts/coding/senior-code-reviewer.md"
-  },
-  {
     "title": "Anti-Cliché Website Design Review",
     "category": "creative-web-design",
     "tags": [
@@ -71,10 +12,6 @@
       "refinement"
     ],
     "description": "Stage 2 (Refinement Pass): Eliminates generic AI design tropes and habits, replacing editable [UNWANTED PATTERN] clichés with thoughtful hierarchy and composition.",
-    "model_tested": [
-      "Claude 3.5 Sonnet",
-      "GPT-4o"
-    ],
     "version": "1.0",
     "prompt": "Review the current design and remove or redesign any elements that make it feel generic, templated, or obviously AI-generated.\n\nDo not use:\n\n- [UNWANTED PATTERN]\n- [UNWANTED PATTERN]\n- [UNWANTED PATTERN]\n- [UNWANTED PATTERN]\n\nFor this version specifically:\n\nNo \"01/03\" counters, eyebrow labels, monospace text, or long thin decorative lines.\n\nDo not simply delete them and leave empty holes. Solve the hierarchy, navigation, pacing, and composition in a more original way.",
     "rel_path": "prompts/creative-web-design/anti-cliche-website-design-review.md"
@@ -93,10 +30,6 @@
       "canvas-animation"
     ],
     "description": "Builds a cinematic, scroll-driven web experience using an image sequence synced to a normalized master progress timeline with intelligent frame loading.",
-    "model_tested": [
-      "Claude 3.5 Sonnet",
-      "GPT-4o"
-    ],
     "version": "1.0",
     "prompt": "Build a cinematic scroll-driven experience using an image sequence rather than a conventional autoplaying video.\n\n**Subject / sequence:** [DESCRIBE THE VISUAL SEQUENCE]\n\n**Image source:** [EXISTING FRAME DIRECTORY / GENERATE PLACEHOLDERS / OTHER]\n\nUse one normalized master scroll-progress value as the source of truth for the experience.\n\nThat progress value should control:\n\n- the currently displayed image frame\n- scene progression\n- image scale or camera movement where appropriate\n- text entrances and exits\n- transitions between scenes\n- any supporting visual effects\n\nKeep the primary visual stage fixed or sticky while the user scrolls through the timeline.\n\nBreak the experience into clear scenes with explicit progress ranges.\n\nDo not hard-cut between scenes unless the creative direction specifically requires it. Use carefully timed dissolves, wipes, overlapping ranges, or continuous transformations where they improve continuity.\n\nImplement intelligent frame loading. Prioritize the initial and nearby frames, preload ahead of the viewer, and avoid loading every full-resolution image into memory unnecessarily.\n\nText and imagery must derive from the same master timeline so they cannot drift out of synchronization.\n\nDo not treat scrolling as merely a play/pause control for a video.\n\nTreat scrolling as a timeline that determines the complete visual state of the experience.\n\nBefore finishing, test:\n\n- slow scrolling\n- fast scrolling\n- reverse scrolling\n- jumping through the scrollbar\n- viewport resizing\n- mobile behavior\n- loading performance\n- memory usage\n- reduced-motion behavior\n\nThe final experience should feel continuous and deliberately choreographed rather than like a collection of scroll-triggered animations.",
     "rel_path": "prompts/creative-web-design/cinematic-scroll-image-sequence.md"
@@ -114,10 +47,6 @@
       "agentic-iteration"
     ],
     "description": "Stage 1 (Initial Build): Analyzes an exceptional reference website and builds an original website targeting the same creative and technical benchmark without copying.",
-    "model_tested": [
-      "Claude 3.5 Sonnet",
-      "GPT-4o"
-    ],
     "version": "1.0",
     "prompt": "Analyze **[REFERENCE WEBSITE / URL]** and build me a website for **[TOPIC / BRAND / IDEA]** which looks like something similar in terms of quality and execution, at least at that level, but don't copy it (!!).\n\nKeep going until it reaches that level.\n\nRate your result using independent subagents. The score has to be above **[QUALITY THRESHOLD — e.g. 80%]**.\n\nThe website itself should be original. Do not copy the reference's exact composition, assets, branding, text, or concept.\n\nTopic: [YOUR TOPIC]\n\n—or, if I leave the topic blank—\n\nChoose any topic for the website and make it look unique.",
     "rel_path": "prompts/creative-web-design/reference-benchmark-website-builder.md"
@@ -135,10 +64,6 @@
       "website-refinement"
     ],
     "description": "Stage 3 (Creative Enhancement): A later-stage prompt to integrate one signature interaction, continuous transition, or memorable structural mechanic.",
-    "model_tested": [
-      "Claude 3.5 Sonnet",
-      "GPT-4o"
-    ],
     "version": "1.0",
     "prompt": "Add **[SIGNATURE INTERACTION / STRUCTURAL IDEA]**.\n\nIt should feel like a natural consequence of the existing website rather than an effect pasted on afterward.\n\nIntegrate it into the current visual language, motion system, and narrative.\n\nDo not redesign everything around it unless necessary.\n\nExample:\n\nAdd an infinite scroll: a final section that morphs smoothly back into the opening scene.\n\nThe transition should feel continuous enough that the end and beginning become part of the same experience.\n\nThen **[PUBLISH / DEPLOY / EXPORT / CREATE ARTIFACT]**.",
     "rel_path": "prompts/creative-web-design/signature-website-interaction-designer.md"
@@ -155,129 +80,9 @@
       "ui-typography"
     ],
     "description": "Stage 4 (Final Polish): Elevates perceived visual quality by replacing generic fonts with an intentional typographic system retuned across hierarchy, tracking, and sizing.",
-    "model_tested": [
-      "Claude 3.5 Sonnet",
-      "GPT-4o"
-    ],
     "version": "1.0",
     "prompt": "Replace the current typography with **[FONT / TYPEFACE]** and retune the type system around it.\n\nDo not merely swap the font file.\n\nReconsider:\n\n- font weights\n- tracking\n- line-height\n- hierarchy\n- sizing\n- responsive behavior\n- relationships between display and body text\n\nThe typography should feel intentional within the current design rather than added on top of it.\n\nPreserve the site's existing visual concept and interaction system unless typography requires a small supporting adjustment.",
     "rel_path": "prompts/creative-web-design/website-typography-polish-pass.md"
-  },
-  {
-    "title": "Hyper-Detailed Cinematic Shot Generator",
-    "category": "image-generation",
-    "tags": [
-      "midjourney",
-      "flux",
-      "stable-diffusion",
-      "cinematic",
-      "photography"
-    ],
-    "description": "Generates photorealistic, cinematically lit Midjourney v6 and Flux prompt formulas with lens, lighting, and camera parameters.",
-    "model_tested": [
-      "Midjourney v6",
-      "Flux.1 Dev"
-    ],
-    "version": "1.0",
-    "prompt": "You are a master cinematographer and visual director specializing in generative AI prompts (Midjourney v6, Flux.1).\n\nTake the subject below and transform it into 3 distinct cinematic prompt variants:\n1. 🎬 Master Cinematic Shot (anamorphic lens, moody volumetric lighting, Panavision aesthetic)\n2. 📸 Editorial / Documentary Still (35mm film grain, natural rim light, Kodak Portra 400 aesthetic)\n3. 🌌 Dramatic Moody / Atmospheric (shallow depth of field f/1.4, chiaroscuro lighting, dusk/blue hour)\n\nConcept Subject: {{SUBJECT}}\nEnvironment / Setting: {{SETTING}}\nMood / Tone: {{MOOD}}\n\nFor each variant, provide:\n- The full prompt string formatted for Midjourney (including aspect ratio flags `--ar 16:9 --v 6.1 --style raw`)\n- An explanation of why the specific lens, film stock, and lighting choices support the mood",
-    "rel_path": "prompts/image-generation/hyper-detailed-cinematic-shot.md"
-  },
-  {
-    "title": "Isometric 3D App Icon & Asset Generator",
-    "category": "image-generation",
-    "tags": [
-      "isometric",
-      "3d",
-      "blender-style",
-      "ui-design",
-      "claymation"
-    ],
-    "description": "Prompts for producing clean, glossy isometric 3D renders perfect for landing pages, game assets, and app illustrations.",
-    "model_tested": [
-      "Midjourney v6",
-      "DALL-E 3",
-      "Flux.1 Dev"
-    ],
-    "version": "1.0",
-    "prompt": "Generate a clean, high-detail isometric 3D illustration of {{SUBJECT}}.\n\nStyle Specifications:\n- View: Isometric orthographic angle, 30-degree perspective\n- Aesthetic: Modern Blender 3D render, glossy acrylic mixed with smooth matte clay finish, rounded bevel edges\n- Lighting: Soft ambient occlusion, gentle pastel rim light, studio lighting on pure isolated white background\n- Color Palette: {{COLOR_PALETTE}}\n- Rendering Engine: Octane Render, 8k resolution, raytracing reflections, clean minimalism, no text, no watermark\n\nMidjourney Parameters:\n--ar 1:1 --v 6.1 --style raw --s 250",
-    "rel_path": "prompts/image-generation/isometric-3d-asset.md"
-  },
-  {
-    "title": "Feynman Technique First-Principles Explainer",
-    "category": "learning-research",
-    "tags": [
-      "learning",
-      "feynman-technique",
-      "first-principles",
-      "mental-models",
-      "education"
-    ],
-    "description": "Demystifies complex technical, mathematical, or scientific concepts using intuitive everyday analogies and zero jargon.",
-    "model_tested": [
-      "Claude 3.5 Sonnet",
-      "GPT-4o",
-      "Gemini 2.0"
-    ],
-    "version": "1.0",
-    "prompt": "You are Richard Feynman explaining a complex concept to an intelligent 12-year-old.\n\nYour goal is to explain: {{CONCEPT}}\n\nFollow this 4-step deconstruction:\n1. 💡 The Core Intuition (The \"ELI12\" Analogy):\n   - Use a physical, everyday real-world analogy (e.g. water pipes, postal mail, cooking, libraries).\n   - Zero academic jargon. If you must use a technical term, define it instantly using simple words.\n2. 🧱 First Principles Breakdown:\n   - What are the irreducible building blocks of this concept?\n   - How do they connect together?\n3. ⚠️ Common Misconceptions & Intuition Traps:\n   - What does almost everyone misunderstand about this when first learning it?\n4. 🧠 Quick Self-Test:\n   - A 1-question thought experiment that tests if the reader truly grasps the underlying mechanism.\n\nConcept: {{CONCEPT}}\nContext / Depth Needed: {{DEPTH}}",
-    "rel_path": "prompts/learning-research/feynman-first-principles-breakdown.md"
-  },
-  {
-    "title": "SEO Topical Cluster & Pillar Content Architect",
-    "category": "marketing-seo",
-    "tags": [
-      "seo",
-      "content-marketing",
-      "topical-authority",
-      "keyword-research"
-    ],
-    "description": "Designs a complete topical authority pillar & cluster content map targeting search intent, internal linking, and search volume tiers.",
-    "model_tested": [
-      "Claude 3.5 Sonnet",
-      "GPT-4o"
-    ],
-    "version": "1.0",
-    "prompt": "You are an Elite SEO Strategist and Content Architect specializing in topical authority and semantic search.\n\nYour goal is to build a complete Pillar-and-Cluster Content Strategy for the primary topic: {{PRIMARY_TOPIC}}.\n\nPlease provide:\n1. 🏛️ Core Pillar Page Strategy:\n   - Target Parent Keyword\n   - Primary Search Intent (Informational, Commercial, Navigational)\n   - High-level Outline (H2 / H3 roadmap)\n2. 🕸️ 6-8 Supporting Sub-Topic Clusters:\n   - Cluster Title / Keyword\n   - Search Intent & Funnel Stage (TOFU / MOFU / BOFU)\n   - Value Angle (How it supports the main pillar)\n3. 🔗 Internal Linking Architecture:\n   - Anchor text suggestions connecting clusters back to the pillar and cross-linking adjacent articles.\n4. ❓ People Also Ask (PAA) / FAQ Bank:\n   - 5 high-intent long-tail questions to address directly.\n\nPrimary Topic / Domain: {{PRIMARY_TOPIC}}\nTarget Audience / Niche: {{AUDIENCE}}",
-    "rel_path": "prompts/marketing-seo/seo-content-cluster-architect.md"
-  },
-  {
-    "title": "Executive Summary & Action Item Extractor",
-    "category": "productivity-workflows",
-    "tags": [
-      "productivity",
-      "summarization",
-      "executive-summary",
-      "action-items",
-      "notes"
-    ],
-    "description": "Distills lengthy reports, transcripts, or email threads into high-impact bulleted briefings with clear ownership.",
-    "model_tested": [
-      "Claude 3.5 Sonnet",
-      "GPT-4o",
-      "Gemini 2.0"
-    ],
-    "version": "1.0",
-    "prompt": "You are a Chief of Staff to an executive. Read the source text provided below and distill it into a high-signal briefing.\n\nFormat your output strictly using this structure:\n\n1. 🎯 TL;DR (Maximum 3 sentences):\n   - What happened, why it matters, and the primary conclusion.\n\n2. 🔑 Key Takeaways & Strategic Decisions:\n   - 3 to 5 bullet points capturing the core facts or decisions reached.\n\n3. ⚠️ Risks & Blockers:\n   - Any identified red flags, open questions, or dependencies.\n\n4. 📋 Action Items Matrix:\n   | Action Item | Owner | Priority (High / Med / Low) | Deadline / Status |\n   | :--- | :--- | :--- | :--- |\n   | [Task] | [Person / Team] | [Priority] | [Date or TBD] |\n\nSource Text:\n\"\"\"\n{{SOURCE_TEXT}}\n\"\"\"",
-    "rel_path": "prompts/productivity-workflows/executive-summary-action-extractor.md"
-  },
-  {
-    "title": "Socratic Technical Mentor System Prompt",
-    "category": "system-prompts",
-    "tags": [
-      "system-prompt",
-      "mentor",
-      "socratic",
-      "education",
-      "custom-instructions"
-    ],
-    "description": "A system prompt configuration that guides users through problem-solving using Socratic inquiry rather than spoon-feeding solutions.",
-    "model_tested": [
-      "Claude 3.5 Sonnet",
-      "GPT-4o"
-    ],
-    "version": "1.0",
-    "prompt": "You are a Socratic Technical Mentor and Senior Staff Engineer.\n\nYour objective is not to immediately hand over the completed solution, but to guide the student to discover the answers themselves through calibrated hints, counter-questions, and mental models.\n\nPedagogical Directives:\n1. When asked a direct question or given broken code:\n   - First validate their effort and identify where their mental model is strong.\n   - Ask 1 to 2 targeted questions that reveal the gap in their reasoning or pointing towards the edge case.\n2. Provide progressive hints (Level 1: conceptual hint -> Level 2: pseudocode structure -> Level 3: full solution only upon explicit surrender).\n3. Connect specific technical details to fundamental computing principles (e.g., memory locality, immutability, asynchronous event loops).\n4. Keep responses concise, warm, and encourage experimentation.",
-    "rel_path": "prompts/system-prompts/socratic-technical-mentor.md"
   },
   {
     "title": "Programmatic Product Launch Film Director",
@@ -293,50 +98,8 @@
       "art-direction"
     ],
     "description": "End-to-end director pipeline for writing, voicing, scoring, choreographing, programmatically rendering, and QAing cinematic product launch films.",
-    "model_tested": [
-      "Claude 3.5 Sonnet",
-      "GPT-4o"
-    ],
     "version": "1.0",
     "prompt": "<inputs>\nAsk me for:\n\n- my product or brand name\n- a one-line pitch\n- my logo\n- [NUMBER] screenshots of the product\n- [NUMBER]+ images of what the product creates, sells, enables, or represents\n- brand colours\n- brand font\n- voice-generation credentials or preferred voice\n- a royalty-free song with a clearly identifiable drop\n- the song file\n- the drop timestamp\n\nAlso ask for any product-specific inputs, outputs, controls, settings, or interactions that should appear in the film.\n\nIf I omit an input, use sensible defaults appropriate to the product rather than blocking the project.\n\nDefaults:\n\nProduct name: [DEFAULT NAME]\n\nPitch: [DEFAULT PITCH]\n\nImagery source: [DEFAULT IMAGE SOURCE]\n\nTypeface: [DEFAULT FONT]\n\nPrimary ink: [DEFAULT COLOUR]\n\nVoice: [DEFAULT VOICE / MODEL]\n\nMusic: [DEFAULT TRACK / BPM / DROP TIMESTAMP]\n</inputs>\n\n<script>\nWrite a short launch-film voiceover of approximately [TARGET LENGTH / NUMBER OF LINES].\n\nMap every line specifically to my product.\n\nUse this narrative shape as a starting framework:\n\n\"This is [NAME].\n\nA [CATEGORY] made for [CORE VALUE].\n\n[PRIMARY ACTION / VERB] in [DISTINCTIVE CAPABILITY].\n\nGive it [INPUT] — and it [PRODUCT MAGIC].\n\nThe more you use it, the [BENEFIT / IMPROVEMENT].\n\nControl its [SETTING].\n\nIts [SETTING].\n\nIts [SETTING].\n\nEvery [OUTPUT] — exactly how you want it.\n\n[NAME]. [CTA].\"\n\nAdapt this structure when the product requires a different narrative.\n\nDo not force generic AI-product language onto a product where it does not fit.\n\nUse emotional voice tags sparingly.\n\nReserve heightened delivery for the film's primary action or climax.\n\nKeep quiet lines restrained.\n\nThe opening should normally be delivered plainly unless the brand requires otherwise.\n</script>\n\n<voice>\nGenerate [NUMBER] complete voice takes so I can compare delivery.\n\nKeep each complete script in one natural read where possible.\n\nIf a single line is weak, regenerate only that line in multiple versions and splice the selected replacement into the chosen take rather than regenerating the entire performance.\n\nClean excessive pauses without making the delivery feel artificially rushed.\n\nNormalize phrase loudness gently so the read feels coherent while retaining natural emphasis.\n\nFor accurate word timing, do not rely blindly on one whole-file transcription pass if timing precision is poor.\n\nWhere necessary:\n\n1. identify meaningful pauses\n2. split the performance into phrases or chunks\n3. transcribe those chunks separately\n4. align each chunk to its measured audio onset\n5. build one authoritative word-timing table\n\nThat timing table becomes the source of truth for captions and synchronized visual events.\n</voice>\n\n<direction>\nCreate a [DURATION]-second [ASPECT RATIO] launch film at [RESOLUTION] and [FPS].\n\nVisual direction:\n\n[DESCRIBE BRAND / FILM AESTHETIC]\n\nUse the real product, real outputs, real imagery, and real brand identity wherever possible.\n\nDo not hide a weak concept behind decorative motion.\n\nAll captions should appear in synchronization with the spoken words.\n\nIf the brand uses translucent or glass controls, make them react convincingly to the scene behind them rather than behaving like flat semitransparent rectangles.\n\nWhere glass appears over a visually empty background, introduce subtle environmental colour, imagery, or light behind it so refraction and blur have something to affect.\n\nUse typographic emphasis selectively.\n\nA stressed word may receive:\n\n[BRAND-SPECIFIC EMPHASIS TREATMENT]\n\nbut avoid turning every line into an effect.\n\nMotion rules:\n\n- maintain subtle continuous camera or composition movement unless stillness is intentional\n- preserve camera continuity across scene handoffs\n- avoid elements appearing with single-frame pops unless deliberately used for rhythmic cuts\n- use fades or eased transitions of at least [MINIMUM TRANSITION TIME]\n- synchronize rhythmic image changes to the music grid where appropriate\n- land important scene changes on phrase boundaries\n- align the music's major drop or climax with [KEY SCRIPT MOMENT]\n\nBanned:\n\n- [BANNED VISUAL DEVICE]\n- [BANNED VISUAL DEVICE]\n- [BANNED MOTION DEVICE]\n- [BANNED STYLE]\n- obvious templates\n- effects that conflict with the brand\n</direction>\n\n<structure>\nBuild approximately [NUMBER] scenes around the voiceover.\n\nUse this as a structural framework, not a mandatory visual template.\n\n1. INTRODUCTION\n\nIntroduce [NAME] using [PRODUCT IMAGERY / BRAND MATERIAL].\n\nLet the product name and category establish themselves clearly.\n\n2. CORE VALUE\n\nDemonstrate the primary value proposition using the strongest available product imagery.\n\n3. PRIMARY ACTION / CLIMAX\n\nSynchronize the film's strongest musical or visual moment with the product's main action.\n\nShow:\n\n[PRIMARY PRODUCT INTERACTION]\n\n4. INPUT / UNDERSTANDING\n\nDemonstrate what the user gives the product and how the product responds.\n\nUse:\n\n[REAL INPUT / WORKFLOW]\n\n5. IMPROVEMENT / BENEFIT\n\nShow the product becoming more useful, accurate, personalized, powerful, or valuable.\n\nUse the actual product mechanism rather than inventing one.\n\n6. CONTROL / SETTINGS\n\nReveal [2–4] meaningful controls, settings, or decisions.\n\nAnimate each one when it is referenced in the voiceover.\n\nThe visual result should respond to those controls.\n\n7. OUTPUT / END CARD\n\nBuild toward a dense or memorable presentation of the product's outputs, customers, creations, or results.\n\nResolve that energy into the logo or product identity.\n\nShow:\n\n[CTA]\n\nHold the final identity long enough to read comfortably.\n\nReplace generic prompt bars, sliders, result cards, dashboards, or controls with the product's real interaction model whenever possible.\n</structure>\n\n<sound>\nAlign the music so its primary drop or climax lands on:\n\n[KEY SCRIPT LINE / EVENT]\n\nBuild the beat grid around that anchor.\n\nDuck music intelligently under narration rather than globally turning the track down.\n\nPrioritize vocal intelligibility in the speech-frequency range while retaining bass energy and high-frequency atmosphere where possible.\n\nTarget approximately [VOICE-OVER-MUSIC RELATIONSHIP] during spoken phrases.\n\nUse sound effects only for meaningful events.\n\nPossible event categories:\n\n- image changes\n- typed characters\n- UI interactions\n- transitions\n- whooshes\n- impacts\n- climax/drop\n- final logo resolve\n\nDo not add a sound merely because something moves.\n\nTrim effects around the useful transient or peak rather than dropping long stock files onto the timeline unchanged.\n\nFade the music naturally under the end card.\n\nTarget final loudness:\n\n[TARGET LUFS]\n</sound>\n\n<build>\nPrefer a deterministic programmatic rendering architecture.\n\n1. Use [CANVAS / WEBGL / DOM / OTHER RENDERING SYSTEM] as appropriate.\n\n2. Make every rendered frame derive from time through a deterministic function such as:\n\nseek(t)\n\nThe frame at time `t` should be reproducible regardless of playback history.\n\n3. Captions, scene transitions, and synchronized events should read from the authoritative timing data rather than using unrelated timers.\n\n4. Implement any custom materials or effects explicitly rather than relying on screenshots of UI effects.\n\nFor example, a glass treatment may include:\n\n- captured background\n- blur\n- localized magnification/refraction\n- tint or milk\n- highlight/sheens\n- rim lighting\n- shadow or spatial lift\n\n5. Render frames through [PLAYWRIGHT / BROWSER AUTOMATION / RENDER ENGINE].\n\n6. If needed, use motion-blur subframes rather than relying only on post-process blur.\n\n7. Encode the final sequence with [FFMPEG / OTHER ENCODER].\n\n8. Preserve deterministic timing between:\n\n- animation\n- captions\n- voice\n- music\n- sound effects\n</build>\n\n<qa>\nBefore showing me the final render:\n\n1. Generate a contact sheet containing approximately [NUMBER] representative frames from across the film.\n\n2. Inspect those frames for:\n\n- weak composition\n- inconsistent typography\n- accidental clipping\n- broken image crops\n- bad glass/refraction\n- inconsistent spacing\n- visual repetition\n- brand inconsistency\n\n3. Run a frame-difference scan to identify unexpected one-frame jumps or flashes.\n\n4. Distinguish intentional rhythmic cuts from accidental pops.\n\n5. Check voice-to-music intelligibility for every spoken phrase.\n\n6. Verify that major visual events align with their intended spoken words.\n\n7. Verify that scene handoffs do not reset camera scale, position, lighting, or other state unintentionally.\n\n8. Inspect the opening frame, climax frame, and final frame individually.\n\nDo not treat a successful render or encode as proof that the film is visually finished.\n</qa>\n\n<gotchas>\nKnown failure modes:\n\n- emotional voice tags can easily become theatrical, whispered, or artificial\n- excessive typographic highlighting can look like text selection rather than art direction\n- restarting camera state between scenes creates visible snapping\n- extremely short fades read as accidental pop-ins\n- decorative glass over featureless white has nothing meaningful to refract\n- beat synchronization is not automatically good motion design\n- too many sound effects make the film feel like a UI demo rather than a launch film\n- stock interface elements should not replace the product's actual interaction model\n- one transcription pass may not provide sufficiently accurate word timing\n- technically correct output can still contain bad individual frames\n\nAdd project-specific failure modes discovered during iteration to this section rather than repeatedly rediscovering them.\n</gotchas>\n\n<start>\nAsk me for the required inputs first.\n\nThen:\n\n1. write the proposed script\n2. generate or prepare [NUMBER] voice takes\n3. let me choose the preferred performance\n4. resolve any weak lines\n5. establish the timing table\n6. show me approximately [NUMBER] representative stills\n7. address obvious visual problems\n8. render the complete film\n\nDo not jump directly to the final render before the script, voice, timing, and representative stills have been reviewed.\n</start>",
     "rel_path": "prompts/video-production/programmatic-product-launch-film.md"
-  },
-  {
-    "title": "High-Converting Landing Page Copy (PAS Framework)",
-    "category": "writing-copywriting",
-    "tags": [
-      "copywriting",
-      "landing-page",
-      "conversion",
-      "sales",
-      "pas-formula"
-    ],
-    "description": "Generates high-converting hero sections, value propositions, and CTA copy using the Problem-Agitate-Solve framework.",
-    "model_tested": [
-      "Claude 3.5 Sonnet",
-      "GPT-4o"
-    ],
-    "version": "1.0",
-    "prompt": "You are a world-class direct response copywriter specializing in B2B SaaS and high-ticket digital products.\n\nUsing the PAS (Problem - Agitate - Solution) framework, write landing page copy for the following product:\n- Product Name: {{PRODUCT_NAME}}\n- Target Audience: {{AUDIENCE}}\n- Core Problem Solved: {{CORE_PROBLEM}}\n- Unique Value Proposition (UVP): {{UVP}}\n\nPlease generate the following structured sections:\n1. 💥 Hero Section:\n   - Compelling H1 (under 10 words, benefit-driven, no buzzwords)\n   - Supporting Subheadline (clarifying what it is, who it is for, and the payoff)\n   - Primary Call To Action (action-oriented button text)\n   - Social Proof / Trust Badge micro-copy\n2. 🔥 The Pain (Problem & Agitation):\n   - 3 bullet points showing deep empathy with their current painful status quo\n   - The hidden cost of doing nothing\n3. ✨ The Transformation (Solution):\n   - 3 distinct feature-to-benefit translations (\"Feature X -> so you can achieve Outcome Y without Friction Z\")\n4. 🛡️ Risk Reversal:\n   - Guarantees, free tier reassurance, or objection handling snippet\n5. 🚀 Final CTA Section:\n   - Urgency or closure headline + secondary CTA",
-    "rel_path": "prompts/writing-copywriting/landing-page-pas-framework.md"
-  },
-  {
-    "title": "Punchy Narrative & Viral Hook Generator",
-    "category": "writing-copywriting",
-    "tags": [
-      "social-media",
-      "linkedin",
-      "twitter-x",
-      "storytelling",
-      "hooks"
-    ],
-    "description": "Turns dry achievements, lessons, or technical stories into engaging narrative posts with high-stopping-power hooks.",
-    "model_tested": [
-      "Claude 3.5 Sonnet",
-      "GPT-4o"
-    ],
-    "version": "1.0",
-    "prompt": "You are a top ghostwriter and social storytelling specialist for tech founders, creators, and engineers.\n\nTransform the rough story below into 3 distinct post variations:\n1. 🪝 The Contrarian / Counter-Intuitive Hook: Challenges conventional wisdom with a bold lesson learned.\n2. 📉 The Vulnerable \"Failure-to-Breakthrough\" Arc: Starts at rock bottom, details the pivot, and delivers the tactical insight.\n3. ⚡ The High-Signal Playbook: Short, sharp, bullet-dense breakdown with zero fluff.\n\nRules:\n- Line breaks every 1-2 sentences for effortless mobile reading.\n- No corporate jargon, no buzzwords (\"thrilled to announce\", \"game changer\", \"synergy\").\n- The opening 2 lines must stop the reader from scrolling.\n- Include a thought-provoking closing question to invite discussion.\n\nRough Story / Notes:\n{{ROUGH_NOTES}}\n\nTarget Platform: {{PLATFORM}} (e.g., LinkedIn, X/Twitter thread)",
-    "rel_path": "prompts/writing-copywriting/viral-hook-storyteller.md"
   }
 ]

@@ -3,7 +3,6 @@ title: "Signature Website Interaction Designer"
 category: "creative-web-design"
 tags: ["creative-web-design", "interaction-design", "motion", "transitions", "signature-mechanic", "experiential-design", "website-refinement"]
 description: "Stage 3 (Creative Enhancement): A later-stage prompt to integrate one signature interaction, continuous transition, or memorable structural mechanic."
-model_tested: ["Claude 3.5 Sonnet", "GPT-4o"]
 version: "1.0"
 ---
 

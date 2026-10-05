@@ -1,9 +1,8 @@
 ---
 title: "Prompt Title Here"
-category: "coding" # coding | writing-copywriting | image-generation | productivity-workflows | system-prompts | marketing-seo | learning-research
+category: "category-name"
 tags: ["tag1", "tag2"]
 description: "A short, one-sentence description of what this prompt achieves."
-model_tested: ["Claude 3.5 Sonnet", "GPT-4o", "Gemini Pro"]
 version: "1.0"
 ---
 

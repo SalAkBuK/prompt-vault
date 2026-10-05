@@ -3,7 +3,6 @@ title: "Programmatic Product Launch Film Director"
 category: "video-production"
 tags: ["video-production", "launch-film", "motion-design", "programmatic-video", "ffmpeg", "voiceover", "scriptwriting", "art-direction"]
 description: "End-to-end director pipeline for writing, voicing, scoring, choreographing, programmatically rendering, and QAing cinematic product launch films."
-model_tested: ["Claude 3.5 Sonnet", "GPT-4o"]
 version: "1.0"
 ---
 

@@ -3,7 +3,6 @@ title: "Anti-Cliché Website Design Review"
 category: "creative-web-design"
 tags: ["creative-web-design", "design-critique", "ai-cliches", "visual-cleanup", "art-direction", "second-pass", "refinement"]
 description: "Stage 2 (Refinement Pass): Eliminates generic AI design tropes and habits, replacing editable [UNWANTED PATTERN] clichés with thoughtful hierarchy and composition."
-model_tested: ["Claude 3.5 Sonnet", "GPT-4o"]
 version: "1.0"
 ---
 
