@@ -37,10 +37,32 @@ Choose any topic for the website and make it look unique.
 | `[YOUR TOPIC]` | Explicit topic fallback or specific brief | `Interactive portfolio for an architectural photographer` |
 
 ## 💡 Example
-### Input
+A strong real-world example is:
+- **Reference website**: https://igloo.inc
+- **Topic**: Leave blank and let the agent choose.
+
+### Example Usage
 ```text
-Analyze https://chronicles.luxury and build me a website for a boutique kinetic sculpture studio which looks like something similar in terms of quality and execution, at least at that level, but don't copy it (!!).
+Analyze https://igloo.inc and build me a website which looks like something similar in terms of quality and execution, at least at that level, but don't copy it (!!).
+
+Keep going until it reaches that level.
+
+Rate your result using independent subagents. The score has to be above 80%.
+
+The website itself should be original. Do not copy the reference's exact composition, assets, branding, text, or concept.
+
+Choose any topic for the website and make it look unique.
 ```
 
-### Expected Output
-An original, high-fidelity site architecture, art direction system, and bespoke layout matching the reference's polish, pacing, and interaction fidelity while maintaining completely distinct identity, assets, and storytelling.
+### Why This Is a Useful Example
+Igloo is being used here as a quality benchmark, not as a design template.
+
+The goal is to inherit the level of:
+- visual ambition
+- interaction quality
+- motion polish
+- spatial composition
+- technical execution
+- overall refinement
+
+without inheriting its exact visual identity, layout, assets, or concept.
