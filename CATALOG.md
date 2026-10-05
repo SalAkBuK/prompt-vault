@@ -26,4 +26,4 @@
 
 | Title | Tags | File |
 | :--- | :--- | :--- |
-| **Programmatic Product Launch Film Director**<br>*End-to-end director pipeline for writing, voicing, scoring, choreographing, programmatically rendering, and QAing cinematic product launch films.* | `video-production` `launch-film` `motion-design` `programmatic-video` `ffmpeg` `voiceover` `scriptwriting` `art-direction` | [programmatic-product-launch-film.md](prompts/video-production/programmatic-product-launch-film.md) |
+| **Programmatic Product Launch Film**<br>*Creates a fully coded product launch film with voiceover, music synchronization, scene choreography, sound design, deterministic rendering, and visual QA.* | `launch-film` `motion-design` `programmatic-video` `voiceover` `audio-sync` `playwright` `ffmpeg` `brand-film` | [programmatic-product-launch-film.md](prompts/video-production/programmatic-product-launch-film.md) |

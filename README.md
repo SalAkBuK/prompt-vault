@@ -88,7 +88,7 @@ Want a visual interface?
 | Category | Description | Prompts |
 | :--- | :--- | :--- |
 | **`creative-web-design`** | Benchmarks, anti-cliché review, signature mechanics, typography | [Frontier Reference Benchmark](prompts/creative-web-design/frontier-reference-benchmark-website-builder.md), [Reference Benchmark](prompts/creative-web-design/reference-benchmark-website-builder.md), [Anti-Cliché Review](prompts/creative-web-design/anti-cliche-website-design-review.md), [Signature Interaction](prompts/creative-web-design/signature-website-interaction-designer.md), [Typography Polish](prompts/creative-web-design/website-typography-polish-pass.md), [Cinematic Scroll](prompts/creative-web-design/cinematic-scroll-image-sequence.md), [Scroll-Driven Image Sequence](prompts/creative-web-design/scroll-driven-image-sequence-website.md) |
-| **`video-production`** | Launch films, motion design, audio drops, QA stills | [Programmatic Launch Film Director](prompts/video-production/programmatic-product-launch-film.md) |
+| **`video-production`** | Launch films, motion design, audio drops, QA stills | [Programmatic Product Launch Film](prompts/video-production/programmatic-product-launch-film.md) |
 
 For the full detailed index, see **[`CATALOG.md`](file:///CATALOG.md)**.
 

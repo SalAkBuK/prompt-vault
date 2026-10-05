@@ -1,17 +1,190 @@
 ---
-title: "Programmatic Product Launch Film Director"
+title: "Programmatic Product Launch Film"
 category: "video-production"
-tags: ["video-production", "launch-film", "motion-design", "programmatic-video", "ffmpeg", "voiceover", "scriptwriting", "art-direction"]
-description: "End-to-end director pipeline for writing, voicing, scoring, choreographing, programmatically rendering, and QAing cinematic product launch films."
+tags: ["launch-film", "motion-design", "programmatic-video", "voiceover", "audio-sync", "playwright", "ffmpeg", "brand-film"]
+description: "Creates a fully coded product launch film with voiceover, music synchronization, scene choreography, sound design, deterministic rendering, and visual QA."
 version: "1.0"
 ---
 
-# Programmatic Product Launch Film Director
+# Programmatic Product Launch Film
 
 ## 🎯 Overview
-An end-to-end framework and autonomous director pipeline for creating high-caliber, cinematic product launch videos. Controls the complete production lifecycle: input intake, modular voiceover scripting, multi-take voice generation and chunk-aligned word timing, visual art direction, music drop synchronization, deterministic programmatic rendering (`seek(t)`), and rigorous contact-sheet QA.
+Creates a fully coded product launch film with voiceover, music synchronization, scene choreography, sound design, deterministic rendering, and visual QA. Preserves the complete production architecture while generalizing product-specific inputs.
 
 ## 📋 Prompt
+```text
+<inputs>
+Ask me for: my product's name, a one-line pitch, my logo, 3-6 screenshots of my product, 40+ images of what it makes (or photos of it), my brand colours and font, an ElevenLabs API key and voice ID, and a royalty-free song with a clear drop (the file and the drop's timestamp).
+
+If I skip any, use these defaults:
+
+- Product name: [DEFAULT PRODUCT NAME]
+- Pitch: [DEFAULT ONE-LINE PITCH]
+- Images: free Unsplash and Pixabay images appropriate to the product
+- Font: [DEFAULT FONT, e.g. Geist]
+- Ink: [DEFAULT INK COLOUR, e.g. #111214]
+- Voice: [DEFAULT ELEVENLABS VOICE + VOICE ID]
+- ElevenLabs model: [DEFAULT VOICE MODEL]
+- Music: [DEFAULT ROYALTY-FREE TRACK]
+- BPM: [TRACK BPM]
+- Drop: [DROP TIMESTAMP]
+</inputs>
+
+<script>
+Write a 9-line voiceover in this shape and map every line to my product:
+
+"This is [name]. A [category]... made for [value]. [Verb] in ANY style. Show it a [input] — and it just... gets you. The more you use it, the BETTER it gets. Tune its [setting]. Its [setting]. Its [setting]. Every [output] — exactly how you see it. [Name]. Out now."
+
+Light emotion tags only: [softly] on the quiet lines, [excited] on the [Verb] line.
+
+The opener gets no tag and a plain full stop.
+</script>
+
+<voice>
+Call the ElevenLabs API directly with my key, no MCP.
+
+Generate 4 takes of the whole script in one read and let me pick.
+
+If one line is off, regenerate only that line 4 times and splice the best one into my take.
+
+Cut every pause over 0.28s down to 0.2s, then level each phrase 85% of the way to the median level, changing gain only inside the pauses.
+
+For word timings, cut the read at every pause of 100ms or more, transcribe each chunk on its own with Whisper and pin each chunk's first word to its measured onset.
+
+One Whisper pass puts words up to half a second late.
+</voice>
+
+<direction>
+A [DURATION, default 22 seconds] [ASPECT RATIO, default square] launch film, [RESOLUTION, default 1440x1440] at [FPS, default 60fps], in the style of [VISUAL DIRECTION / BRAND FILM STYLE].
+
+Default visual direction:
+
+A white page, one typeface, black ink, real images, and every caption typed word by word at the exact moment it's spoken.
+
+Every control ([PRODUCT-SPECIFIC CONTROLS]) is liquid glass: the scene behind it frosted, its edge bending that scene like thick glass, a top sheen, a bright rim and a soft lift shadow.
+
+Glass on plain white shows nothing, so put a slow pastel aura in my brand colours, or a blurred wash of the photo, behind it.
+
+The one word she stresses types in a gradient of my brand colours with a faint glow behind it.
+
+Motion rules:
+
+- the camera always drifts (a 1.0 to 1.04 push per scene)
+- when one scene hands its content to the next, the next starts at the zoom the last one ended on
+- nothing pops in
+- fades are at least 0.3s and eased
+- images switch on 16th notes with a click each
+- scene changes land on phrase starts
+- the music's drop lands on the [Verb] line
+- no full stops on screen
+
+Banned:
+
+- selection-box highlights
+- beat-snapped slams
+- white flashes
+- 3D
+- templates
+</direction>
+
+<structure>
+Seven scenes, each hung on the voice:
+
+1. "This is [name]": a collage of my images drifts out as the name types in big, then the category line replaces it.
+
+2. "made for [value]": full-bleed flashes of my best images on 16th notes into the drop, with the line typed over them in white.
+
+3. The drop: [PRODUCT'S PRIMARY INPUT CONTROL] demonstrates a short real interaction, then the result switches or evolves on every 16th, with supporting labels or thumbnails where appropriate.
+
+4. "Show it a [input]": [NUMBER] input/reference images move into a clear composition around the result as the product-understanding line types.
+
+5. "The more you use it, the better it gets": two typed lines, the stressed word in the brand gradient.
+
+6. The settings: show 3 real product settings or controls, each moving as she names it. The output visibly responds to each setting.
+
+7. "Every [output], exactly how you see it": a large collection of my real outputs bursts from the centre behind a glass caption pill, then collapses into my logo as the name types, with "Out now" underneath. Hold 2s.
+
+Swap the prompt bar, results, sliders, and any other generic controls for my product's real input, outputs, settings, and interaction model.
+</structure>
+
+<sound>
+Start the song so its drop lands on the [Verb] line, and anchor the beat grid there.
+
+Duck the music under the voice with a 3-band sidechain:
+
+- lows 30%
+- mids 85%
+- air 55%
+- 0.3s hold
+- 50ms look-ahead
+- 0.5s release
+
+Then move each phrase's mids until the voice sits about 9 dB over the music between 300 Hz and 4 kHz.
+
+One downloaded [SFX SOURCE, default Mixkit] SFX per event, placed by its measured peak:
+
+- a click on every image switch
+- a key on every typed letter
+- a soft landing on the stressed word
+- whooshes
+- impacts on the drop and the logo
+
+Trim sounds around their useful peak rather than using the full stock file.
+
+Fade the music on a dB curve under the end card.
+
+Loudnorm to -14 LUFS.
+</sound>
+
+<build>
+1. One HTML canvas. Every frame is a pure function of time inside seek(t), and every caption and cut reads the word table.
+
+2. The glass: snapshot the canvas behind the shape, blur it about 14px for the body, draw a lightly blurred copy magnified about 1.06x in a 12px band along the edge, then add the milk, sheen, rim and shadow.
+
+3. Render with Playwright at 60fps with 8 motion-blur subframes, then encode with ffmpeg.
+
+4. Before you show me anything: a contact sheet of stills, a frame-diff scan for single-frame pops (only the 16th-note runs may jump), and the voice-over-music ratio for every phrase.
+</build>
+
+<gotchas>
+A [warmly] opener comes out whispered and [excited] can sound fake.
+
+A highlight box behind a word looks like a Windows text selection.
+
+If a scene's camera restarts at 1.0 mid-handoff, the zoom snaps.
+
+A 0.05s fade reads as a pop-in.
+</gotchas>
+
+<start>
+Ask me for the inputs, write the script, send me 4 voice takes to pick, then show me 8 stills before the full render.
+</start>
+```
+
+## 🧩 Variables & Placeholders
+| Variable | Description | Example |
+| :--- | :--- | :--- |
+| `[DEFAULT PRODUCT NAME]` | Name of the product or brand | `HyperTrack` |
+| `[DEFAULT ONE-LINE PITCH]` | Core value proposition | `Real-time geospatial intelligence for autonomous fleets` |
+| `[DEFAULT FONT, e.g. Geist]` | Primary brand typeface | `Geist` |
+| `[DEFAULT INK COLOUR, e.g. #111214]` | Primary text and element colour | `#111214` |
+| `[DEFAULT ELEVENLABS VOICE + VOICE ID]` | Selected voice talent and ID | `Rachel (21m00Tcm4TlvDq8ikWAM)` |
+| `[DEFAULT VOICE MODEL]` | Voice model version | `eleven_multilingual_v2` |
+| `[DEFAULT ROYALTY-FREE TRACK]` | Track identifier or file | `Neon Horizons by Soundroll` |
+| `[TRACK BPM]` | Beats per minute | `124` |
+| `[DROP TIMESTAMP]` | Exact point where the musical drop hits | `00:07.740` |
+| `[DURATION]` | Film length | `22 seconds` |
+| `[ASPECT RATIO]` | Frame format | `square` |
+| `[RESOLUTION]` | Export canvas resolution | `1440x1440` |
+| `[FPS]` | Frame rate | `60fps` |
+| `[VISUAL DIRECTION / BRAND FILM STYLE]` | Overall aesthetic treatment | `Tactile minimalism with frosted liquid glass controls` |
+| `[PRODUCT-SPECIFIC CONTROLS]` | Key user controls to visualize | `Speed slider, waypoint selector, coordinate toggle` |
+| `[PRODUCT'S PRIMARY INPUT CONTROL]` | Main UI element demonstrated at the drop | `Prompt input bar with glowing dispatch trigger` |
+| `[NUMBER]` | Count of reference or input images | `4` |
+| `[SFX SOURCE, default Mixkit]` | Sound effect asset library | `Mixkit` |
+
+## 💡 Example
+
 ```text
 <inputs>
 Ask me for:
@@ -360,27 +533,3 @@ Then:
 Do not jump directly to the final render before the script, voice, timing, and representative stills have been reviewed.
 </start>
 ```
-
-## 🧩 Variables & Placeholders
-| Variable | Description | Example |
-| :--- | :--- | :--- |
-| `[NUMBER]` | Counts for screenshots, scenes, voice takes, or QA stills | `5` screenshots, `3` voice takes, `12` QA stills |
-| `[DEFAULT ...]` | Sensible fallback values if user input is omitted | `HyperTrack`, `Geospatial AI for fleets`, `Space Grotesk`, `#0A84FF` |
-| `[TARGET LENGTH / NUMBER OF LINES]` | Length of narration script | `45 seconds / 12 lines` |
-| `[DURATION]`, `[ASPECT RATIO]`, `[RESOLUTION]`, `[FPS]` | Video output specifications | `30s`, `16:9`, `3840x2160 (4K)`, `60fps` |
-| `[DESCRIBE BRAND / FILM AESTHETIC]` | Visual style guidelines | `Dark technical minimalism with high-contrast amber accents and tactile glass cards` |
-| `[BANNED VISUAL / MOTION DEVICE]` | Explicitly prohibited clichés | `Spinning 3D globes`, `Purple gradient mesh`, `Fake terminal text typing` |
-| `[KEY SCRIPT LINE / EVENT]` | Narrative anchor for music drop | `When the voiceover says: 'Every route — instantly solved'` |
-| `[RENDERING & ENCODING ENGINES]` | Tooling stack | `WebGL / Canvas`, `Playwright headless`, `FFmpeg with libx264/AAC` |
-
-## 💡 Example
-### Input
-```text
-Product: FlowCanvas — collaborative canvas for AI pipeline engineering.
-Duration: 30 seconds, 16:9, 4K 60fps.
-Music Drop: 00:14.200 on "Assemble models at the speed of thought".
-Voice: Deep, measured, confident female voice (ElevenLabs George / Rachel).
-```
-
-### Expected Output
-The director asks for asset links/defaults, drafts a tailored 10-line voiceover script, produces 3 voice candidate takes, generates word-level timestamp tables, scripts deterministic `seek(t)` canvas scenes, coordinates ducking and sound design around the 14.2s drop, and generates a 12-frame contact sheet before final FFmpeg encoding.
