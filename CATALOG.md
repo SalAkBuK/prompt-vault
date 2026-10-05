@@ -1,11 +1,12 @@
 # 📚 Master Prompt Catalog
 
-> Auto-generated index of all **11 prompts** across **7 categories**.
+> Auto-generated index of all **15 prompts** across **8 categories**.
 > Update anytime with `python vault.py build`.
 
 ## 🧭 Quick Jump
 
 - [Coding](#coding) `(3)`
+- [Creative Web Design](#creative-web-design) `(4)`
 - [Image Generation](#image-generation) `(2)`
 - [Learning Research](#learning-research) `(1)`
 - [Marketing Seo](#marketing-seo) `(1)`
@@ -22,6 +23,15 @@
 | **Bug Root-Cause Debugger & Explainer**<br>*Isolates subtle runtime bugs, stack traces, and unexpected behaviors by hypothesizing and testing failure modes.* | `debugging` `troubleshooting` `stack-trace` `root-cause` | Claude 3.5 Sonnet, GPT-4o, Gemini 2.0 | [bug-root-cause-debugger.md](prompts/coding/bug-root-cause-debugger.md) |
 | **SQL Query Optimizer & Index Advisor**<br>*Diagnoses slow queries, missing indexes, N+1 query patterns, and provides optimized SQL with EXPLAIN analysis tips.* | `sql` `database` `postgres` `mysql` `performance` `indexing` | Claude 3.5 Sonnet, GPT-4o | [sql-query-optimizer.md](prompts/coding/sql-query-optimizer.md) |
 | **Senior Code Reviewer & Performance Auditor**<br>*Thoroughly reviews code for security vulnerabilities, edge cases, performance bottlenecks, and architectural clarity.* | `code-review` `clean-code` `security` `performance` `architecture` | Claude 3.5 Sonnet, GPT-4o, Gemini 2.0 | [senior-code-reviewer.md](prompts/coding/senior-code-reviewer.md) |
+
+## Creative Web Design
+
+| Title | Tags | Models | File |
+| :--- | :--- | :--- | :--- |
+| **Anti-Cliché Website Design Review**<br>*Stage 2 (Refinement Pass): Eliminates generic AI design tropes and habits, replacing editable [UNWANTED PATTERN] clichés with thoughtful hierarchy and composition.* | `creative-web-design` `design-critique` `ai-cliches` `visual-cleanup` `art-direction` `second-pass` `refinement` | Claude 3.5 Sonnet, GPT-4o | [anti-cliche-website-design-review.md](prompts/creative-web-design/anti-cliche-website-design-review.md) |
+| **Reference Benchmark Website Builder**<br>*Stage 1 (Initial Build): Analyzes an exceptional reference website and builds an original website targeting the same creative and technical benchmark without copying.* | `creative-web-design` `reference-analysis` `benchmark` `website-generation` `autonomous-design` `visual-quality` `agentic-iteration` | Claude 3.5 Sonnet, GPT-4o | [reference-benchmark-website-builder.md](prompts/creative-web-design/reference-benchmark-website-builder.md) |
+| **Signature Website Interaction Designer**<br>*Stage 3 (Creative Enhancement): A later-stage prompt to integrate one signature interaction, continuous transition, or memorable structural mechanic.* | `creative-web-design` `interaction-design` `motion` `transitions` `signature-mechanic` `experiential-design` `website-refinement` | Claude 3.5 Sonnet, GPT-4o | [signature-website-interaction-designer.md](prompts/creative-web-design/signature-website-interaction-designer.md) |
+| **Website Typography Polish Pass**<br>*Stage 4 (Final Polish): Elevates perceived visual quality by replacing generic fonts with an intentional typographic system retuned across hierarchy, tracking, and sizing.* | `creative-web-design` `typography` `design-polish` `visual-hierarchy` `refinement` `ui-typography` | Claude 3.5 Sonnet, GPT-4o | [website-typography-polish-pass.md](prompts/creative-web-design/website-typography-polish-pass.md) |
 
 ## Image Generation
 

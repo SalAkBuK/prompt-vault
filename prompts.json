@@ -59,6 +59,89 @@
     "rel_path": "prompts/coding/senior-code-reviewer.md"
   },
   {
+    "title": "Anti-Cliché Website Design Review",
+    "category": "creative-web-design",
+    "tags": [
+      "creative-web-design",
+      "design-critique",
+      "ai-cliches",
+      "visual-cleanup",
+      "art-direction",
+      "second-pass",
+      "refinement"
+    ],
+    "description": "Stage 2 (Refinement Pass): Eliminates generic AI design tropes and habits, replacing editable [UNWANTED PATTERN] clichés with thoughtful hierarchy and composition.",
+    "model_tested": [
+      "Claude 3.5 Sonnet",
+      "GPT-4o"
+    ],
+    "version": "1.0",
+    "prompt": "Review the current design and remove or redesign any elements that make it feel generic, templated, or obviously AI-generated.\n\nDo not use:\n\n- [UNWANTED PATTERN]\n- [UNWANTED PATTERN]\n- [UNWANTED PATTERN]\n- [UNWANTED PATTERN]\n\nFor this version specifically:\n\nNo \"01/03\" counters, eyebrow labels, monospace text, or long thin decorative lines.\n\nDo not simply delete them and leave empty holes. Solve the hierarchy, navigation, pacing, and composition in a more original way.",
+    "rel_path": "prompts/creative-web-design/anti-cliche-website-design-review.md"
+  },
+  {
+    "title": "Reference Benchmark Website Builder",
+    "category": "creative-web-design",
+    "tags": [
+      "creative-web-design",
+      "reference-analysis",
+      "benchmark",
+      "website-generation",
+      "autonomous-design",
+      "visual-quality",
+      "agentic-iteration"
+    ],
+    "description": "Stage 1 (Initial Build): Analyzes an exceptional reference website and builds an original website targeting the same creative and technical benchmark without copying.",
+    "model_tested": [
+      "Claude 3.5 Sonnet",
+      "GPT-4o"
+    ],
+    "version": "1.0",
+    "prompt": "Analyze **[REFERENCE WEBSITE / URL]** and build me a website for **[TOPIC / BRAND / IDEA]** which looks like something similar in terms of quality and execution, at least at that level, but don't copy it (!!).\n\nKeep going until it reaches that level.\n\nRate your result using independent subagents. The score has to be above **[QUALITY THRESHOLD — e.g. 80%]**.\n\nThe website itself should be original. Do not copy the reference's exact composition, assets, branding, text, or concept.\n\nTopic: [YOUR TOPIC]\n\n—or, if I leave the topic blank—\n\nChoose any topic for the website and make it look unique.",
+    "rel_path": "prompts/creative-web-design/reference-benchmark-website-builder.md"
+  },
+  {
+    "title": "Signature Website Interaction Designer",
+    "category": "creative-web-design",
+    "tags": [
+      "creative-web-design",
+      "interaction-design",
+      "motion",
+      "transitions",
+      "signature-mechanic",
+      "experiential-design",
+      "website-refinement"
+    ],
+    "description": "Stage 3 (Creative Enhancement): A later-stage prompt to integrate one signature interaction, continuous transition, or memorable structural mechanic.",
+    "model_tested": [
+      "Claude 3.5 Sonnet",
+      "GPT-4o"
+    ],
+    "version": "1.0",
+    "prompt": "Add **[SIGNATURE INTERACTION / STRUCTURAL IDEA]**.\n\nIt should feel like a natural consequence of the existing website rather than an effect pasted on afterward.\n\nIntegrate it into the current visual language, motion system, and narrative.\n\nDo not redesign everything around it unless necessary.\n\nExample:\n\nAdd an infinite scroll: a final section that morphs smoothly back into the opening scene.\n\nThe transition should feel continuous enough that the end and beginning become part of the same experience.\n\nThen **[PUBLISH / DEPLOY / EXPORT / CREATE ARTIFACT]**.",
+    "rel_path": "prompts/creative-web-design/signature-website-interaction-designer.md"
+  },
+  {
+    "title": "Website Typography Polish Pass",
+    "category": "creative-web-design",
+    "tags": [
+      "creative-web-design",
+      "typography",
+      "design-polish",
+      "visual-hierarchy",
+      "refinement",
+      "ui-typography"
+    ],
+    "description": "Stage 4 (Final Polish): Elevates perceived visual quality by replacing generic fonts with an intentional typographic system retuned across hierarchy, tracking, and sizing.",
+    "model_tested": [
+      "Claude 3.5 Sonnet",
+      "GPT-4o"
+    ],
+    "version": "1.0",
+    "prompt": "Replace the current typography with **[FONT / TYPEFACE]** and retune the type system around it.\n\nDo not merely swap the font file.\n\nReconsider:\n\n- font weights\n- tracking\n- line-height\n- hierarchy\n- sizing\n- responsive behavior\n- relationships between display and body text\n\nThe typography should feel intentional within the current design rather than added on top of it.\n\nPreserve the site's existing visual concept and interaction system unless typography requires a small supporting adjustment.",
+    "rel_path": "prompts/creative-web-design/website-typography-polish-pass.md"
+  },
+  {
     "title": "Hyper-Detailed Cinematic Shot Generator",
     "category": "image-generation",
     "tags": [

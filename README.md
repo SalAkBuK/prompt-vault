@@ -2,8 +2,8 @@
 
 > A clean, battle-tested personal repository for storing, categorizing, searching, and 1-click copying your AI prompts across ChatGPT, Claude, Gemini, Midjourney, and Flux.
 
-[![Prompts Count](https://img.shields.io/badge/Prompts-11-blue.svg)](#-master-prompt-catalog)
-[![Categories](https://img.shields.io/badge/Categories-7-brightgreen.svg)](#-categories)
+[![Prompts Count](https://img.shields.io/badge/Prompts-15-blue.svg)](#-master-prompt-catalog)
+[![Categories](https://img.shields.io/badge/Categories-8-brightgreen.svg)](#-categories)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ---
@@ -29,6 +29,7 @@ delightful-curie/
 ├── prompts.json                 # 💾 JSON dump for tools & web UI
 └── prompts/                     # 📂 Categorized prompt storage
     ├── coding/                  # Code reviews, bug hunting, SQL optimization
+    ├── creative-web-design/     # Reference benchmarks, anti-cliché cleanup, interactions, typography
     ├── writing-copywriting/     # Landing page copy, viral social hooks
     ├── image-generation/        # Cinematic Midjourney & Flux prompts, 3D icons
     ├── productivity-workflows/  # Executive summaries, meeting notes
@@ -95,6 +96,7 @@ Want a visual interface?
 | Category | Description | Starter Prompts |
 | :--- | :--- | :--- |
 | **`coding`** | Architecture, debugging, reviews, DB tuning | [Senior Code Reviewer](prompts/coding/senior-code-reviewer.md), [Bug Root-Cause Debugger](prompts/coding/bug-root-cause-debugger.md), [SQL Optimizer](prompts/coding/sql-query-optimizer.md) |
+| **`creative-web-design`** | Benchmarks, anti-cliché review, signature mechanics, typography | [Reference Benchmark](prompts/creative-web-design/reference-benchmark-website-builder.md), [Anti-Cliché Review](prompts/creative-web-design/anti-cliche-website-design-review.md), [Signature Interaction](prompts/creative-web-design/signature-website-interaction-designer.md), [Typography Polish](prompts/creative-web-design/website-typography-polish-pass.md) |
 | **`writing-copywriting`** | Direct response, landing pages, storytelling | [Landing Page PAS](prompts/writing-copywriting/landing-page-pas-framework.md), [Punchy Hook Storyteller](prompts/writing-copywriting/viral-hook-storyteller.md) |
 | **`image-generation`** | Midjourney, Flux, Stable Diffusion, 3D | [Cinematic Shot Generator](prompts/image-generation/hyper-detailed-cinematic-shot.md), [Isometric 3D App Icon](prompts/image-generation/isometric-3d-asset.md) |
 | **`productivity-workflows`** | Executive briefs, meeting action matrices | [Executive Summary & Action Extractor](prompts/productivity-workflows/executive-summary-action-extractor.md) |

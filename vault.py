@@ -166,14 +166,16 @@ def cmd_list(args):
 
 def cmd_search(args):
     """Search prompts by keyword."""
-    query = args.query.lower()
+    query = args.query.lower().strip()
     prompts = get_all_prompts()
     matches = []
+    query_tokens = [t for t in re.split(r"[\s\-_]+", query) if t]
 
     for p in prompts:
         tags_str = " ".join(p["tags"]).lower() if isinstance(p["tags"], list) else str(p["tags"]).lower()
         searchable = f"{p['title'].lower()} {p['category'].lower()} {tags_str} {p['description'].lower()} {p['content'].lower()}"
-        if query in searchable:
+        searchable_norm = searchable.replace("-", " ")
+        if query in searchable or query in searchable_norm or (query_tokens and all(t in searchable_norm for t in query_tokens)):
             matches.append(p)
 
     if not matches:
