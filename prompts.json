@@ -35,6 +35,23 @@
     "rel_path": "prompts/creative-web-design/cinematic-scroll-image-sequence.md"
   },
   {
+    "title": "Frontier Reference Benchmark Website Builder",
+    "category": "creative-web-design",
+    "tags": [
+      "creative-web-design",
+      "benchmark",
+      "reference-analysis",
+      "website-generation",
+      "autonomous-design",
+      "subagent-review",
+      "interaction-design"
+    ],
+    "description": "A complete benchmark-driven website building prompt combining reference quality matching, anti-cliché constraints, signature mechanics, typography tuning, and autonomous subagent scoring.",
+    "version": "1.0",
+    "prompt": "Analyze [REFERENCE WEBSITE] and build me a website for [TOPIC / BRAND / IDEA] that reaches a similar level of quality and execution, but do not copy it (!!).\n\nIf [TOPIC / BRAND / IDEA] is left blank, choose any topic yourself and make the website unique.\n\nKeep going until the result reaches that level.\n\nAfter the first complete version:\n\nNo [UNWANTED DESIGN PATTERN], [UNWANTED DESIGN PATTERN], [UNWANTED DESIGN PATTERN] or [UNWANTED DESIGN PATTERN].\n\nAdd [SIGNATURE INTERACTION / STRUCTURAL IDEA].\n\nUse [FONT / TYPEFACE] if it improves the design.\n\nRate your result using independent subagents. The score has to be above [QUALITY THRESHOLD — e.g. 80%].\n\nIf it falls below that level, improve it and review it again.\n\nThen [PUBLISH / DEPLOY / CREATE ARTIFACT / LEAVE READY FOR REVIEW].",
+    "rel_path": "prompts/creative-web-design/frontier-reference-benchmark-website-builder.md"
+  },
+  {
     "title": "Reference Benchmark Website Builder",
     "category": "creative-web-design",
     "tags": [

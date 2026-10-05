@@ -2,7 +2,7 @@
 
 > A clean, battle-tested personal repository for storing, categorizing, searching, and 1-click copying your AI prompts across ChatGPT, Claude, Gemini, Midjourney, and Flux.
 
-[![Prompts Count](https://img.shields.io/badge/Prompts-6-blue.svg)](#-master-prompt-catalog)
+[![Prompts Count](https://img.shields.io/badge/Prompts-7-blue.svg)](#-master-prompt-catalog)
 [![Categories](https://img.shields.io/badge/Categories-2-brightgreen.svg)](#-categories)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -87,7 +87,7 @@ Want a visual interface?
 
 | Category | Description | Prompts |
 | :--- | :--- | :--- |
-| **`creative-web-design`** | Benchmarks, anti-cliché review, signature mechanics, typography | [Reference Benchmark](prompts/creative-web-design/reference-benchmark-website-builder.md), [Anti-Cliché Review](prompts/creative-web-design/anti-cliche-website-design-review.md), [Signature Interaction](prompts/creative-web-design/signature-website-interaction-designer.md), [Typography Polish](prompts/creative-web-design/website-typography-polish-pass.md), [Cinematic Scroll](prompts/creative-web-design/cinematic-scroll-image-sequence.md) |
+| **`creative-web-design`** | Benchmarks, anti-cliché review, signature mechanics, typography | [Frontier Reference Benchmark](prompts/creative-web-design/frontier-reference-benchmark-website-builder.md), [Reference Benchmark](prompts/creative-web-design/reference-benchmark-website-builder.md), [Anti-Cliché Review](prompts/creative-web-design/anti-cliche-website-design-review.md), [Signature Interaction](prompts/creative-web-design/signature-website-interaction-designer.md), [Typography Polish](prompts/creative-web-design/website-typography-polish-pass.md), [Cinematic Scroll](prompts/creative-web-design/cinematic-scroll-image-sequence.md) |
 | **`video-production`** | Launch films, motion design, audio drops, QA stills | [Programmatic Launch Film Director](prompts/video-production/programmatic-product-launch-film.md) |
 
 For the full detailed index, see **[`CATALOG.md`](file:///CATALOG.md)**.
