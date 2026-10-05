@@ -80,6 +80,28 @@
     "rel_path": "prompts/creative-web-design/anti-cliche-website-design-review.md"
   },
   {
+    "title": "Cinematic Scroll-Driven Image Sequence Experience",
+    "category": "creative-web-design",
+    "tags": [
+      "creative-web-design",
+      "scroll-driven",
+      "image-sequence",
+      "cinematic",
+      "scrollytelling",
+      "motion",
+      "master-timeline",
+      "canvas-animation"
+    ],
+    "description": "Builds a cinematic, scroll-driven web experience using an image sequence synced to a normalized master progress timeline with intelligent frame loading.",
+    "model_tested": [
+      "Claude 3.5 Sonnet",
+      "GPT-4o"
+    ],
+    "version": "1.0",
+    "prompt": "Build a cinematic scroll-driven experience using an image sequence rather than a conventional autoplaying video.\n\n**Subject / sequence:** [DESCRIBE THE VISUAL SEQUENCE]\n\n**Image source:** [EXISTING FRAME DIRECTORY / GENERATE PLACEHOLDERS / OTHER]\n\nUse one normalized master scroll-progress value as the source of truth for the experience.\n\nThat progress value should control:\n\n- the currently displayed image frame\n- scene progression\n- image scale or camera movement where appropriate\n- text entrances and exits\n- transitions between scenes\n- any supporting visual effects\n\nKeep the primary visual stage fixed or sticky while the user scrolls through the timeline.\n\nBreak the experience into clear scenes with explicit progress ranges.\n\nDo not hard-cut between scenes unless the creative direction specifically requires it. Use carefully timed dissolves, wipes, overlapping ranges, or continuous transformations where they improve continuity.\n\nImplement intelligent frame loading. Prioritize the initial and nearby frames, preload ahead of the viewer, and avoid loading every full-resolution image into memory unnecessarily.\n\nText and imagery must derive from the same master timeline so they cannot drift out of synchronization.\n\nDo not treat scrolling as merely a play/pause control for a video.\n\nTreat scrolling as a timeline that determines the complete visual state of the experience.\n\nBefore finishing, test:\n\n- slow scrolling\n- fast scrolling\n- reverse scrolling\n- jumping through the scrollbar\n- viewport resizing\n- mobile behavior\n- loading performance\n- memory usage\n- reduced-motion behavior\n\nThe final experience should feel continuous and deliberately choreographed rather than like a collection of scroll-triggered animations.",
+    "rel_path": "prompts/creative-web-design/cinematic-scroll-image-sequence.md"
+  },
+  {
     "title": "Reference Benchmark Website Builder",
     "category": "creative-web-design",
     "tags": [
