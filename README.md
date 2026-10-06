@@ -2,8 +2,8 @@
 
 > A clean, battle-tested personal repository for storing, categorizing, searching, and 1-click copying your AI prompts across ChatGPT, Claude, Gemini, Midjourney, and Flux.
 
-[![Prompts Count](https://img.shields.io/badge/Prompts-9-blue.svg)](#-master-prompt-catalog)
-[![Categories](https://img.shields.io/badge/Categories-2-brightgreen.svg)](#-categories)
+[![Prompts Count](https://img.shields.io/badge/Prompts-0-blue.svg)](#-master-prompt-catalog)
+[![Categories](https://img.shields.io/badge/Categories-0-brightgreen.svg)](#-categories)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ---
@@ -93,12 +93,9 @@ A zero-dependency, ultra-fast personal web library built for "future me":
 
 ## 🧭 Categories & Prompts
 
-| Category | Description | Prompts |
-| :--- | :--- | :--- |
-| **`creative-web-design`** | Benchmarks, anti-cliché review, signature mechanics, typography | [Frontier Reference Benchmark](prompts/creative-web-design/frontier-reference-benchmark-website-builder.md), [Reference Benchmark](prompts/creative-web-design/reference-benchmark-website-builder.md), [Anti-Cliché Review](prompts/creative-web-design/anti-cliche-website-design-review.md), [Signature Interaction](prompts/creative-web-design/signature-website-interaction-designer.md), [Typography Polish](prompts/creative-web-design/website-typography-polish-pass.md), [Cinematic Scroll](prompts/creative-web-design/cinematic-scroll-image-sequence.md), [Scroll-Driven Image Sequence](prompts/creative-web-design/scroll-driven-image-sequence-website.md), [Igloo Reference Build](prompts/creative-web-design/igloo-reference-website-build-prompt.md) |
-| **`video-production`** | Launch films, motion design, audio drops, QA stills | [Programmatic Product Launch Film](prompts/video-production/programmatic-product-launch-film.md) |
+*(Your vault is currently empty and ready for your prompts. Run `python vault.py new <category> "<Title>"` to add your first prompt!)*
 
-For the full detailed index, see **[`CATALOG.md`](file:///CATALOG.md)**.
+For the auto-generated index, see **[`CATALOG.md`](file:///CATALOG.md)**.
 
 ---
 

@@ -362,11 +362,14 @@ def cmd_build(args=None):
         "",
     ]
 
-    for cat in sorted(categories.keys()):
-        count = len(categories[cat])
-        display_name = cat.replace("-", " ").title()
-        anchor = cat.lower().replace(" ", "-")
-        lines.append(f"- [{display_name}](#{anchor}) `({count})`")
+    if categories:
+        for cat in sorted(categories.keys()):
+            count = len(categories[cat])
+            display_name = cat.replace("-", " ").title()
+            anchor = cat.lower().replace(" ", "-")
+            lines.append(f"- [{display_name}](#{anchor}) `({count})`")
+    else:
+        lines.append("*(No prompts in vault yet. Run `python vault.py new <category> \"<Title>\"` to add your first prompt!)*")
 
     lines.append("")
     lines.append("---")
