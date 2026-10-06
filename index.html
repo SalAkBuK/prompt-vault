@@ -630,6 +630,12 @@
       border: 1px solid rgba(236, 72, 153, 0.3);
     }
 
+    .badge-image {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
     .card-tags {
       display: flex;
       flex-wrap: wrap;
@@ -669,6 +675,31 @@
       height: 100%;
       object-fit: cover;
       display: block;
+    }
+
+    /* Embedded Image on Card */
+    .card-image-wrap {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      margin-bottom: 1.15rem;
+      overflow: hidden;
+      max-height: 220px;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .card-image-wrap img {
+      width: 100%;
+      height: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.25s ease;
+    }
+
+    .card-image-wrap:hover img {
+      transform: scale(1.02);
     }
 
     .card-preview-box {
@@ -1254,6 +1285,68 @@
       margin-top: 0.25rem;
     }
 
+    .modal-image-wrap {
+      border-radius: 8px;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--card-border);
+      margin-bottom: 1.25rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      max-height: 480px;
+    }
+
+    .modal-image-wrap img {
+      max-width: 100%;
+      max-height: 480px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .media-preview-container {
+      margin-top: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .media-preview-card {
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+      background: var(--bg);
+      padding: 0.65rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .media-preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      padding: 0 0.25rem;
+    }
+
+    .media-remove-btn {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      color: #f87171;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .media-remove-btn:hover {
+      background: #ef4444;
+      color: #fff;
+    }
+
     .video-preview-box {
       margin-top: 0.75rem;
       border-radius: 8px;
@@ -1345,7 +1438,7 @@
             <span>Prompt Vault</span>
             <span class="brand-badge">HQ</span>
           </div>
-          <p class="brand-subtitle">Curated AI prompts, real-world examples, and video benchmarks for future me.</p>
+          <p class="brand-subtitle">Curated AI prompts, real-world examples, and visual benchmarks for future me.</p>
         </div>
         <div class="header-actions">
           <button class="btn btn-primary" id="openAddPromptBtn" onclick="openAddPromptModal()">
@@ -1362,7 +1455,8 @@
         <div class="stat-item">📁 <strong id="statPromptsCount">0</strong> Prompts</div>
         <div class="stat-item">🏷️ <strong id="statCategoriesCount">0</strong> Categories</div>
         <div class="stat-item">💡 <strong id="statExamplesCount">0</strong> Examples</div>
-        <div class="stat-item">🎬 <strong id="statVideosCount">0</strong> Video References</div>
+        <div class="stat-item">🖼️ <strong id="statImagesCount">0</strong> Pictures</div>
+        <div class="stat-item">🎬 <strong id="statVideosCount">0</strong> Videos</div>
         <div class="stat-item">⚡ 1-Click Copy Ready</div>
       </div>
     </div>
@@ -1383,7 +1477,7 @@
             type="text"
             id="searchInput"
             class="search-input"
-            placeholder="Search prompts, keywords, tags, or video benchmarks (or press /)..."
+            placeholder="Search prompts, keywords, tags, or benchmarks (or press /)..."
             autofocus
           />
           <button class="search-clear-btn" id="searchClearBtn" title="Clear search">✕</button>
@@ -1445,7 +1539,7 @@
               <th>Title & Overview</th>
               <th>Category</th>
               <th>Tags</th>
-              <th>Video</th>
+              <th>Visual Reference</th>
               <th>Example</th>
               <th>Actions</th>
             </tr>
@@ -1475,6 +1569,9 @@
       <div class="modal-tabs">
         <button class="modal-tab active" data-tab="prompt" onclick="switchModalTab('prompt')">
           📋 Prompt
+        </button>
+        <button class="modal-tab" data-tab="image" id="modalTabImage" onclick="switchModalTab('image')">
+          🖼️ Picture Reference
         </button>
         <button class="modal-tab" data-tab="video" id="modalTabVideo" onclick="switchModalTab('video')">
           🎬 Video Reference
@@ -1518,6 +1615,24 @@
               Type your values below to customize the prompt before copying:
             </p>
             <div class="filler-inputs-grid" id="fillerInputsGrid"></div>
+          </div>
+        </div>
+
+        <!-- Tab: Picture Reference -->
+        <div class="tab-pane" id="tabPaneImage">
+          <div class="modal-image-wrap" id="modalImageContainer">
+            <!-- Image tag injected here -->
+          </div>
+          <div class="prompt-toolbar">
+            <span style="font-size: 0.85rem; color: var(--text-muted);" id="modalImageInfoText">Reference picture / screenshot attached to this prompt.</span>
+            <div style="display: flex; gap: 0.5rem;">
+              <a class="btn btn-secondary" id="modalImageDownloadBtn" target="_blank" download style="font-size: 0.85rem;">
+                📥 Open Full Size
+              </a>
+              <button class="btn btn-primary" id="modalImageCopyBtn">
+                📋 Copy Prompt Text
+              </button>
+            </div>
           </div>
         </div>
 
@@ -1645,26 +1760,47 @@
             <textarea id="promptExample" class="form-textarea" style="min-height: 100px;" placeholder="Add the real-world example, benchmark website, or notes for future you..."></textarea>
           </div>
 
-          <!-- Video Reference Attachment -->
+          <!-- Visual Reference Attachment (Picture or Video) -->
           <div class="form-group">
             <label class="form-label">
-              🎬 Reference Video Attachment <span class="hint">Attach downloaded video clip or MP4 URL</span>
+              🖼️ Visual Reference (Picture or Video) <span class="hint">Attach a reference picture, screenshot, or video clip</span>
             </label>
             
-            <div class="upload-zone" id="videoUploadDropzone" onclick="document.getElementById('videoFileInput').click()">
-              <span class="upload-zone-icon">📹</span>
-              <div class="upload-zone-text" id="uploadZoneText">Drop your downloaded video file here or click to browse</div>
-              <div class="upload-zone-sub">Supports MP4, WebM, MOV (Saved directly in your local browser vault)</div>
-              <input type="file" id="videoFileInput" accept="video/mp4,video/webm,video/quicktime,video/*" style="display: none;" onchange="handleVideoFileSelect(this)" />
+            <div class="upload-zone" id="mediaUploadDropzone" onclick="document.getElementById('mediaFileInput').click()">
+              <span class="upload-zone-icon">🖼️ 📹</span>
+              <div class="upload-zone-text" id="uploadZoneText">Drop your reference picture or video here, or click to browse</div>
+              <div class="upload-zone-sub">Supports PNG, JPG, WebP, GIF, SVG or MP4, WebM, MOV (Saved directly in your browser vault)</div>
+              <input type="file" id="mediaFileInput" accept="image/*,video/*" style="display: none;" onchange="handleMediaFileSelect(this)" />
             </div>
 
-            <div style="margin-top: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
-              <span style="font-size: 0.78rem; color: var(--text-muted);">OR Enter Video URL / Path:</span>
-              <input type="text" id="promptVideoUrl" class="form-input" style="flex: 1; padding: 0.45rem 0.75rem; font-size: 0.82rem;" placeholder="e.g. media/launch-film.mp4 or https://...mp4" oninput="handleVideoUrlInput(this)" />
+            <div style="margin-top: 0.65rem; display: flex; flex-direction: column; gap: 0.5rem;">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span style="font-size: 0.78rem; color: var(--text-muted); width: 140px; flex-shrink: 0;">🖼️ Picture URL / Path:</span>
+                <input type="text" id="promptImageUrl" class="form-input" style="flex: 1; padding: 0.45rem 0.75rem; font-size: 0.82rem;" placeholder="e.g. media/screenshot.png or https://...png" oninput="handleImageUrlInput(this)" />
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span style="font-size: 0.78rem; color: var(--text-muted); width: 140px; flex-shrink: 0;">🎬 Video URL / Path:</span>
+                <input type="text" id="promptVideoUrl" class="form-input" style="flex: 1; padding: 0.45rem 0.75rem; font-size: 0.82rem;" placeholder="e.g. media/launch-film.mp4 or https://...mp4" oninput="handleVideoUrlInput(this)" />
+              </div>
             </div>
 
-            <div class="video-preview-box" id="formVideoPreviewContainer">
-              <video id="formVideoPreview" controls playsinline></video>
+            <!-- Preview cards -->
+            <div class="media-preview-container" id="formMediaPreviews">
+              <div class="media-preview-card" id="formImagePreviewBox" style="display: none;">
+                <div class="media-preview-header">
+                  <span id="formImageName">🖼️ Picture Reference</span>
+                  <button type="button" class="media-remove-btn" onclick="removeAttachedImage()">✕ Remove Picture</button>
+                </div>
+                <img id="formImagePreview" style="max-height: 220px; max-width: 100%; object-fit: contain; border-radius: 4px; display: block; margin: 0 auto;" />
+              </div>
+
+              <div class="media-preview-card" id="formVideoPreviewBox" style="display: none;">
+                <div class="media-preview-header">
+                  <span id="formVideoName">🎬 Video Reference</span>
+                  <button type="button" class="media-remove-btn" onclick="removeAttachedVideo()">✕ Remove Video</button>
+                </div>
+                <video id="formVideoPreview" controls playsinline style="max-height: 220px; width: 100%; border-radius: 4px;"></video>
+              </div>
             </div>
           </div>
 
@@ -1716,11 +1852,13 @@
     let placeholderValues = {};
     let pendingVideoFile = null;
     let pendingVideoBlobUrl = null;
+    let pendingImageFile = null;
+    let pendingImageBlobUrl = null;
 
-    // IndexedDB for storing offline video files
+    // IndexedDB for storing offline video & picture files
     const DB_NAME = 'PromptVaultMediaDB';
     const DB_VERSION = 1;
-    const STORE_NAME = 'videos';
+    const STORE_NAME = 'videos'; // reuse store to preserve existing data
 
     function openMediaDB() {
       return new Promise((resolve, reject) => {
@@ -1736,7 +1874,7 @@
       });
     }
 
-    async function saveVideoBlobToDB(id, fileBlob, filename) {
+    async function saveMediaBlobToDB(id, fileBlob, filename) {
       try {
         const db = await openMediaDB();
         return new Promise((resolve, reject) => {
@@ -1747,12 +1885,12 @@
           tx.onerror = () => reject(tx.error);
         });
       } catch (e) {
-        console.warn('Could not save video to IndexedDB', e);
+        console.warn('Could not save media to IndexedDB', e);
         return false;
       }
     }
 
-    async function getVideoBlobFromDB(id) {
+    async function getMediaBlobFromDB(id) {
       try {
         const db = await openMediaDB();
         return new Promise((resolve, reject) => {
@@ -1767,7 +1905,7 @@
       }
     }
 
-    async function deleteVideoBlobFromDB(id) {
+    async function deleteMediaBlobFromDB(id) {
       try {
         const db = await openMediaDB();
         return new Promise((resolve, reject) => {
@@ -1781,6 +1919,11 @@
         return false;
       }
     }
+
+    // Aliases for backward compatibility
+    const saveVideoBlobToDB = saveMediaBlobToDB;
+    const getVideoBlobFromDB = getMediaBlobFromDB;
+    const deleteVideoBlobFromDB = deleteMediaBlobFromDB;
 
     // Load prompts either via fetch (if served via HTTP) or embedded JSON (if opened directly as file://)
     async function initVault() {
@@ -1874,7 +2017,10 @@
       document.getElementById('statCategoriesCount').textContent = categories.size;
       const withExamples = allPrompts.filter(p => p.example && p.example.trim().length > 0).length;
       document.getElementById('statExamplesCount').textContent = withExamples;
+      const withImages = allPrompts.filter(p => p.image && p.image.trim().length > 0).length;
       const withVideos = allPrompts.filter(p => p.video && p.video.trim().length > 0).length;
+      const statImgEl = document.getElementById('statImagesCount');
+      if (statImgEl) statImgEl.textContent = withImages;
       document.getElementById('statVideosCount').textContent = withVideos;
     }
 
@@ -2039,6 +2185,7 @@
         const catLabel = p.category.replace(/-/g, ' ').toUpperCase();
         const hasExample = p.example && p.example.trim().length > 0;
         const hasVideo = p.video && p.video.trim().length > 0;
+        const hasImage = p.image && p.image.trim().length > 0;
         const isCustom = p.isCustom || customPrompts.some(cp => cp.slug === p.slug);
         const tags = Array.isArray(p.tags) ? p.tags : [];
         const previewSnippet = escapeHtml((p.prompt || '').slice(0, 160));
@@ -2059,6 +2206,7 @@
               <p class="card-desc">${escapeHtml(p.description || p.overview || '')}</p>
 
               <div class="card-badges">
+                ${hasImage ? `<span class="feature-badge badge-image">🖼️ Picture Reference</span>` : ''}
                 ${hasVideo ? `<span class="feature-badge badge-video">🎬 Video Reference</span>` : ''}
                 ${hasExample ? `<span class="feature-badge badge-example">💡 Real Example</span>` : ''}
                 ${p.variables ? `<span class="feature-badge badge-vars">🧩 Editable Variables</span>` : ''}
@@ -2073,7 +2221,11 @@
                 <div class="card-video-wrap" id="card-video-${p.slug}">
                   <video controls playsinline preload="metadata" src="${escapeHtml(p.video)}"></video>
                 </div>
-              ` : ''}
+              ` : (hasImage ? `
+                <div class="card-image-wrap" id="card-image-${p.slug}" onclick="openModal(${pIndex}); event.stopPropagation();" title="Click to view picture reference">
+                  <img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.title)}" loading="lazy" />
+                </div>
+              ` : '')}
 
               <div class="card-preview-box">
                 ${previewSnippet}
@@ -2092,15 +2244,24 @@
         `;
       }).join('');
 
-      // Check and wire video blobs from IndexedDB for any idb: videos
+      // Check and wire media blobs from IndexedDB
       filtered.forEach(async p => {
         if (p.video && p.video.startsWith('idb:')) {
           const videoId = p.video.replace('idb:', '');
-          const blob = await getVideoBlobFromDB(videoId);
+          const blob = await getMediaBlobFromDB(videoId);
           if (blob) {
             const blobUrl = URL.createObjectURL(blob);
             const videoEl = document.querySelector(`#card-video-${p.slug} video`);
             if (videoEl) videoEl.src = blobUrl;
+          }
+        }
+        if (p.image && p.image.startsWith('idb:')) {
+          const imageId = p.image.replace('idb:', '');
+          const blob = await getMediaBlobFromDB(imageId);
+          if (blob) {
+            const blobUrl = URL.createObjectURL(blob);
+            const imgEl = document.querySelector(`#card-image-${p.slug} img`);
+            if (imgEl) imgEl.src = blobUrl;
           }
         }
       });
@@ -2111,6 +2272,7 @@
         const catLabel = p.category.replace(/-/g, ' ').toUpperCase();
         const hasExample = p.example && p.example.trim().length > 0;
         const hasVideo = p.video && p.video.trim().length > 0;
+        const hasImage = p.image && p.image.trim().length > 0;
         const tags = Array.isArray(p.tags) ? p.tags.slice(0, 3) : [];
         const pIndex = allPrompts.indexOf(p);
 
@@ -2129,7 +2291,7 @@
               </div>
             </td>
             <td>
-              ${hasVideo ? `<span class="feature-badge badge-video">🎬 Video</span>` : '<span style="color:var(--text-muted); font-size:0.8rem;">—</span>'}
+              ${(hasImage && hasVideo) ? `<span class="feature-badge badge-video">🖼️+🎬 Media</span>` : (hasVideo ? `<span class="feature-badge badge-video">🎬 Video</span>` : (hasImage ? `<span class="feature-badge badge-image">🖼️ Picture</span>` : '<span style="color:var(--text-muted); font-size:0.8rem;">—</span>'))}
             </td>
             <td>
               ${hasExample ? `<span class="feature-badge badge-example">💡 Yes</span>` : '<span style="color:var(--text-muted); font-size:0.8rem;">—</span>'}
@@ -2240,6 +2402,27 @@
 
       setupPlaceholderFiller(promptText);
 
+      // Picture Tab
+      const imageTabBtn = document.getElementById('modalTabImage');
+      const imageContainer = document.getElementById('modalImageContainer');
+      const imageDownloadBtn = document.getElementById('modalImageDownloadBtn');
+      if (activePrompt.image && activePrompt.image.trim()) {
+        imageTabBtn.style.display = 'flex';
+        let imageSrc = activePrompt.image;
+        if (imageSrc.startsWith('idb:')) {
+          const imageId = imageSrc.replace('idb:', '');
+          const blob = await getMediaBlobFromDB(imageId);
+          if (blob) imageSrc = URL.createObjectURL(blob);
+        }
+        imageContainer.innerHTML = `<img src="${escapeHtml(imageSrc)}" alt="${escapeHtml(activePrompt.title)}" />`;
+        if (imageDownloadBtn) imageDownloadBtn.href = imageSrc;
+        const copyImgPromptBtn = document.getElementById('modalImageCopyBtn');
+        if (copyImgPromptBtn) copyImgPromptBtn.onclick = (e) => copyText(promptText, e.currentTarget);
+      } else {
+        imageTabBtn.style.display = 'none';
+        imageContainer.innerHTML = '';
+      }
+
       // Video Tab
       const videoTabBtn = document.getElementById('modalTabVideo');
       const videoContainer = document.getElementById('modalVideoPlayerContainer');
@@ -2248,7 +2431,7 @@
         let videoSrc = activePrompt.video;
         if (videoSrc.startsWith('idb:')) {
           const videoId = videoSrc.replace('idb:', '');
-          const blob = await getVideoBlobFromDB(videoId);
+          const blob = await getMediaBlobFromDB(videoId);
           if (blob) videoSrc = URL.createObjectURL(blob);
         }
         videoContainer.innerHTML = `<video src="${escapeHtml(videoSrc)}" controls playsinline></video>`;
@@ -2292,9 +2475,11 @@
       const tags = Array.isArray(activePrompt.tags) ? activePrompt.tags : [];
       tagsContainer.innerHTML = tags.map(t => `<span class="card-tag">#${escapeHtml(t)}</span>`).join('');
 
-      // If video exists, default to video tab, otherwise prompt tab
+      // If video exists, default to video tab, otherwise picture tab, otherwise prompt tab
       if (activePrompt.video && activePrompt.video.trim()) {
         switchModalTab('video');
+      } else if (activePrompt.image && activePrompt.image.trim()) {
+        switchModalTab('image');
       } else {
         switchModalTab('prompt');
       }
@@ -2326,6 +2511,7 @@
       });
 
       document.getElementById('tabPanePrompt').classList.toggle('active', tabId === 'prompt');
+      document.getElementById('tabPaneImage').classList.toggle('active', tabId === 'image');
       document.getElementById('tabPaneVideo').classList.toggle('active', tabId === 'video');
       document.getElementById('tabPaneExample').classList.toggle('active', tabId === 'example');
       document.getElementById('tabPaneOverview').classList.toggle('active', tabId === 'overview');
@@ -2422,11 +2608,9 @@
       document.getElementById('addPromptForm').reset();
       document.getElementById('promptCategoryCustom').style.display = 'none';
       document.getElementById('promptCategorySelect').style.display = 'block';
-      document.getElementById('formVideoPreviewContainer').style.display = 'none';
-      document.getElementById('formVideoPreview').src = '';
-      document.getElementById('uploadZoneText').textContent = 'Drop your downloaded video file here or click to browse';
-      pendingVideoFile = null;
-      pendingVideoBlobUrl = null;
+      removeAttachedImage();
+      removeAttachedVideo();
+      document.getElementById('uploadZoneText').textContent = 'Drop your reference picture or video here, or click to browse';
 
       document.getElementById('addPromptModal').classList.add('open');
       document.body.style.overflow = 'hidden';
@@ -2449,52 +2633,121 @@
       }
     }
 
-    // Video File Selection & Drag-and-Drop
-    function handleVideoFileSelect(inputEl) {
+    // Media File Selection & Drag-and-Drop (Pictures & Videos)
+    function handleMediaFileSelect(inputEl) {
       if (inputEl.files && inputEl.files[0]) {
-        processSelectedVideoFile(inputEl.files[0]);
+        processSelectedMediaFile(inputEl.files[0]);
       }
     }
 
-    function processSelectedVideoFile(file) {
-      pendingVideoFile = file;
-      pendingVideoBlobUrl = URL.createObjectURL(file);
+    function processSelectedMediaFile(file) {
+      const isImage = file.type.startsWith('image/');
+      const isVideo = file.type.startsWith('video/');
 
-      const previewBox = document.getElementById('formVideoPreviewContainer');
-      const videoEl = document.getElementById('formVideoPreview');
-      videoEl.src = pendingVideoBlobUrl;
-      previewBox.style.display = 'block';
+      if (isImage) {
+        pendingImageFile = file;
+        pendingImageBlobUrl = URL.createObjectURL(file);
+        const preview = document.getElementById('formImagePreview');
+        const box = document.getElementById('formImagePreviewBox');
+        const nameEl = document.getElementById('formImageName');
+        preview.src = pendingImageBlobUrl;
+        nameEl.textContent = `🖼️ Attached Picture: ${file.name} (${(file.size / 1024).toFixed(0)} KB)`;
+        box.style.display = 'flex';
+        document.getElementById('promptImageUrl').value = `media/${file.name}`;
+        document.getElementById('uploadZoneText').textContent = `✅ Attached Picture: ${file.name}`;
+      } else if (isVideo) {
+        pendingVideoFile = file;
+        pendingVideoBlobUrl = URL.createObjectURL(file);
+        const preview = document.getElementById('formVideoPreview');
+        const box = document.getElementById('formVideoPreviewBox');
+        const nameEl = document.getElementById('formVideoName');
+        preview.src = pendingVideoBlobUrl;
+        nameEl.textContent = `🎬 Attached Video: ${file.name} (${(file.size / (1024 * 1024)).toFixed(1)} MB)`;
+        box.style.display = 'flex';
+        document.getElementById('promptVideoUrl').value = `media/${file.name}`;
+        document.getElementById('uploadZoneText').textContent = `✅ Attached Video: ${file.name}`;
+      } else {
+        alert('Unsupported file type. Please upload a picture (PNG, JPG, WebP, GIF, SVG) or video (MP4, WebM, MOV).');
+      }
+    }
 
-      document.getElementById('uploadZoneText').textContent = `✅ Attached: ${file.name} (${(file.size / (1024 * 1024)).toFixed(1)} MB)`;
-      document.getElementById('promptVideoUrl').value = `media/${file.name}`;
+    function removeAttachedImage() {
+      pendingImageFile = null;
+      if (pendingImageBlobUrl) {
+        URL.revokeObjectURL(pendingImageBlobUrl);
+        pendingImageBlobUrl = null;
+      }
+      const box = document.getElementById('formImagePreviewBox');
+      if (box) box.style.display = 'none';
+      const preview = document.getElementById('formImagePreview');
+      if (preview) preview.src = '';
+      const input = document.getElementById('promptImageUrl');
+      if (input && input.value.startsWith('media/')) input.value = '';
+    }
+
+    function removeAttachedVideo() {
+      pendingVideoFile = null;
+      if (pendingVideoBlobUrl) {
+        URL.revokeObjectURL(pendingVideoBlobUrl);
+        pendingVideoBlobUrl = null;
+      }
+      const box = document.getElementById('formVideoPreviewBox');
+      if (box) box.style.display = 'none';
+      const preview = document.getElementById('formVideoPreview');
+      if (preview) {
+        preview.pause();
+        preview.src = '';
+      }
+      const input = document.getElementById('promptVideoUrl');
+      if (input && input.value.startsWith('media/')) input.value = '';
+    }
+
+    function handleImageUrlInput(inputEl) {
+      const url = inputEl.value.trim();
+      const box = document.getElementById('formImagePreviewBox');
+      const preview = document.getElementById('formImagePreview');
+      const nameEl = document.getElementById('formImageName');
+      if (url) {
+        preview.src = url;
+        nameEl.textContent = `🖼️ Picture URL: ${url}`;
+        box.style.display = 'flex';
+      } else {
+        if (!pendingImageFile) box.style.display = 'none';
+      }
     }
 
     function handleVideoUrlInput(inputEl) {
       const url = inputEl.value.trim();
-      if (url && (url.endsWith('.mp4') || url.endsWith('.webm') || url.startsWith('http') || url.startsWith('media/'))) {
-        const previewBox = document.getElementById('formVideoPreviewContainer');
-        const videoEl = document.getElementById('formVideoPreview');
-        videoEl.src = url;
-        previewBox.style.display = 'block';
+      const box = document.getElementById('formVideoPreviewBox');
+      const preview = document.getElementById('formVideoPreview');
+      const nameEl = document.getElementById('formVideoName');
+      if (url) {
+        preview.src = url;
+        nameEl.textContent = `🎬 Video URL: ${url}`;
+        box.style.display = 'flex';
+      } else {
+        if (!pendingVideoFile) box.style.display = 'none';
       }
     }
 
     // Drag and Drop Zone Setup
-    const dropzone = document.getElementById('videoUploadDropzone');
-    dropzone.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      dropzone.classList.add('dragover');
-    });
-    dropzone.addEventListener('dragleave', () => {
-      dropzone.classList.remove('dragover');
-    });
-    dropzone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      dropzone.classList.remove('dragover');
-      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-        processSelectedVideoFile(e.dataTransfer.files[0]);
-      }
-    });
+    const dropzone = document.getElementById('mediaUploadDropzone');
+    if (dropzone) {
+      dropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropzone.classList.add('dragover');
+      });
+      dropzone.addEventListener('dragleave', () => {
+        dropzone.classList.remove('dragover');
+      });
+      dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+          processSelectedMediaFile(e.dataTransfer.files[0]);
+        }
+      });
+    }
 
     // Form submission
     async function handleSavePrompt(e) {
@@ -2510,14 +2763,21 @@
       const description = document.getElementById('promptDescription').value.trim();
       const promptText = document.getElementById('promptText').value.trim();
       const exampleText = document.getElementById('promptExample').value.trim();
+      let imageUrl = document.getElementById('promptImageUrl').value.trim();
       let videoUrl = document.getElementById('promptVideoUrl').value.trim();
 
       const slug = title.toLowerCase().replace(/[^\w\-_]/g, '-').replace(/-+/g, '-');
 
-      // If user uploaded a local video file, store in IndexedDB
+      // If user uploaded an image file, store in IndexedDB
+      if (pendingImageFile) {
+        await saveMediaBlobToDB(`img_${slug}`, pendingImageFile, pendingImageFile.name);
+        imageUrl = `idb:img_${slug}`;
+      }
+
+      // If user uploaded a video file, store in IndexedDB
       if (pendingVideoFile) {
-        await saveVideoBlobToDB(slug, pendingVideoFile, pendingVideoFile.name);
-        videoUrl = `idb:${slug}`;
+        await saveMediaBlobToDB(`vid_${slug}`, pendingVideoFile, pendingVideoFile.name);
+        videoUrl = `idb:vid_${slug}`;
       }
 
       const newPromptObj = {
@@ -2532,6 +2792,7 @@
         variables: "",
         example: exampleText,
         example_code: exampleText,
+        image: imageUrl,
         video: videoUrl,
         rel_path: `prompts/${category}/${slug}.md`,
         isCustom: true
@@ -2548,9 +2809,18 @@
           });
           if (res.ok) savedOnServer = true;
 
+          // If image uploaded and server active, upload to disk
+          if (pendingImageFile) {
+            await fetch('/api/upload-media', {
+              method: 'POST',
+              headers: { 'X-File-Name': pendingImageFile.name },
+              body: pendingImageFile
+            });
+          }
+
           // If video uploaded and server active, upload to disk
           if (pendingVideoFile) {
-            await fetch('/api/upload-video', {
+            await fetch('/api/upload-media', {
               method: 'POST',
               headers: { 'X-File-Name': pendingVideoFile.name },
               body: pendingVideoFile
@@ -2579,7 +2849,7 @@
       renderCards();
 
       closeAddPromptModal();
-      showToast(savedOnServer ? '✅ Prompt & video saved to disk!' : '✨ Prompt saved to your library!');
+      showToast(savedOnServer ? '✅ Prompt & media saved to disk!' : '✨ Prompt saved to your library!');
     }
 
     async function handleDeletePrompt(slug, event) {
@@ -2588,7 +2858,9 @@
 
       customPrompts = customPrompts.filter(p => p.slug !== slug);
       localStorage.setItem('prompt_vault_custom_prompts', JSON.stringify(customPrompts));
-      await deleteVideoBlobFromDB(slug);
+      await deleteMediaBlobFromDB(`img_${slug}`);
+      await deleteMediaBlobFromDB(`vid_${slug}`);
+      await deleteMediaBlobFromDB(slug);
 
       allPrompts = allPrompts.filter(p => p.slug !== slug);
 
@@ -2611,6 +2883,7 @@
       const description = document.getElementById('promptDescription').value.trim();
       const promptText = document.getElementById('promptText').value.trim();
       const exampleText = document.getElementById('promptExample').value.trim();
+      const image = document.getElementById('promptImageUrl').value.trim();
       const video = document.getElementById('promptVideoUrl').value.trim();
 
       const frontmatter = [
@@ -2621,6 +2894,7 @@
         `description: "${description}"`,
         'version: "1.0"',
       ];
+      if (image) frontmatter.push(`image: "${image}"`);
       if (video) frontmatter.push(`video: "${video}"`);
       frontmatter.push('---', '');
 

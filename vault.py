@@ -83,6 +83,7 @@ def get_all_prompts() -> list[dict]:
             "description": meta.get("description", ""),
             "version": meta.get("version", "1.0"),
             "video": meta.get("video", ""),
+            "image": meta.get("image", ""),
             "body": body,
             "content": content,
         })
@@ -425,6 +426,7 @@ def cmd_build(args=None):
             "example": example_sec,
             "example_code": example_code,
             "video": p.get("video", ""),
+            "image": p.get("image", ""),
             "rel_path": p["rel_path"],
         })
 
@@ -493,6 +495,7 @@ def cmd_serve(args):
                     prompt_text = payload.get("prompt", "").strip()
                     example_text = payload.get("example", "").strip()
                     video = payload.get("video", "").strip()
+                    image = payload.get("image", "").strip()
 
                     frontmatter_lines = [
                         "---",
@@ -504,6 +507,8 @@ def cmd_serve(args):
                     ]
                     if video:
                         frontmatter_lines.append(f'video: "{video}"')
+                    if image:
+                        frontmatter_lines.append(f'image: "{image}"')
                     frontmatter_lines.append("---\n")
 
                     body_sections = [
@@ -529,10 +534,10 @@ def cmd_serve(args):
                     self.send_header("Content-Type", "application/json")
                     self.end_headers()
                     self.wfile.write(json.dumps({"success": False, "error": str(err)}).encode("utf-8"))
-            elif parsed.path == "/api/upload-video":
+            elif parsed.path in ("/api/upload-media", "/api/upload-video", "/api/upload-image"):
                 try:
                     content_len = int(self.headers.get("Content-Length", 0))
-                    filename = self.headers.get("X-File-Name", "reference-video.mp4")
+                    filename = self.headers.get("X-File-Name", "reference-media")
                     filename = re.sub(r"[^\w\-_.]", "_", filename)
                     media_dir = BASE_DIR / "media"
                     media_dir.mkdir(parents=True, exist_ok=True)
