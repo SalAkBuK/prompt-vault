@@ -702,6 +702,87 @@
       transform: scale(1.02);
     }
 
+    /* Embedded Image Carousel on Card (Multiple Pictures) */
+    .card-carousel-wrap {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      margin-bottom: 1.15rem;
+      overflow: hidden;
+      height: 220px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-carousel-wrap img {
+      width: 100%;
+      height: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+      transition: transform 0.25s ease, opacity 0.15s ease;
+    }
+
+    .card-carousel-wrap:hover img {
+      transform: scale(1.02);
+    }
+
+    .card-carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.72);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.15rem;
+      line-height: 1;
+      opacity: 0.85;
+      transition: all 0.15s ease;
+      z-index: 5;
+      backdrop-filter: blur(4px);
+    }
+
+    .card-carousel-btn:hover {
+      opacity: 1;
+      background: rgba(0, 0, 0, 0.95);
+      border-color: var(--accent);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .card-carousel-btn.prev {
+      left: 8px;
+    }
+
+    .card-carousel-btn.next {
+      right: 8px;
+    }
+
+    .card-carousel-badge {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.75);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 12px;
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      z-index: 5;
+      letter-spacing: 0.4px;
+    }
+
     .card-preview-box {
       background: var(--code-bg);
       border: 1px solid var(--code-border);
@@ -1347,6 +1428,226 @@
       color: #fff;
     }
 
+    /* Multi-Image Form Thumbnails */
+    .form-thumbnails-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 0.75rem;
+      margin-top: 0.6rem;
+    }
+
+    .form-thumb-card {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--code-bg);
+      border: 1px solid var(--card-border);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .form-thumb-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .form-thumb-img-wrap {
+      width: 100%;
+      height: 100px;
+      background: rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .form-thumb-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .form-thumb-badge {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      background: rgba(0, 0, 0, 0.75);
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 4px;
+      backdrop-filter: blur(4px);
+    }
+
+    .form-thumb-del-btn {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(239, 68, 68, 0.85);
+      color: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      line-height: 1;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .form-thumb-del-btn:hover {
+      background: #dc2626;
+      transform: scale(1.15);
+    }
+
+    .form-thumb-info {
+      padding: 0.4rem 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .form-thumb-name {
+      font-size: 0.74rem;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--text);
+    }
+
+    .form-thumb-size {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+    }
+
+    .form-thumb-add-more {
+      border: 2px dashed var(--card-border);
+      border-radius: 8px;
+      min-height: 140px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      transition: all 0.2s ease;
+    }
+
+    .form-thumb-add-more:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(59, 130, 246, 0.05);
+    }
+
+    /* Modal Gallery Styles */
+    .modal-gallery-container {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .modal-gallery-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.75);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      z-index: 10;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-gallery-nav:hover {
+      background: rgba(0, 0, 0, 0.95);
+      border-color: var(--accent);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .modal-gallery-nav.prev {
+      left: 12px;
+    }
+
+    .modal-gallery-nav.next {
+      right: 12px;
+    }
+
+    .modal-gallery-counter {
+      position: absolute;
+      bottom: 12px;
+      right: 14px;
+      background: rgba(0, 0, 0, 0.75);
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(6px);
+      z-index: 10;
+      letter-spacing: 0.5px;
+    }
+
+    .modal-gallery-strip {
+      display: flex;
+      gap: 0.6rem;
+      overflow-x: auto;
+      padding: 0.5rem 0.2rem 0.85rem;
+      margin-bottom: 0.75rem;
+      scrollbar-width: thin;
+    }
+
+    .modal-gallery-thumb {
+      width: 76px;
+      height: 56px;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 2px solid var(--card-border);
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+      background: rgba(0, 0, 0, 0.3);
+      opacity: 0.6;
+    }
+
+    .modal-gallery-thumb:hover {
+      opacity: 0.95;
+      border-color: var(--text-muted);
+    }
+
+    .modal-gallery-thumb.active {
+      opacity: 1;
+      border-color: var(--accent);
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+      transform: scale(1.05);
+    }
+
+    .modal-gallery-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
     .video-preview-box {
       margin-top: 0.75rem;
       border-radius: 8px;
@@ -1620,8 +1921,13 @@
 
         <!-- Tab: Picture Reference -->
         <div class="tab-pane" id="tabPaneImage">
-          <div class="modal-image-wrap" id="modalImageContainer">
-            <!-- Image tag injected here -->
+          <div class="modal-gallery-container">
+            <div class="modal-image-wrap" id="modalImageContainer">
+              <!-- Hero Image injected here -->
+            </div>
+            <div class="modal-gallery-strip" id="modalGalleryStrip" style="display: none;">
+              <!-- Thumbnails filmstrip injected here -->
+            </div>
           </div>
           <div class="prompt-toolbar">
             <span style="font-size: 0.85rem; color: var(--text-muted);" id="modalImageInfoText">Reference picture / screenshot attached to this prompt.</span>
@@ -1773,7 +2079,7 @@
               
               <div style="margin-top: 0.85rem; display: flex; justify-content: center; gap: 0.6rem; flex-wrap: wrap;">
                 <button type="button" class="btn btn-primary" id="btnBrowseImage" onclick="event.stopPropagation(); document.getElementById('imageFileInput').click();" style="padding: 0.45rem 1rem; font-size: 0.84rem;">
-                  🖼️ Choose Picture / Screenshot
+                  🖼️ Choose Pictures / Screenshots
                 </button>
                 <button type="button" class="btn btn-secondary" id="btnBrowseVideo" onclick="event.stopPropagation(); document.getElementById('videoFileInput').click();" style="padding: 0.45rem 1rem; font-size: 0.84rem;">
                   🎬 Choose Video Clip
@@ -1782,13 +2088,13 @@
             </div>
 
             <!-- Dedicated hidden inputs placed outside container to prevent event collision -->
-            <input type="file" id="imageFileInput" accept="image/*,.png,.jpg,.jpeg,.webp,.gif,.svg,.avif,.bmp,.jfif" style="display: none;" onchange="handleImageFileSelect(this)" />
+            <input type="file" id="imageFileInput" multiple accept="image/*,.png,.jpg,.jpeg,.webp,.gif,.svg,.avif,.bmp,.jfif" style="display: none;" onchange="handleImageFileSelect(this)" />
             <input type="file" id="videoFileInput" accept="video/*,.mp4,.webm,.mov,.m4v,.ogg" style="display: none;" onchange="handleVideoFileSelect(this)" />
 
             <div style="margin-top: 0.65rem; display: flex; flex-direction: column; gap: 0.5rem;">
               <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <span style="font-size: 0.78rem; color: var(--text-muted); width: 140px; flex-shrink: 0;">🖼️ Picture URL / Path:</span>
-                <input type="text" id="promptImageUrl" class="form-input" style="flex: 1; padding: 0.45rem 0.75rem; font-size: 0.82rem;" placeholder="e.g. media/screenshot.png or https://...png" oninput="handleImageUrlInput(this)" />
+                <span style="font-size: 0.78rem; color: var(--text-muted); width: 140px; flex-shrink: 0;">🖼️ Picture URL(s):</span>
+                <input type="text" id="promptImageUrl" class="form-input" style="flex: 1; padding: 0.45rem 0.75rem; font-size: 0.82rem;" placeholder="e.g. media/shot1.png, media/shot2.png or https://...png" oninput="handleImageUrlInput(this)" />
               </div>
               <div style="display: flex; align-items: center; gap: 0.5rem;">
                 <span style="font-size: 0.78rem; color: var(--text-muted); width: 140px; flex-shrink: 0;">🎬 Video URL / Path:</span>
@@ -1800,10 +2106,13 @@
             <div class="media-preview-container" id="formMediaPreviews">
               <div class="media-preview-card" id="formImagePreviewBox" style="display: none;">
                 <div class="media-preview-header">
-                  <span id="formImageName">🖼️ Picture Reference</span>
-                  <button type="button" class="media-remove-btn" onclick="removeAttachedImage()">✕ Remove Picture</button>
+                  <span id="formImageName">🖼️ Attached Pictures</span>
+                  <div style="display: flex; gap: 0.4rem; align-items: center;">
+                    <button type="button" class="btn btn-secondary" style="padding: 0.2rem 0.6rem; font-size: 0.75rem;" onclick="document.getElementById('imageFileInput').click()">+ Add More</button>
+                    <button type="button" class="media-remove-btn" onclick="clearAllAttachedImages()">✕ Remove All</button>
+                  </div>
                 </div>
-                <img id="formImagePreview" style="max-height: 240px; max-width: 100%; object-fit: contain; border-radius: 6px; display: block; margin: 0 auto;" />
+                <div class="form-thumbnails-grid" id="formImageThumbnailsGrid"></div>
               </div>
 
               <div class="media-preview-card" id="formVideoPreviewBox" style="display: none;">
@@ -1861,11 +2170,14 @@
     let searchQuery = '';
     let currentView = 'grid'; // 'grid' | 'list'
     let activePrompt = null;
-    let placeholderValues = {};
     let pendingVideoFile = null;
     let pendingVideoBlobUrl = null;
+    let pendingImageFiles = []; // Array of { file: File, blobUrl: string, name: string, size: number, id: string }
     let pendingImageFile = null;
     let pendingImageBlobUrl = null;
+    const cardCarouselIndices = new Map(); // slug -> active image index
+    let modalGalleryActiveIndex = 0;
+    let modalGalleryImages = [];
 
     // In-memory cache for Object URLs so they resolve instantly without layout shifts
     const mediaUrlCache = new Map();
@@ -2044,7 +2356,7 @@
       document.getElementById('statCategoriesCount').textContent = categories.size;
       const withExamples = allPrompts.filter(p => p.example && p.example.trim().length > 0).length;
       document.getElementById('statExamplesCount').textContent = withExamples;
-      const withImages = allPrompts.filter(p => p.image && p.image.trim().length > 0).length;
+      const withImages = allPrompts.filter(p => (Array.isArray(p.images) && p.images.length > 0) || (p.image && p.image.trim().length > 0)).length;
       const withVideos = allPrompts.filter(p => p.video && p.video.trim().length > 0).length;
       const statImgEl = document.getElementById('statImagesCount');
       if (statImgEl) statImgEl.textContent = withImages;
@@ -2212,14 +2524,41 @@
         const catLabel = p.category.replace(/-/g, ' ').toUpperCase();
         const hasExample = p.example && p.example.trim().length > 0;
         const hasVideo = p.video && p.video.trim().length > 0;
-        const hasImage = p.image && p.image.trim().length > 0;
+        const imagesList = Array.isArray(p.images) && p.images.length > 0 ? p.images : (p.image && p.image.trim() ? [p.image] : []);
+        const hasImages = imagesList.length > 0;
         const isCustom = p.isCustom || customPrompts.some(cp => cp.slug === p.slug);
         const tags = Array.isArray(p.tags) ? p.tags : [];
         const previewSnippet = escapeHtml((p.prompt || '').slice(0, 160));
         const pIndex = allPrompts.indexOf(p);
 
-        const initialImgSrc = p.image ? (mediaUrlCache.get(p.image) || (p.image.startsWith('idb:') ? '' : p.image)) : '';
         const initialVideoSrc = p.video ? (mediaUrlCache.get(p.video) || (p.video.startsWith('idb:') ? '' : p.video)) : '';
+        const initialImgIdx = cardCarouselIndices.get(p.slug) || 0;
+        const activeImgRef = imagesList[initialImgIdx] || imagesList[0] || '';
+        const initialImgSrc = activeImgRef ? (mediaUrlCache.get(activeImgRef) || (activeImgRef.startsWith('idb:') ? '' : activeImgRef)) : '';
+
+        let cardMediaHtml = '';
+        if (hasVideo) {
+          cardMediaHtml = `
+            <div class="card-video-wrap" id="card-video-${p.slug}">
+              <video controls playsinline preload="metadata" src="${escapeHtml(initialVideoSrc)}"></video>
+            </div>
+          `;
+        } else if (imagesList.length > 1) {
+          cardMediaHtml = `
+            <div class="card-carousel-wrap" id="card-carousel-${p.slug}">
+              <img id="card-img-${p.slug}" src="${escapeHtml(initialImgSrc)}" alt="${escapeHtml(p.title)}" loading="lazy" onclick="openModal(${pIndex}); event.stopPropagation();" title="Click to view all pictures" style="${initialImgSrc ? '' : 'display:none;'}" />
+              <button type="button" class="card-carousel-btn prev" onclick="navigateCardCarousel('${p.slug}', -1, event)" title="Previous picture">‹</button>
+              <button type="button" class="card-carousel-btn next" onclick="navigateCardCarousel('${p.slug}', 1, event)" title="Next picture">›</button>
+              <div class="card-carousel-badge" id="card-counter-${p.slug}">${initialImgIdx + 1} / ${imagesList.length}</div>
+            </div>
+          `;
+        } else if (imagesList.length === 1) {
+          cardMediaHtml = `
+            <div class="card-image-wrap" id="card-image-${p.slug}" onclick="openModal(${pIndex}); event.stopPropagation();" title="Click to view picture reference">
+              <img src="${escapeHtml(initialImgSrc)}" alt="${escapeHtml(p.title)}" loading="lazy" style="${initialImgSrc ? '' : 'display:none;'}" />
+            </div>
+          `;
+        }
 
         return `
           <div class="card" id="card-${p.slug}">
@@ -2236,7 +2575,7 @@
               <p class="card-desc">${escapeHtml(p.description || p.overview || '')}</p>
 
               <div class="card-badges">
-                ${hasImage ? `<span class="feature-badge badge-image">🖼️ Picture Reference</span>` : ''}
+                ${hasImages ? (imagesList.length > 1 ? `<span class="feature-badge badge-image">🖼️ ${imagesList.length} Pictures</span>` : `<span class="feature-badge badge-image">🖼️ Picture Reference</span>`) : ''}
                 ${hasVideo ? `<span class="feature-badge badge-video">🎬 Video Reference</span>` : ''}
                 ${hasExample ? `<span class="feature-badge badge-example">💡 Real Example</span>` : ''}
                 ${p.variables ? `<span class="feature-badge badge-vars">🧩 Editable Variables</span>` : ''}
@@ -2247,15 +2586,7 @@
                 ${tags.length > 4 ? `<span class="card-tag">+${tags.length - 4}</span>` : ''}
               </div>
 
-              ${hasVideo ? `
-                <div class="card-video-wrap" id="card-video-${p.slug}">
-                  <video controls playsinline preload="metadata" src="${escapeHtml(initialVideoSrc)}"></video>
-                </div>
-              ` : (hasImage ? `
-                <div class="card-image-wrap" id="card-image-${p.slug}" onclick="openModal(${pIndex}); event.stopPropagation();" title="Click to view picture reference">
-                  <img src="${escapeHtml(initialImgSrc)}" alt="${escapeHtml(p.title)}" loading="lazy" style="${initialImgSrc ? '' : 'display:none;'}" />
-                </div>
-              ` : '')}
+              ${cardMediaHtml}
 
               <div class="card-preview-box">
                 ${previewSnippet}
@@ -2294,28 +2625,79 @@
             }
           }
         }
-        if (p.image && p.image.startsWith('idb:')) {
-          const imageId = p.image.replace('idb:', '');
-          let blobUrl = mediaUrlCache.get(p.image);
-          if (!blobUrl) {
-            const blob = await getMediaBlobFromDB(imageId);
-            if (blob) {
-              blobUrl = URL.createObjectURL(blob);
-              mediaUrlCache.set(p.image, blobUrl);
+
+        const imagesList = Array.isArray(p.images) && p.images.length > 0 ? p.images : (p.image && p.image.trim() ? [p.image] : []);
+        if (imagesList.length > 0) {
+          for (let i = 0; i < imagesList.length; i++) {
+            const ref = imagesList[i];
+            if (ref && ref.startsWith('idb:')) {
+              let blobUrl = mediaUrlCache.get(ref);
+              if (!blobUrl) {
+                const imgId = ref.replace('idb:', '');
+                const blob = await getMediaBlobFromDB(imgId);
+                if (blob) {
+                  blobUrl = URL.createObjectURL(blob);
+                  mediaUrlCache.set(ref, blobUrl);
+                }
+              }
             }
           }
-          if (blobUrl) {
-            const wrap = document.getElementById('card-image-' + p.slug);
-            if (wrap) {
-              const imgEl = wrap.querySelector('img');
+
+          if (imagesList.length > 1) {
+            const cardIdx = cardCarouselIndices.get(p.slug) || 0;
+            const activeRef = imagesList[cardIdx] || imagesList[0];
+            const blobUrl = mediaUrlCache.get(activeRef);
+            if (blobUrl) {
+              const imgEl = document.getElementById('card-img-' + p.slug);
               if (imgEl) {
                 imgEl.src = blobUrl;
                 imgEl.style.display = 'block';
               }
             }
+          } else if (imagesList.length === 1) {
+            const activeRef = imagesList[0];
+            const blobUrl = mediaUrlCache.get(activeRef);
+            if (blobUrl) {
+              const wrap = document.getElementById('card-image-' + p.slug);
+              if (wrap) {
+                const imgEl = wrap.querySelector('img');
+                if (imgEl) {
+                  imgEl.src = blobUrl;
+                  imgEl.style.display = 'block';
+                }
+              }
+            }
           }
         }
       });
+
+    function navigateCardCarousel(slug, dir, event) {
+      if (event) event.stopPropagation();
+      const p = allPrompts.find(item => item.slug === slug);
+      if (!p) return;
+      const imagesList = Array.isArray(p.images) && p.images.length > 0 ? p.images : (p.image && p.image.trim() ? [p.image] : []);
+      if (imagesList.length <= 1) return;
+
+      let currentIdx = cardCarouselIndices.get(slug) || 0;
+      let nextIdx = (currentIdx + dir + imagesList.length) % imagesList.length;
+      cardCarouselIndices.set(slug, nextIdx);
+
+      const imgEl = document.getElementById('card-img-' + slug);
+      const counterEl = document.getElementById('card-counter-' + slug);
+
+      if (imgEl) {
+        const nextRef = imagesList[nextIdx];
+        const nextSrc = mediaUrlCache.get(nextRef) || nextRef;
+        imgEl.style.opacity = '0.35';
+        setTimeout(() => {
+          imgEl.src = nextSrc;
+          imgEl.style.opacity = '1';
+        }, 100);
+      }
+      if (counterEl) {
+        counterEl.textContent = `${nextIdx + 1} / ${imagesList.length}`;
+      }
+    }
 
       // Render Table View
       tableBody.innerHTML = filtered.map(p => {
@@ -2323,7 +2705,8 @@
         const catLabel = p.category.replace(/-/g, ' ').toUpperCase();
         const hasExample = p.example && p.example.trim().length > 0;
         const hasVideo = p.video && p.video.trim().length > 0;
-        const hasImage = p.image && p.image.trim().length > 0;
+        const imagesList = Array.isArray(p.images) && p.images.length > 0 ? p.images : (p.image && p.image.trim() ? [p.image] : []);
+        const hasImages = imagesList.length > 0;
         const tags = Array.isArray(p.tags) ? p.tags.slice(0, 3) : [];
         const pIndex = allPrompts.indexOf(p);
 
@@ -2342,7 +2725,7 @@
               </div>
             </td>
             <td>
-              ${(hasImage && hasVideo) ? `<span class="feature-badge badge-video">🖼️+🎬 Media</span>` : (hasVideo ? `<span class="feature-badge badge-video">🎬 Video</span>` : (hasImage ? `<span class="feature-badge badge-image">🖼️ Picture</span>` : '<span style="color:var(--text-muted); font-size:0.8rem;">—</span>'))}
+              ${(hasImages && hasVideo) ? `<span class="feature-badge badge-video">🖼️+🎬 Media</span>` : (hasVideo ? `<span class="feature-badge badge-video">🎬 Video</span>` : (hasImages ? `<span class="feature-badge badge-image">🖼️ ${imagesList.length > 1 ? imagesList.length + ' Pics' : 'Picture'}</span>` : '<span style="color:var(--text-muted); font-size:0.8rem;">—</span>'))}
             </td>
             <td>
               ${hasExample ? `<span class="feature-badge badge-example">💡 Yes</span>` : '<span style="color:var(--text-muted); font-size:0.8rem;">—</span>'}
@@ -2417,6 +2800,17 @@
             renderCards();
           }
         }
+
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+          const promptModal = document.getElementById('promptModal');
+          if (promptModal && promptModal.classList.contains('open')) {
+            const activeTab = document.querySelector('#promptModal .modal-tab.active')?.getAttribute('data-tab');
+            if (activeTab === 'image') {
+              e.preventDefault();
+              navigateModalGallery(e.key === 'ArrowLeft' ? -1 : 1);
+            }
+          }
+        }
       });
     }
 
@@ -2453,28 +2847,40 @@
 
       setupPlaceholderFiller(promptText);
 
-      // Picture Tab
+      // Picture Tab & Multi-image Gallery
       const imageTabBtn = document.getElementById('modalTabImage');
       const imageContainer = document.getElementById('modalImageContainer');
-      const imageDownloadBtn = document.getElementById('modalImageDownloadBtn');
-      if (activePrompt.image && activePrompt.image.trim()) {
+      const galleryStrip = document.getElementById('modalGalleryStrip');
+
+      const modalImages = Array.isArray(activePrompt.images) && activePrompt.images.length > 0 
+        ? activePrompt.images 
+        : (activePrompt.image && activePrompt.image.trim() ? [activePrompt.image] : []);
+      modalGalleryImages = modalImages;
+      modalGalleryActiveIndex = 0;
+
+      if (modalImages.length > 0) {
         imageTabBtn.style.display = 'flex';
-        let imageSrc = mediaUrlCache.get(activePrompt.image) || activePrompt.image;
-        if (imageSrc.startsWith('idb:')) {
-          const imageId = imageSrc.replace('idb:', '');
-          const blob = await getMediaBlobFromDB(imageId);
-          if (blob) {
-            imageSrc = URL.createObjectURL(blob);
-            mediaUrlCache.set(activePrompt.image, imageSrc);
+        imageTabBtn.innerHTML = modalImages.length > 1 ? `🖼️ Pictures (${modalImages.length})` : '🖼️ Picture Reference';
+
+        // Preload any idb references
+        for (let i = 0; i < modalImages.length; i++) {
+          const ref = modalImages[i];
+          if (ref.startsWith('idb:') && !mediaUrlCache.get(ref)) {
+            const blob = await getMediaBlobFromDB(ref.replace('idb:', ''));
+            if (blob) {
+              mediaUrlCache.set(ref, URL.createObjectURL(blob));
+            }
           }
         }
-        imageContainer.innerHTML = `<img src="${escapeHtml(imageSrc)}" alt="${escapeHtml(activePrompt.title)}" />`;
-        if (imageDownloadBtn) imageDownloadBtn.href = imageSrc;
+
+        renderModalGallery();
+
         const copyImgPromptBtn = document.getElementById('modalImageCopyBtn');
         if (copyImgPromptBtn) copyImgPromptBtn.onclick = (e) => copyText(promptText, e.currentTarget);
       } else {
         imageTabBtn.style.display = 'none';
         imageContainer.innerHTML = '';
+        if (galleryStrip) galleryStrip.style.display = 'none';
       }
 
       // Video Tab
@@ -2535,7 +2941,7 @@
       // If video exists, default to video tab, otherwise picture tab, otherwise prompt tab
       if (activePrompt.video && activePrompt.video.trim()) {
         switchModalTab('video');
-      } else if (activePrompt.image && activePrompt.image.trim()) {
+      } else if (modalImages.length > 0) {
         switchModalTab('image');
       } else {
         switchModalTab('prompt');
@@ -2543,6 +2949,67 @@
 
       document.getElementById('promptModal').classList.add('open');
       document.body.style.overflow = 'hidden';
+    }
+
+    function renderModalGallery() {
+      const imageContainer = document.getElementById('modalImageContainer');
+      const galleryStrip = document.getElementById('modalGalleryStrip');
+      const imageDownloadBtn = document.getElementById('modalImageDownloadBtn');
+      const infoText = document.getElementById('modalImageInfoText');
+
+      if (!modalGalleryImages || modalGalleryImages.length === 0) {
+        if (imageContainer) imageContainer.innerHTML = '';
+        if (galleryStrip) galleryStrip.style.display = 'none';
+        return;
+      }
+
+      const count = modalGalleryImages.length;
+      if (modalGalleryActiveIndex < 0) modalGalleryActiveIndex = 0;
+      if (modalGalleryActiveIndex >= count) modalGalleryActiveIndex = count - 1;
+
+      const activeRef = modalGalleryImages[modalGalleryActiveIndex];
+      const activeSrc = mediaUrlCache.get(activeRef) || activeRef;
+
+      if (count === 1) {
+        imageContainer.innerHTML = `<img src="${escapeHtml(activeSrc)}" alt="${escapeHtml(activePrompt.title)}" />`;
+        if (galleryStrip) galleryStrip.style.display = 'none';
+        if (infoText) infoText.textContent = 'Reference picture attached to this prompt.';
+      } else {
+        imageContainer.innerHTML = `
+          <img id="modalHeroImg" src="${escapeHtml(activeSrc)}" alt="${escapeHtml(activePrompt.title)} (${modalGalleryActiveIndex + 1})" />
+          <button type="button" class="modal-gallery-nav prev" onclick="navigateModalGallery(-1)" title="Previous Picture (Left Arrow)">‹</button>
+          <button type="button" class="modal-gallery-nav next" onclick="navigateModalGallery(1)" title="Next Picture (Right Arrow)">›</button>
+          <div class="modal-gallery-counter">${modalGalleryActiveIndex + 1} / ${count}</div>
+        `;
+        if (galleryStrip) {
+          galleryStrip.style.display = 'flex';
+          galleryStrip.innerHTML = modalGalleryImages.map((ref, idx) => {
+            const thumbSrc = mediaUrlCache.get(ref) || ref;
+            return `
+              <div class="modal-gallery-thumb ${idx === modalGalleryActiveIndex ? 'active' : ''}" onclick="selectModalGalleryImage(${idx})" title="View picture ${idx + 1}">
+                <img src="${escapeHtml(thumbSrc)}" alt="Thumb ${idx + 1}" />
+              </div>
+            `;
+          }).join('');
+        }
+        if (infoText) infoText.textContent = `Showing picture ${modalGalleryActiveIndex + 1} of ${count}. Use arrows (or keyboard ← / →) or click thumbnails to switch.`;
+      }
+
+      if (imageDownloadBtn) {
+        imageDownloadBtn.href = activeSrc;
+        imageDownloadBtn.download = `${activePrompt.slug}_image_${modalGalleryActiveIndex + 1}.png`;
+      }
+    }
+
+    function selectModalGalleryImage(index) {
+      modalGalleryActiveIndex = index;
+      renderModalGallery();
+    }
+
+    function navigateModalGallery(dir) {
+      if (!modalGalleryImages || modalGalleryImages.length <= 1) return;
+      modalGalleryActiveIndex = (modalGalleryActiveIndex + dir + modalGalleryImages.length) % modalGalleryImages.length;
+      renderModalGallery();
     }
 
     function closeModal() {
@@ -2690,11 +3157,114 @@
       }
     }
 
-    // Media File Selection (Separate handlers for Picture & Video)
+    // Multi-Image & Media File Selection
     function handleImageFileSelect(inputEl) {
-      if (inputEl.files && inputEl.files[0]) {
-        processSelectedMediaFile(inputEl.files[0]);
-        inputEl.value = ''; // allow selecting same file again
+      if (inputEl.files && inputEl.files.length > 0) {
+        addSelectedImageFiles(Array.from(inputEl.files));
+        inputEl.value = ''; // allow selecting same files again
+      }
+    }
+
+    function addSelectedImageFiles(files) {
+      if (!files || !files.length) return;
+      const validFiles = files.filter(f => {
+        const name = (f.name || '').toLowerCase();
+        const type = (f.type || '').toLowerCase();
+        return type.startsWith('image/') || /\.(png|jpe?g|webp|gif|svg|avif|bmp|jfif|ico)$/i.test(name);
+      });
+
+      if (validFiles.length === 0) {
+        alert('Please choose valid picture files (PNG, JPG, WebP, GIF, SVG, AVIF).');
+        return;
+      }
+
+      for (const file of validFiles) {
+        const blobUrl = URL.createObjectURL(file);
+        pendingImageFiles.push({
+          file: file,
+          blobUrl: blobUrl,
+          name: file.name || 'image.png',
+          size: file.size,
+          id: 'temp_' + Date.now() + '_' + Math.random().toString(36).substring(2, 8)
+        });
+      }
+
+      pendingImageFile = pendingImageFiles[0]?.file || null;
+      pendingImageBlobUrl = pendingImageFiles[0]?.blobUrl || null;
+
+      renderFormImagePreviews();
+      showToast(`🖼️ Attached ${validFiles.length} picture(s)! (${pendingImageFiles.length} total)`);
+    }
+
+    function removeSingleAttachedImage(index) {
+      if (index >= 0 && index < pendingImageFiles.length) {
+        const item = pendingImageFiles.splice(index, 1)[0];
+        if (item && item.blobUrl) {
+          URL.revokeObjectURL(item.blobUrl);
+        }
+        pendingImageFile = pendingImageFiles[0]?.file || null;
+        pendingImageBlobUrl = pendingImageFiles[0]?.blobUrl || null;
+        renderFormImagePreviews();
+      }
+    }
+
+    function clearAllAttachedImages() {
+      for (const item of pendingImageFiles) {
+        if (item.blobUrl) URL.revokeObjectURL(item.blobUrl);
+      }
+      pendingImageFiles = [];
+      pendingImageFile = null;
+      pendingImageBlobUrl = null;
+      renderFormImagePreviews();
+    }
+
+    const removeAttachedImage = clearAllAttachedImages;
+
+    function renderFormImagePreviews() {
+      const box = document.getElementById('formImagePreviewBox');
+      const countEl = document.getElementById('formImageName');
+      const gridEl = document.getElementById('formImageThumbnailsGrid');
+      const inputEl = document.getElementById('promptImageUrl');
+      const zoneText = document.getElementById('uploadZoneText');
+
+      if (pendingImageFiles.length === 0) {
+        if (box) box.style.display = 'none';
+        if (gridEl) gridEl.innerHTML = '';
+        if (inputEl && inputEl.value.startsWith('media/')) inputEl.value = '';
+        if (zoneText) zoneText.textContent = pendingVideoFile ? `✅ Video ready: ${pendingVideoFile.name || 'video.mp4'}` : 'Drop your pictures or video here, or paste with Ctrl+V';
+        return;
+      }
+
+      if (box) box.style.display = 'flex';
+      if (countEl) countEl.textContent = `🖼️ Attached Pictures (${pendingImageFiles.length})`;
+      if (zoneText) {
+        const names = pendingImageFiles.map(f => f.name).slice(0, 2).join(', ');
+        zoneText.textContent = `✅ ${pendingImageFiles.length} picture(s) ready: ${names}${pendingImageFiles.length > 2 ? ` (+${pendingImageFiles.length - 2} more)` : ''}`;
+      }
+
+      if (inputEl) {
+        inputEl.value = pendingImageFiles.map(f => `media/${f.name}`).join(', ');
+      }
+
+      if (gridEl) {
+        gridEl.innerHTML = pendingImageFiles.map((item, idx) => `
+          <div class="form-thumb-card">
+            <div class="form-thumb-img-wrap">
+              <img src="${item.blobUrl}" alt="${escapeHtml(item.name)}" />
+              <span class="form-thumb-badge">#${idx + 1}</span>
+              <button type="button" class="form-thumb-del-btn" title="Remove this picture" onclick="removeSingleAttachedImage(${idx})">✕</button>
+            </div>
+            <div class="form-thumb-info">
+              <span class="form-thumb-name" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</span>
+              <span class="form-thumb-size">${(item.size / 1024).toFixed(0)} KB</span>
+            </div>
+          </div>
+        `).join('') + `
+          <div class="form-thumb-add-more" onclick="document.getElementById('imageFileInput').click()" title="Add more pictures">
+            <span style="font-size: 1.4rem;">➕</span>
+            <span>Add More</span>
+          </div>
+        `;
       }
     }
 
@@ -2714,19 +3284,7 @@
       const isVideo = type.startsWith('video/') || /\.(mp4|webm|mov|m4v|ogg|mkv)$/i.test(name);
 
       if (isImage) {
-        pendingImageFile = file;
-        if (pendingImageBlobUrl) URL.revokeObjectURL(pendingImageBlobUrl);
-        pendingImageBlobUrl = URL.createObjectURL(file);
-
-        const preview = document.getElementById('formImagePreview');
-        const box = document.getElementById('formImagePreviewBox');
-        const nameEl = document.getElementById('formImageName');
-        preview.src = pendingImageBlobUrl;
-        nameEl.textContent = `🖼️ Attached Picture: ${file.name || 'image.png'} (${(file.size / 1024).toFixed(0)} KB)`;
-        box.style.display = 'flex';
-        document.getElementById('promptImageUrl').value = `media/${file.name || 'image.png'}`;
-        document.getElementById('uploadZoneText').textContent = `✅ Picture ready: ${file.name || 'image.png'}`;
-        showToast('🖼️ Picture attached!');
+        addSelectedImageFiles([file]);
       } else if (isVideo) {
         pendingVideoFile = file;
         if (pendingVideoBlobUrl) URL.revokeObjectURL(pendingVideoBlobUrl);
@@ -2744,22 +3302,6 @@
       } else {
         alert('File format not recognized. Please choose an image (PNG, JPG, WebP, GIF, SVG) or video (MP4, WebM, MOV).');
       }
-    }
-
-    function removeAttachedImage() {
-      pendingImageFile = null;
-      if (pendingImageBlobUrl) {
-        URL.revokeObjectURL(pendingImageBlobUrl);
-        pendingImageBlobUrl = null;
-      }
-      const box = document.getElementById('formImagePreviewBox');
-      if (box) box.style.display = 'none';
-      const preview = document.getElementById('formImagePreview');
-      if (preview) preview.src = '';
-      const input = document.getElementById('promptImageUrl');
-      if (input && input.value.startsWith('media/')) input.value = '';
-      const zoneText = document.getElementById('uploadZoneText');
-      if (zoneText) zoneText.textContent = 'Drop your picture or video here, or paste with Ctrl+V';
     }
 
     function removeAttachedVideo() {
@@ -2781,15 +3323,9 @@
 
     function handleImageUrlInput(inputEl) {
       const url = inputEl.value.trim();
-      const box = document.getElementById('formImagePreviewBox');
-      const preview = document.getElementById('formImagePreview');
-      const nameEl = document.getElementById('formImageName');
-      if (url) {
-        preview.src = url;
-        nameEl.textContent = `🖼️ Picture URL: ${url}`;
-        box.style.display = 'flex';
-      } else {
-        if (!pendingImageFile) box.style.display = 'none';
+      if (!url && pendingImageFiles.length === 0) {
+        const box = document.getElementById('formImagePreviewBox');
+        if (box) box.style.display = 'none';
       }
     }
 
@@ -2811,7 +3347,6 @@
     const dropzone = document.getElementById('mediaUploadDropzone');
     if (dropzone) {
       dropzone.addEventListener('click', (e) => {
-        // If clicking inside the dropzone but not on one of the explicit buttons, open picture picker by default
         if (!e.target.closest('button')) {
           document.getElementById('imageFileInput').click();
         }
@@ -2826,8 +3361,25 @@
       dropzone.addEventListener('drop', (e) => {
         e.preventDefault();
         dropzone.classList.remove('dragover');
-        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-          processSelectedMediaFile(e.dataTransfer.files[0]);
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+          const files = Array.from(e.dataTransfer.files);
+          const imageFiles = files.filter(f => {
+            const name = (f.name || '').toLowerCase();
+            const type = (f.type || '').toLowerCase();
+            return type.startsWith('image/') || /\.(png|jpe?g|webp|gif|svg|avif|bmp|jfif|ico)$/i.test(name);
+          });
+          const videoFiles = files.filter(f => {
+            const name = (f.name || '').toLowerCase();
+            const type = (f.type || '').toLowerCase();
+            return type.startsWith('video/') || /\.(mp4|webm|mov|m4v|ogg|mkv)$/i.test(name);
+          });
+
+          if (imageFiles.length > 0) {
+            addSelectedImageFiles(imageFiles);
+          }
+          if (videoFiles.length > 0) {
+            processSelectedMediaFile(videoFiles[0]);
+          }
         }
       });
     }
@@ -2849,14 +3401,15 @@
       const items = (e.clipboardData || e.originalEvent?.clipboardData)?.items;
       if (!items) return;
 
+      const pastedFiles = [];
       for (let i = 0; i < items.length; i++) {
         if (items[i].type && items[i].type.indexOf('image') !== -1) {
           const file = items[i].getAsFile();
-          if (file) {
-            processSelectedMediaFile(file);
-            break;
-          }
+          if (file) pastedFiles.push(file);
         }
+      }
+      if (pastedFiles.length > 0) {
+        addSelectedImageFiles(pastedFiles);
       }
     });
 
@@ -2879,14 +3432,21 @@
 
       const slug = title.toLowerCase().replace(/[^\w\-_]/g, '-').replace(/-+/g, '-');
 
-      // If user uploaded an image file, store in IndexedDB & memory cache
-      if (pendingImageFile) {
-        await saveMediaBlobToDB(`img_${slug}`, pendingImageFile, pendingImageFile.name || 'image.png');
-        imageUrl = `idb:img_${slug}`;
-        if (pendingImageBlobUrl) {
-          mediaUrlCache.set(imageUrl, pendingImageBlobUrl);
+      // Save all images to IndexedDB & memory cache
+      let finalImageUrls = [];
+      if (pendingImageFiles.length > 0) {
+        for (let i = 0; i < pendingImageFiles.length; i++) {
+          const item = pendingImageFiles[i];
+          const imgKey = `img_${slug}_${i}`;
+          await saveMediaBlobToDB(imgKey, item.file, item.name || 'image.png');
+          const idbRef = `idb:${imgKey}`;
+          mediaUrlCache.set(idbRef, item.blobUrl);
+          finalImageUrls.push(idbRef);
         }
+      } else if (imageUrl) {
+        finalImageUrls = imageUrl.split(',').map(s => s.trim()).filter(Boolean);
       }
+      const primaryImage = finalImageUrls[0] || '';
 
       // If user uploaded a video file, store in IndexedDB & memory cache
       if (pendingVideoFile) {
@@ -2909,7 +3469,8 @@
         variables: "",
         example: exampleText,
         example_code: exampleText,
-        image: imageUrl,
+        image: primaryImage,
+        images: finalImageUrls,
         video: videoUrl,
         rel_path: `prompts/${category}/${slug}.md`,
         isCustom: true
@@ -2926,13 +3487,15 @@
           });
           if (res.ok) savedOnServer = true;
 
-          // If image uploaded and server active, upload to disk
-          if (pendingImageFile) {
-            await fetch('/api/upload-media', {
-              method: 'POST',
-              headers: { 'X-File-Name': pendingImageFile.name },
-              body: pendingImageFile
-            });
+          // If images uploaded and server active, upload each to disk
+          if (pendingImageFiles.length > 0) {
+            for (const item of pendingImageFiles) {
+              await fetch('/api/upload-media', {
+                method: 'POST',
+                headers: { 'X-File-Name': item.name },
+                body: item.file
+              });
+            }
           }
 
           // If video uploaded and server active, upload to disk
@@ -2980,6 +3543,9 @@
       customPrompts = customPrompts.filter(p => p.slug !== slug);
       localStorage.setItem('prompt_vault_custom_prompts', JSON.stringify(customPrompts));
       await deleteMediaBlobFromDB(`img_${slug}`);
+      for (let i = 0; i < 30; i++) {
+        await deleteMediaBlobFromDB(`img_${slug}_${i}`);
+      }
       await deleteMediaBlobFromDB(`vid_${slug}`);
       await deleteMediaBlobFromDB(slug);
 
@@ -3007,6 +3573,10 @@
       const image = document.getElementById('promptImageUrl').value.trim();
       const video = document.getElementById('promptVideoUrl').value.trim();
 
+      const imageList = pendingImageFiles.length > 0
+        ? pendingImageFiles.map(f => `media/${f.name}`)
+        : (image ? image.split(',').map(s => s.trim()).filter(Boolean) : []);
+
       const frontmatter = [
         '---',
         `title: "${title}"`,
@@ -3015,7 +3585,10 @@
         `description: "${description}"`,
         'version: "1.0"',
       ];
-      if (image) frontmatter.push(`image: "${image}"`);
+      if (imageList.length > 0) {
+        frontmatter.push(`images: ${JSON.stringify(imageList)}`);
+        frontmatter.push(`image: "${imageList[0]}"`);
+      }
       if (video) frontmatter.push(`video: "${video}"`);
       frontmatter.push('---', '');
 

@@ -74,6 +74,18 @@ def get_all_prompts() -> list[dict]:
         meta, body = parse_frontmatter(content)
         category = md_path.parent.name
         rel_path = md_path.relative_to(BASE_DIR).as_posix()
+        images = meta.get("images", [])
+        if isinstance(images, str):
+            if images.startswith("[") and images.endswith("]"):
+                images = [x.strip().strip('"').strip("'") for x in images[1:-1].split(",") if x.strip()]
+            else:
+                images = [images] if images.strip() else []
+        elif not isinstance(images, list):
+            images = []
+        if not images and meta.get("image"):
+            images = [meta["image"]]
+        image = images[0] if images else meta.get("image", "")
+
         prompts.append({
             "path": md_path,
             "rel_path": rel_path,
@@ -83,7 +95,8 @@ def get_all_prompts() -> list[dict]:
             "description": meta.get("description", ""),
             "version": meta.get("version", "1.0"),
             "video": meta.get("video", ""),
-            "image": meta.get("image", ""),
+            "image": image,
+            "images": images,
             "body": body,
             "content": content,
         })
@@ -427,6 +440,7 @@ def cmd_build(args=None):
             "example_code": example_code,
             "video": p.get("video", ""),
             "image": p.get("image", ""),
+            "images": p.get("images", ([p["image"]] if p.get("image") else [])),
             "rel_path": p["rel_path"],
         })
 
@@ -495,7 +509,16 @@ def cmd_serve(args):
                     prompt_text = payload.get("prompt", "").strip()
                     example_text = payload.get("example", "").strip()
                     video = payload.get("video", "").strip()
+                    images = payload.get("images", [])
+                    if isinstance(images, str):
+                        images = [t.strip() for t in images.split(",") if t.strip()]
+                    elif not isinstance(images, list):
+                        images = []
                     image = payload.get("image", "").strip()
+                    if not image and images:
+                        image = images[0]
+                    if not images and image:
+                        images = [image]
 
                     frontmatter_lines = [
                         "---",
@@ -507,6 +530,8 @@ def cmd_serve(args):
                     ]
                     if video:
                         frontmatter_lines.append(f'video: "{video}"')
+                    if images:
+                        frontmatter_lines.append(f'images: {json.dumps(images)}')
                     if image:
                         frontmatter_lines.append(f'image: "{image}"')
                     frontmatter_lines.append("---\n")

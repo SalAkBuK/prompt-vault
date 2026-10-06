@@ -3,6 +3,8 @@ title: "Prompt Title Here"
 category: "category-name"
 tags: ["tag1", "tag2"]
 description: "A short, one-sentence description of what this prompt achieves."
+images: ["media/example-preview.png"]
+video: ""
 version: "1.0"
 ---
 
