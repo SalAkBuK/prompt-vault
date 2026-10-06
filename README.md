@@ -74,12 +74,16 @@ This automatically updates `CATALOG.md` and `prompts.json`.
 
 ---
 
-## 🌐 Visual Web Dashboard
+## 🌐 Personal Prompt Website (`index.html`)
 
-Want a visual interface? 
+A zero-dependency, ultra-fast personal web library built for "future me":
 
-1. Double-click or open **[`index.html`](file:///index.html)** in any browser.
-2. Filter by category pills, type keywords into live search, and hit **📋 Copy** on any prompt card.
+1. **Open anywhere**: Double-click [`index.html`](file:///index.html) in your browser directly (works 100% offline via `file://` protocol or hosted via GitHub Pages).
+2. **Instant 1-Click Copy**: Copy any prompt with one click—with visual haptic confirmation.
+3. **Real-World Examples & Stories**: Inspect the exact benchmarks and source techniques (Igloo.inc, flipbook scroll, liquid glass launch film, targeted cliché suppression).
+4. **Interactive Variable Filler**: Fill in placeholders (`[TOPIC]`, `[REFERENCE WEBSITE]`) live in the UI and copy the customized prompt ready for Claude/ChatGPT.
+5. **Fast Filtering**: Real-time multi-token search (`/`), category pills, tag chips, and dual Card/List views.
+6. **Dark & Light Themes**: Seamless toggle saved to your preferences.
 
 ---
 

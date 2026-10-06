@@ -89,15 +89,28 @@ def get_all_prompts() -> list[dict]:
     return prompts
 
 
+def extract_section(body: str, header_pattern: str) -> str:
+    """Extract content under a level 2 header matching header_pattern, stopping before next level 1 or 2 header."""
+    pattern = rf"##\s*{header_pattern}\s*\n(.*?)(?=\n#{{1,2}}\s+|$)"
+    match = re.search(pattern, body, re.DOTALL)
+    return match.group(1).strip() if match else ""
+
+
+def extract_fenced_code(text: str) -> str:
+    """Extract the first fenced code block from markdown text, or return empty string."""
+    match = re.search(r"```(?:\w+)?\s*\n(.*?)\n```", text, re.DOTALL)
+    return match.group(1).strip() if match else ""
+
+
 def extract_prompt_code(body: str) -> str:
     """Extract code block under ## 📋 Prompt, or fallback to sensible text."""
-    prompt_section = re.search(r"##\s*📋\s*Prompt\s*\n(.*?)(?=\n##\s*|$)", body, re.DOTALL)
-    target = prompt_section.group(1) if prompt_section else body
+    prompt_section = extract_section(body, r"📋\s*Prompt")
+    target = prompt_section if prompt_section else body
 
     # Look for fenced code block ```text ... ``` or ``` ... ```
-    code_match = re.search(r"```(?:\w+)?\s*\n(.*?)\n```", target, re.DOTALL)
-    if code_match:
-        return code_match.group(1).strip()
+    code = extract_fenced_code(target)
+    if code:
+        return code
     return target.strip()
 
 
@@ -287,23 +300,35 @@ def find_best_match(query: str, prompts: list[dict]) -> dict | None:
 
 
 def cmd_copy(args):
-    """Extract prompt text and copy it to clipboard."""
+    """Extract prompt text (or example if --example specified) and copy it to clipboard."""
     prompts = get_all_prompts()
     p = find_best_match(args.target, prompts)
     if not p:
         print(f"❌ Could not find a prompt matching '{args.target}'. Try `python vault.py list` or `search`.")
         return
 
-    prompt_text = extract_prompt_code(p["body"])
-    copied = copy_to_clipboard(prompt_text)
+    is_example = getattr(args, "example", False)
+    if is_example:
+        example_sec = extract_section(p["body"], r"💡\s*Example")
+        target_text = extract_fenced_code(example_sec) or example_sec
+        label = "Example"
+    else:
+        target_text = extract_prompt_code(p["body"])
+        label = "Prompt"
 
-    print(f"\n📋 Selected: {p['title']} ({p['rel_path']})")
+    if not target_text:
+        print(f"⚠️ No {label.lower()} found for '{p['title']}'.")
+        return
+
+    copied = copy_to_clipboard(target_text)
+
+    print(f"\n📋 Selected {label}: {p['title']} ({p['rel_path']})")
     print("-" * 50)
-    print(prompt_text[:300] + ("\n... [truncated for display]" if len(prompt_text) > 300 else ""))
+    print(target_text[:300] + ("\n... [truncated for display]" if len(target_text) > 300 else ""))
     print("-" * 50)
 
     if copied:
-        print("✨ SUCCESS: Prompt text copied to your clipboard! Ready to paste into ChatGPT, Claude, or Midjourney.")
+        print(f"✨ SUCCESS: {label} text copied to your clipboard! Ready to paste.")
     else:
         print("⚠️ Notice: Could not access system clipboard automatically. Copy the text displayed above.")
 
@@ -321,7 +346,7 @@ def cmd_view(args):
 
 
 def cmd_build(args=None):
-    """Rebuild CATALOG.md with up-to-date index."""
+    """Rebuild CATALOG.md, prompts.json, and sync index.html embedded data."""
     prompts = get_all_prompts()
     categories = {}
     for p in prompts:
@@ -366,21 +391,60 @@ def cmd_build(args=None):
     catalog_text = "\n".join(lines)
     CATALOG_FILE.write_text(catalog_text, encoding="utf-8")
 
-    # Also export JSON catalog for web UI / programmatic use
+    # Build rich JSON catalog for web UI / programmatic use
     import json
     json_path = BASE_DIR / "prompts.json"
     clean_prompts = []
     for p in prompts:
+        body = p["body"]
+        prompt_sec = extract_section(body, r"📋\s*Prompt")
+        prompt_code = extract_fenced_code(prompt_sec) if prompt_sec else ""
+        if not prompt_code:
+            prompt_code = extract_fenced_code(body) or body.strip()
+
+        example_sec = extract_section(body, r"💡\s*Example")
+        example_code = extract_fenced_code(example_sec) if example_sec else ""
+
+        overview = extract_section(body, r"🎯\s*Overview") or p["description"]
+        variables = extract_section(body, r"🧩\s*Variables & Placeholders")
+
         clean_prompts.append({
+            "slug": p["path"].stem,
             "title": p["title"],
             "category": p["category"],
             "tags": p["tags"],
             "description": p["description"],
             "version": p["version"],
-            "prompt": extract_prompt_code(p["body"]),
+            "overview": overview,
+            "prompt": prompt_code,
+            "variables": variables,
+            "example": example_sec,
+            "example_code": example_code,
             "rel_path": p["rel_path"],
         })
-    json_path.write_text(json.dumps(clean_prompts, indent=2, ensure_ascii=False), encoding="utf-8")
+
+    json_str = json.dumps(clean_prompts, indent=2, ensure_ascii=False)
+    json_path.write_text(json_str, encoding="utf-8")
+
+    # Also update embedded dataset in index.html if it exists
+    index_path = BASE_DIR / "index.html"
+    if index_path.exists():
+        index_content = index_path.read_text(encoding="utf-8")
+        # Escape < and > so strings containing </script> in prompts do not break HTML tokenizer
+        safe_embedded_json = json_str.replace("<", "\\u003c").replace(">", "\\u003e")
+        start_tag = '<script id="prompts-data" type="application/json">'
+        end_tag = '</script>\n\n  <script>'
+        start_pos = index_content.find(start_tag)
+        end_pos = index_content.find(end_tag)
+        if start_pos != -1 and end_pos != -1:
+            new_index = (
+                index_content[:start_pos + len(start_tag)]
+                + "\n"
+                + safe_embedded_json
+                + "\n  "
+                + index_content[end_pos:]
+            )
+            index_path.write_text(new_index, encoding="utf-8")
 
     print(f"✅ Generated {CATALOG_FILE.name} and {json_path.name} with {len(prompts)} prompts across {len(categories)} categories.")
 
@@ -404,13 +468,14 @@ def main():
     # copy
     copy_parser = subparsers.add_parser("copy", help="Copy a prompt directly to your clipboard")
     copy_parser.add_argument("target", help="Prompt title, keyword, or filename")
+    copy_parser.add_argument("--example", "-e", action="store_true", help="Copy the real-world example instead of the template prompt")
 
     # view
     view_parser = subparsers.add_parser("view", help="Print full prompt markdown to terminal")
     view_parser.add_argument("target", help="Prompt title or filename")
 
     # build
-    subparsers.add_parser("build", help="Rebuild CATALOG.md table of contents")
+    subparsers.add_parser("build", help="Rebuild CATALOG.md table of contents and prompts.json")
 
     args = parser.parse_args()
 
