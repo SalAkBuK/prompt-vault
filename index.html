@@ -1742,6 +1742,13 @@
           <p class="brand-subtitle">Curated AI prompts, real-world examples, and visual benchmarks for future me.</p>
         </div>
         <div class="header-actions">
+          <button class="btn btn-secondary" id="vaultBackupBtn" onclick="exportVaultBackup()" title="Download a JSON backup of all your prompts" style="padding: 0.5rem 0.85rem; font-size: 0.82rem;">
+            💾 Backup
+          </button>
+          <button class="btn btn-secondary" id="vaultImportBtn" onclick="document.getElementById('vaultImportFileInput').click()" title="Import prompts from a backup file" style="padding: 0.5rem 0.85rem; font-size: 0.82rem;">
+            📥 Restore
+          </button>
+          <input type="file" id="vaultImportFileInput" accept=".json,application/json" style="display: none;" onchange="handleImportBackup(this)" />
           <button class="btn btn-primary" id="openAddPromptBtn" onclick="openAddPromptModal()">
             ✨ + Add Prompt
           </button>
@@ -3774,6 +3781,75 @@
     function copyCodeBlock(btn) {
       const code = btn.closest('.code-block-wrapper').querySelector('code').innerText;
       copyText(code, btn);
+    }
+
+    // 1-Click Vault Backup & Restore
+    function exportVaultBackup() {
+      const backupData = {
+        vault: 'Prompt Vault',
+        exportedAt: new Date().toISOString(),
+        totalPrompts: allPrompts.length,
+        prompts: allPrompts,
+        customPrompts: customPrompts
+      };
+      const jsonStr = JSON.stringify(backupData, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const dateStr = new Date().toISOString().split('T')[0];
+      a.href = url;
+      a.download = `prompt-vault-backup-${dateStr}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast(`💾 Backup downloaded (${allPrompts.length} prompts)!`);
+    }
+
+    async function handleImportBackup(inputEl) {
+      if (!inputEl.files || !inputEl.files[0]) return;
+      const file = inputEl.files[0];
+      try {
+        const text = await file.text();
+        const data = JSON.parse(text);
+        const imported = Array.isArray(data.customPrompts) ? data.customPrompts : (Array.isArray(data.prompts) ? data.prompts : (Array.isArray(data) ? data : []));
+        if (imported.length === 0) {
+          alert('No prompts found in the selected backup file.');
+          return;
+        }
+
+        let addedCount = 0;
+        imported.forEach(p => {
+          if (!p.slug && p.title) {
+            p.slug = p.title.toLowerCase().replace(/[^\w\-_]/g, '-').replace(/-+/g, '-');
+          }
+          if (p.slug) {
+            const existingIdx = customPrompts.findIndex(cp => cp.slug === p.slug);
+            if (existingIdx !== -1) {
+              customPrompts[existingIdx] = p;
+            } else {
+              customPrompts.unshift(p);
+              addedCount++;
+            }
+          }
+        });
+
+        localStorage.setItem('prompt_vault_custom_prompts', JSON.stringify(customPrompts));
+
+        // Refresh library
+        const baseSlugs = new Set((allPrompts.filter(p => !p.isCustom)).map(p => p.slug));
+        const filteredCustom = customPrompts.filter(p => !baseSlugs.has(p.slug));
+        allPrompts = [...filteredCustom, ...allPrompts.filter(p => !p.isCustom)];
+
+        updateStatsRibbon();
+        renderCategoryPills();
+        renderTagFilters();
+        renderCards();
+
+        showToast(`✨ Restored ${imported.length} prompts into your library!`);
+      } catch (err) {
+        alert('Failed to parse backup file: ' + err.message);
+      } finally {
+        inputEl.value = '';
+      }
     }
 
     function escapeHtml(str) {
