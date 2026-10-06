@@ -1763,15 +1763,27 @@
           <!-- Visual Reference Attachment (Picture or Video) -->
           <div class="form-group">
             <label class="form-label">
-              🖼️ Visual Reference (Picture or Video) <span class="hint">Attach a reference picture, screenshot, or video clip</span>
+              🖼️ Visual Reference (Picture or Video) <span class="hint">Upload a screenshot, picture, or video clip</span>
             </label>
             
-            <div class="upload-zone" id="mediaUploadDropzone" onclick="document.getElementById('mediaFileInput').click()">
-              <span class="upload-zone-icon">🖼️ 📹</span>
-              <div class="upload-zone-text" id="uploadZoneText">Drop your reference picture or video here, or click to browse</div>
-              <div class="upload-zone-sub">Supports PNG, JPG, WebP, GIF, SVG or MP4, WebM, MOV (Saved directly in your browser vault)</div>
-              <input type="file" id="mediaFileInput" accept="image/*,video/*" style="display: none;" onchange="handleMediaFileSelect(this)" />
+            <div class="upload-zone" id="mediaUploadDropzone">
+              <span class="upload-zone-icon">🖼️ 📁 📹</span>
+              <div class="upload-zone-text" id="uploadZoneText">Drop your picture or video here, or paste with Ctrl+V</div>
+              <div class="upload-zone-sub">Supports PNG, JPG, WebP, GIF, SVG, AVIF, MP4, WebM (Saved to your vault)</div>
+              
+              <div style="margin-top: 0.85rem; display: flex; justify-content: center; gap: 0.6rem; flex-wrap: wrap;">
+                <button type="button" class="btn btn-primary" id="btnBrowseImage" onclick="event.stopPropagation(); document.getElementById('imageFileInput').click();" style="padding: 0.45rem 1rem; font-size: 0.84rem;">
+                  🖼️ Choose Picture / Screenshot
+                </button>
+                <button type="button" class="btn btn-secondary" id="btnBrowseVideo" onclick="event.stopPropagation(); document.getElementById('videoFileInput').click();" style="padding: 0.45rem 1rem; font-size: 0.84rem;">
+                  🎬 Choose Video Clip
+                </button>
+              </div>
             </div>
+
+            <!-- Dedicated hidden inputs placed outside container to prevent event collision -->
+            <input type="file" id="imageFileInput" accept="image/*,.png,.jpg,.jpeg,.webp,.gif,.svg,.avif,.bmp,.jfif" style="display: none;" onchange="handleImageFileSelect(this)" />
+            <input type="file" id="videoFileInput" accept="video/*,.mp4,.webm,.mov,.m4v,.ogg" style="display: none;" onchange="handleVideoFileSelect(this)" />
 
             <div style="margin-top: 0.65rem; display: flex; flex-direction: column; gap: 0.5rem;">
               <div style="display: flex; align-items: center; gap: 0.5rem;">
@@ -1791,7 +1803,7 @@
                   <span id="formImageName">🖼️ Picture Reference</span>
                   <button type="button" class="media-remove-btn" onclick="removeAttachedImage()">✕ Remove Picture</button>
                 </div>
-                <img id="formImagePreview" style="max-height: 220px; max-width: 100%; object-fit: contain; border-radius: 4px; display: block; margin: 0 auto;" />
+                <img id="formImagePreview" style="max-height: 240px; max-width: 100%; object-fit: contain; border-radius: 6px; display: block; margin: 0 auto;" />
               </div>
 
               <div class="media-preview-card" id="formVideoPreviewBox" style="display: none;">
@@ -1799,7 +1811,7 @@
                   <span id="formVideoName">🎬 Video Reference</span>
                   <button type="button" class="media-remove-btn" onclick="removeAttachedVideo()">✕ Remove Video</button>
                 </div>
-                <video id="formVideoPreview" controls playsinline style="max-height: 220px; width: 100%; border-radius: 4px;"></video>
+                <video id="formVideoPreview" controls playsinline style="max-height: 240px; width: 100%; border-radius: 6px;"></video>
               </div>
             </div>
           </div>
@@ -1855,6 +1867,9 @@
     let pendingImageFile = null;
     let pendingImageBlobUrl = null;
 
+    // In-memory cache for Object URLs so they resolve instantly without layout shifts
+    const mediaUrlCache = new Map();
+
     // IndexedDB for storing offline video & picture files
     const DB_NAME = 'PromptVaultMediaDB';
     const DB_VERSION = 1;
@@ -1862,30 +1877,42 @@
 
     function openMediaDB() {
       return new Promise((resolve, reject) => {
-        const req = indexedDB.open(DB_NAME, DB_VERSION);
-        req.onupgradeneeded = (e) => {
-          const db = e.target.result;
-          if (!db.objectStoreNames.contains(STORE_NAME)) {
-            db.createObjectStore(STORE_NAME, { keyPath: 'id' });
-          }
-        };
-        req.onsuccess = () => resolve(req.result);
-        req.onerror = () => reject(req.error);
+        try {
+          const req = indexedDB.open(DB_NAME, DB_VERSION);
+          req.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains(STORE_NAME)) {
+              db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+            }
+          };
+          req.onsuccess = () => resolve(req.result);
+          req.onerror = () => reject(req.error);
+        } catch (err) {
+          reject(err);
+        }
       });
     }
 
     async function saveMediaBlobToDB(id, fileBlob, filename) {
       try {
         const db = await openMediaDB();
-        return new Promise((resolve, reject) => {
-          const tx = db.transaction(STORE_NAME, 'readwrite');
-          const store = tx.objectStore(STORE_NAME);
-          store.put({ id, blob: fileBlob, filename, date: Date.now() });
-          tx.oncomplete = () => resolve(true);
-          tx.onerror = () => reject(tx.error);
+        return new Promise((resolve) => {
+          try {
+            const tx = db.transaction(STORE_NAME, 'readwrite');
+            const store = tx.objectStore(STORE_NAME);
+            store.put({ id, blob: fileBlob, filename, date: Date.now() });
+            tx.oncomplete = () => resolve(true);
+            tx.onerror = (err) => {
+              console.warn('Transaction error saving media to IndexedDB', err);
+              resolve(false);
+            };
+          } catch (txErr) {
+            console.warn('Failed to start transaction in IndexedDB', txErr);
+            resolve(false);
+          }
         });
       } catch (e) {
-        console.warn('Could not save media to IndexedDB', e);
+        console.warn('Could not open IndexedDB', e);
         return false;
       }
     }
@@ -2191,6 +2218,9 @@
         const previewSnippet = escapeHtml((p.prompt || '').slice(0, 160));
         const pIndex = allPrompts.indexOf(p);
 
+        const initialImgSrc = p.image ? (mediaUrlCache.get(p.image) || (p.image.startsWith('idb:') ? '' : p.image)) : '';
+        const initialVideoSrc = p.video ? (mediaUrlCache.get(p.video) || (p.video.startsWith('idb:') ? '' : p.video)) : '';
+
         return `
           <div class="card" id="card-${p.slug}">
             <div>
@@ -2219,11 +2249,11 @@
 
               ${hasVideo ? `
                 <div class="card-video-wrap" id="card-video-${p.slug}">
-                  <video controls playsinline preload="metadata" src="${escapeHtml(p.video)}"></video>
+                  <video controls playsinline preload="metadata" src="${escapeHtml(initialVideoSrc)}"></video>
                 </div>
               ` : (hasImage ? `
                 <div class="card-image-wrap" id="card-image-${p.slug}" onclick="openModal(${pIndex}); event.stopPropagation();" title="Click to view picture reference">
-                  <img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.title)}" loading="lazy" />
+                  <img src="${escapeHtml(initialImgSrc)}" alt="${escapeHtml(p.title)}" loading="lazy" style="${initialImgSrc ? '' : 'display:none;'}" />
                 </div>
               ` : '')}
 
@@ -2244,24 +2274,45 @@
         `;
       }).join('');
 
-      // Check and wire media blobs from IndexedDB
+      // Check and wire media blobs from IndexedDB safely without querySelector crashes
       filtered.forEach(async p => {
         if (p.video && p.video.startsWith('idb:')) {
           const videoId = p.video.replace('idb:', '');
-          const blob = await getMediaBlobFromDB(videoId);
-          if (blob) {
-            const blobUrl = URL.createObjectURL(blob);
-            const videoEl = document.querySelector(`#card-video-${p.slug} video`);
-            if (videoEl) videoEl.src = blobUrl;
+          let blobUrl = mediaUrlCache.get(p.video);
+          if (!blobUrl) {
+            const blob = await getMediaBlobFromDB(videoId);
+            if (blob) {
+              blobUrl = URL.createObjectURL(blob);
+              mediaUrlCache.set(p.video, blobUrl);
+            }
+          }
+          if (blobUrl) {
+            const wrap = document.getElementById('card-video-' + p.slug);
+            if (wrap) {
+              const videoEl = wrap.querySelector('video');
+              if (videoEl && videoEl.src !== blobUrl) videoEl.src = blobUrl;
+            }
           }
         }
         if (p.image && p.image.startsWith('idb:')) {
           const imageId = p.image.replace('idb:', '');
-          const blob = await getMediaBlobFromDB(imageId);
-          if (blob) {
-            const blobUrl = URL.createObjectURL(blob);
-            const imgEl = document.querySelector(`#card-image-${p.slug} img`);
-            if (imgEl) imgEl.src = blobUrl;
+          let blobUrl = mediaUrlCache.get(p.image);
+          if (!blobUrl) {
+            const blob = await getMediaBlobFromDB(imageId);
+            if (blob) {
+              blobUrl = URL.createObjectURL(blob);
+              mediaUrlCache.set(p.image, blobUrl);
+            }
+          }
+          if (blobUrl) {
+            const wrap = document.getElementById('card-image-' + p.slug);
+            if (wrap) {
+              const imgEl = wrap.querySelector('img');
+              if (imgEl) {
+                imgEl.src = blobUrl;
+                imgEl.style.display = 'block';
+              }
+            }
           }
         }
       });
@@ -2408,11 +2459,14 @@
       const imageDownloadBtn = document.getElementById('modalImageDownloadBtn');
       if (activePrompt.image && activePrompt.image.trim()) {
         imageTabBtn.style.display = 'flex';
-        let imageSrc = activePrompt.image;
+        let imageSrc = mediaUrlCache.get(activePrompt.image) || activePrompt.image;
         if (imageSrc.startsWith('idb:')) {
           const imageId = imageSrc.replace('idb:', '');
           const blob = await getMediaBlobFromDB(imageId);
-          if (blob) imageSrc = URL.createObjectURL(blob);
+          if (blob) {
+            imageSrc = URL.createObjectURL(blob);
+            mediaUrlCache.set(activePrompt.image, imageSrc);
+          }
         }
         imageContainer.innerHTML = `<img src="${escapeHtml(imageSrc)}" alt="${escapeHtml(activePrompt.title)}" />`;
         if (imageDownloadBtn) imageDownloadBtn.href = imageSrc;
@@ -2428,11 +2482,14 @@
       const videoContainer = document.getElementById('modalVideoPlayerContainer');
       if (activePrompt.video && activePrompt.video.trim()) {
         videoTabBtn.style.display = 'flex';
-        let videoSrc = activePrompt.video;
+        let videoSrc = mediaUrlCache.get(activePrompt.video) || activePrompt.video;
         if (videoSrc.startsWith('idb:')) {
           const videoId = videoSrc.replace('idb:', '');
           const blob = await getMediaBlobFromDB(videoId);
-          if (blob) videoSrc = URL.createObjectURL(blob);
+          if (blob) {
+            videoSrc = URL.createObjectURL(blob);
+            mediaUrlCache.set(activePrompt.video, videoSrc);
+          }
         }
         videoContainer.innerHTML = `<video src="${escapeHtml(videoSrc)}" controls playsinline></video>`;
       } else {
@@ -2633,41 +2690,59 @@
       }
     }
 
-    // Media File Selection & Drag-and-Drop (Pictures & Videos)
-    function handleMediaFileSelect(inputEl) {
+    // Media File Selection (Separate handlers for Picture & Video)
+    function handleImageFileSelect(inputEl) {
       if (inputEl.files && inputEl.files[0]) {
         processSelectedMediaFile(inputEl.files[0]);
+        inputEl.value = ''; // allow selecting same file again
+      }
+    }
+
+    function handleVideoFileSelect(inputEl) {
+      if (inputEl.files && inputEl.files[0]) {
+        processSelectedMediaFile(inputEl.files[0]);
+        inputEl.value = ''; // allow selecting same file again
       }
     }
 
     function processSelectedMediaFile(file) {
-      const isImage = file.type.startsWith('image/');
-      const isVideo = file.type.startsWith('video/');
+      if (!file) return;
+      const name = (file.name || '').toLowerCase();
+      const type = (file.type || '').toLowerCase();
+
+      const isImage = type.startsWith('image/') || /\.(png|jpe?g|webp|gif|svg|avif|bmp|jfif|ico)$/i.test(name);
+      const isVideo = type.startsWith('video/') || /\.(mp4|webm|mov|m4v|ogg|mkv)$/i.test(name);
 
       if (isImage) {
         pendingImageFile = file;
+        if (pendingImageBlobUrl) URL.revokeObjectURL(pendingImageBlobUrl);
         pendingImageBlobUrl = URL.createObjectURL(file);
+
         const preview = document.getElementById('formImagePreview');
         const box = document.getElementById('formImagePreviewBox');
         const nameEl = document.getElementById('formImageName');
         preview.src = pendingImageBlobUrl;
-        nameEl.textContent = `🖼️ Attached Picture: ${file.name} (${(file.size / 1024).toFixed(0)} KB)`;
+        nameEl.textContent = `🖼️ Attached Picture: ${file.name || 'image.png'} (${(file.size / 1024).toFixed(0)} KB)`;
         box.style.display = 'flex';
-        document.getElementById('promptImageUrl').value = `media/${file.name}`;
-        document.getElementById('uploadZoneText').textContent = `✅ Attached Picture: ${file.name}`;
+        document.getElementById('promptImageUrl').value = `media/${file.name || 'image.png'}`;
+        document.getElementById('uploadZoneText').textContent = `✅ Picture ready: ${file.name || 'image.png'}`;
+        showToast('🖼️ Picture attached!');
       } else if (isVideo) {
         pendingVideoFile = file;
+        if (pendingVideoBlobUrl) URL.revokeObjectURL(pendingVideoBlobUrl);
         pendingVideoBlobUrl = URL.createObjectURL(file);
+
         const preview = document.getElementById('formVideoPreview');
         const box = document.getElementById('formVideoPreviewBox');
         const nameEl = document.getElementById('formVideoName');
         preview.src = pendingVideoBlobUrl;
-        nameEl.textContent = `🎬 Attached Video: ${file.name} (${(file.size / (1024 * 1024)).toFixed(1)} MB)`;
+        nameEl.textContent = `🎬 Attached Video: ${file.name || 'video.mp4'} (${(file.size / (1024 * 1024)).toFixed(1)} MB)`;
         box.style.display = 'flex';
-        document.getElementById('promptVideoUrl').value = `media/${file.name}`;
-        document.getElementById('uploadZoneText').textContent = `✅ Attached Video: ${file.name}`;
+        document.getElementById('promptVideoUrl').value = `media/${file.name || 'video.mp4'}`;
+        document.getElementById('uploadZoneText').textContent = `✅ Video ready: ${file.name || 'video.mp4'}`;
+        showToast('🎬 Video attached!');
       } else {
-        alert('Unsupported file type. Please upload a picture (PNG, JPG, WebP, GIF, SVG) or video (MP4, WebM, MOV).');
+        alert('File format not recognized. Please choose an image (PNG, JPG, WebP, GIF, SVG) or video (MP4, WebM, MOV).');
       }
     }
 
@@ -2683,6 +2758,8 @@
       if (preview) preview.src = '';
       const input = document.getElementById('promptImageUrl');
       if (input && input.value.startsWith('media/')) input.value = '';
+      const zoneText = document.getElementById('uploadZoneText');
+      if (zoneText) zoneText.textContent = 'Drop your picture or video here, or paste with Ctrl+V';
     }
 
     function removeAttachedVideo() {
@@ -2733,6 +2810,12 @@
     // Drag and Drop Zone Setup
     const dropzone = document.getElementById('mediaUploadDropzone');
     if (dropzone) {
+      dropzone.addEventListener('click', (e) => {
+        // If clicking inside the dropzone but not on one of the explicit buttons, open picture picker by default
+        if (!e.target.closest('button')) {
+          document.getElementById('imageFileInput').click();
+        }
+      });
       dropzone.addEventListener('dragover', (e) => {
         e.preventDefault();
         dropzone.classList.add('dragover');
@@ -2748,6 +2831,34 @@
         }
       });
     }
+
+    // Window level dragover & drop prevention so dropped images never navigate away
+    window.addEventListener('dragover', (e) => e.preventDefault());
+    window.addEventListener('drop', (e) => {
+      const dz = document.getElementById('mediaUploadDropzone');
+      if (!dz || !dz.contains(e.target)) {
+        e.preventDefault();
+      }
+    });
+
+    // Clipboard Paste (Ctrl+V) handler
+    window.addEventListener('paste', (e) => {
+      const addModal = document.getElementById('addPromptModal');
+      if (!addModal || !addModal.classList.contains('open')) return;
+
+      const items = (e.clipboardData || e.originalEvent?.clipboardData)?.items;
+      if (!items) return;
+
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].type && items[i].type.indexOf('image') !== -1) {
+          const file = items[i].getAsFile();
+          if (file) {
+            processSelectedMediaFile(file);
+            break;
+          }
+        }
+      }
+    });
 
     // Form submission
     async function handleSavePrompt(e) {
@@ -2768,16 +2879,22 @@
 
       const slug = title.toLowerCase().replace(/[^\w\-_]/g, '-').replace(/-+/g, '-');
 
-      // If user uploaded an image file, store in IndexedDB
+      // If user uploaded an image file, store in IndexedDB & memory cache
       if (pendingImageFile) {
-        await saveMediaBlobToDB(`img_${slug}`, pendingImageFile, pendingImageFile.name);
+        await saveMediaBlobToDB(`img_${slug}`, pendingImageFile, pendingImageFile.name || 'image.png');
         imageUrl = `idb:img_${slug}`;
+        if (pendingImageBlobUrl) {
+          mediaUrlCache.set(imageUrl, pendingImageBlobUrl);
+        }
       }
 
-      // If user uploaded a video file, store in IndexedDB
+      // If user uploaded a video file, store in IndexedDB & memory cache
       if (pendingVideoFile) {
-        await saveMediaBlobToDB(`vid_${slug}`, pendingVideoFile, pendingVideoFile.name);
+        await saveMediaBlobToDB(`vid_${slug}`, pendingVideoFile, pendingVideoFile.name || 'video.mp4');
         videoUrl = `idb:vid_${slug}`;
+        if (pendingVideoBlobUrl) {
+          mediaUrlCache.set(videoUrl, pendingVideoBlobUrl);
+        }
       }
 
       const newPromptObj = {
@@ -2831,9 +2948,13 @@
         }
       }
 
-      // 2. Save in browser localStorage so it's always available
+      // 2. Save in browser localStorage
       customPrompts.unshift(newPromptObj);
-      localStorage.setItem('prompt_vault_custom_prompts', JSON.stringify(customPrompts));
+      try {
+        localStorage.setItem('prompt_vault_custom_prompts', JSON.stringify(customPrompts));
+      } catch (storageErr) {
+        console.warn('Could not write to localStorage', storageErr);
+      }
 
       // Refresh state
       const existingIdx = allPrompts.findIndex(p => p.slug === slug);
