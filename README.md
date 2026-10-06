@@ -76,14 +76,18 @@ This automatically updates `CATALOG.md` and `prompts.json`.
 
 ## 🌐 Personal Prompt Website (`index.html`)
 
+**Live Website**: **[https://prompt-vault-salakbuk.vercel.app](https://prompt-vault-salakbuk.vercel.app)**  
+*(Backup alias: [https://delightful-curie.vercel.app](https://delightful-curie.vercel.app))*
+
 A zero-dependency, ultra-fast personal web library built for "future me":
 
-1. **Open anywhere**: Double-click [`index.html`](file:///index.html) in your browser directly (works 100% offline via `file://` protocol or hosted via GitHub Pages).
-2. **Instant 1-Click Copy**: Copy any prompt with one click—with visual haptic confirmation.
-3. **Real-World Examples & Stories**: Inspect the exact benchmarks and source techniques (Igloo.inc, flipbook scroll, liquid glass launch film, targeted cliché suppression).
-4. **Interactive Variable Filler**: Fill in placeholders (`[TOPIC]`, `[REFERENCE WEBSITE]`) live in the UI and copy the customized prompt ready for Claude/ChatGPT.
-5. **Fast Filtering**: Real-time multi-token search (`/`), category pills, tag chips, and dual Card/List views.
-6. **Dark & Light Themes**: Seamless toggle saved to your preferences.
+1. **Live Anywhere**: Open on phone, tablet, or laptop via [Vercel](https://prompt-vault-salakbuk.vercel.app).
+2. **Offline & Local**: Double-click [`index.html`](file:///index.html) in your browser directly (works 100% offline via `file://` protocol with zero setup).
+3. **Instant 1-Click Copy**: Copy any prompt with one click—with visual haptic confirmation.
+4. **Real-World Examples & Stories**: Inspect the exact benchmarks and source techniques (Igloo.inc, flipbook scroll, liquid glass launch film, targeted cliché suppression).
+5. **Interactive Variable Filler**: Fill in placeholders (`[TOPIC]`, `[REFERENCE WEBSITE]`) live in the UI and copy the customized prompt ready for Claude/ChatGPT.
+6. **Fast Filtering**: Real-time multi-token search (`/`), category pills, tag chips, and dual Card/List views.
+7. **Dark & Light Themes**: Seamless toggle saved to your preferences.
 
 ---
 
