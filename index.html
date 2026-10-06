@@ -1871,7 +1871,12 @@
           </div>
           <h2 class="modal-title" id="modalTitle">Prompt Title</h2>
         </div>
-        <button class="modal-close-btn" id="modalCloseBtn" title="Close (Esc)">✕</button>
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <button class="btn btn-secondary" id="modalEditBtn" onclick="openEditPromptModal(activePrompt ? activePrompt.slug : '')" style="padding: 0.4rem 0.85rem; font-size: 0.82rem;">
+            ✏️ Edit Prompt
+          </button>
+          <button class="modal-close-btn" id="modalCloseBtn" title="Close (Esc)">✕</button>
+        </div>
       </div>
 
       <div class="modal-tabs">
@@ -2015,13 +2020,14 @@
           <div class="modal-meta-row">
             <span class="badge-cat default">STUDIO GUI</span>
           </div>
-          <h2 class="modal-title">✨ Add New Prompt</h2>
+          <h2 class="modal-title" id="addPromptModalTitle">✨ Add New Prompt</h2>
         </div>
         <button class="modal-close-btn" onclick="closeAddPromptModal()" title="Close (Esc)">✕</button>
       </div>
 
       <div class="modal-body">
         <form id="addPromptForm" onsubmit="handleSavePrompt(event)">
+          <input type="hidden" id="promptEditSlug" value="" />
           <div class="form-row">
             <div class="form-group">
               <label class="form-label" for="promptTitle">Prompt Title *</label>
@@ -2573,6 +2579,7 @@
               <div class="card-top">
                 <span class="badge-cat ${catClass}">${catLabel}</span>
                 <div class="card-top-actions">
+                  <button class="card-icon-btn" title="Edit prompt & add pictures" onclick="openEditPromptModal('${p.slug}', event)">✏️</button>
                   ${isCustom ? `<button class="card-icon-btn card-delete-btn" title="Delete prompt" onclick="handleDeletePrompt('${p.slug}', event)">🗑️</button>` : ''}
                   <button class="card-icon-btn" title="Copy direct link" onclick="copyPermalink('${p.slug}', event)">🔗</button>
                 </div>
@@ -2601,6 +2608,9 @@
             </div>
 
             <div class="card-actions">
+              <button class="btn btn-secondary" onclick="openEditPromptModal('${p.slug}', event)" title="Edit prompt & add pictures">
+                ✏️ Edit
+              </button>
               <button class="btn btn-secondary" onclick="openModal(${pIndex})">
                 👁️ View Details
               </button>
@@ -2738,11 +2748,14 @@
               ${hasExample ? `<span class="feature-badge badge-example">💡 Yes</span>` : '<span style="color:var(--text-muted); font-size:0.8rem;">—</span>'}
             </td>
             <td class="table-actions-cell">
-              <button class="btn btn-primary" style="padding: 0.4rem 0.75rem; font-size: 0.8rem;" onclick="copyPromptText(${pIndex}, this, event)">
-                📋 Copy
+              <button class="btn btn-secondary" style="padding: 0.4rem 0.75rem; font-size: 0.8rem;" onclick="openEditPromptModal('${p.slug}', event)" title="Edit prompt & add pictures">
+                ✏️ Edit
               </button>
               <button class="btn btn-secondary" style="padding: 0.4rem 0.75rem; font-size: 0.8rem;" onclick="openModal(${pIndex})">
                 👁️ View
+              </button>
+              <button class="btn btn-primary" style="padding: 0.4rem 0.75rem; font-size: 0.8rem;" onclick="copyPromptText(${pIndex}, this, event)">
+                📋 Copy
               </button>
             </td>
           </tr>
@@ -3135,17 +3148,123 @@
       optsHtml += `<option value="__new__">+ Add New Category...</option>`;
       catSelect.innerHTML = optsHtml;
 
+      // Reset title and state
+      const modalTitleEl = document.getElementById('addPromptModalTitle');
+      if (modalTitleEl) modalTitleEl.textContent = '✨ Add New Prompt';
+      const editSlugEl = document.getElementById('promptEditSlug');
+      if (editSlugEl) editSlugEl.value = '';
+      const submitBtn = document.getElementById('savePromptSubmitBtn');
+      if (submitBtn) submitBtn.textContent = '💾 Save Prompt to Vault';
+
       // Reset form
       document.getElementById('addPromptForm').reset();
       document.getElementById('promptCategoryCustom').style.display = 'none';
       document.getElementById('promptCategorySelect').style.display = 'block';
-      removeAttachedImage();
+      clearAllAttachedImages();
       removeAttachedVideo();
-      document.getElementById('uploadZoneText').textContent = 'Drop your reference picture or video here, or click to browse';
+      document.getElementById('uploadZoneText').textContent = 'Drop your reference pictures or video here, or click to browse';
 
       document.getElementById('addPromptModal').classList.add('open');
       document.body.style.overflow = 'hidden';
       setTimeout(() => document.getElementById('promptTitle').focus(), 100);
+    }
+
+    async function openEditPromptModal(slug, event) {
+      if (event) event.stopPropagation();
+      const p = allPrompts.find(item => item.slug === slug);
+      if (!p) return;
+
+      closeModal();
+      openAddPromptModal();
+
+      // Configure for Edit Mode
+      const modalTitleEl = document.getElementById('addPromptModalTitle');
+      if (modalTitleEl) modalTitleEl.textContent = `✏️ Edit: ${p.title}`;
+      const editSlugEl = document.getElementById('promptEditSlug');
+      if (editSlugEl) editSlugEl.value = p.slug;
+      const submitBtn = document.getElementById('savePromptSubmitBtn');
+      if (submitBtn) submitBtn.textContent = '💾 Update Prompt & Pictures';
+
+      // Prefill text values
+      document.getElementById('promptTitle').value = p.title || '';
+
+      const catSelect = document.getElementById('promptCategorySelect');
+      const catCustom = document.getElementById('promptCategoryCustom');
+      const hasOpt = Array.from(catSelect.options).some(opt => opt.value === p.category);
+      if (hasOpt) {
+        catSelect.value = p.category;
+        catCustom.style.display = 'none';
+      } else {
+        catSelect.value = '__new__';
+        catSelect.style.display = 'none';
+        catCustom.style.display = 'block';
+        catCustom.value = p.category || '';
+      }
+
+      document.getElementById('promptTags').value = Array.isArray(p.tags) ? p.tags.join(', ') : (p.tags || '');
+      document.getElementById('promptDescription').value = p.description || p.overview || '';
+      document.getElementById('promptText').value = p.prompt || '';
+      document.getElementById('promptExample').value = p.example || p.example_code || '';
+
+      // Video prefill
+      if (p.video && p.video.trim()) {
+        document.getElementById('promptVideoUrl').value = p.video;
+        let videoSrc = mediaUrlCache.get(p.video) || p.video;
+        if (p.video.startsWith('idb:')) {
+          const blob = await getMediaBlobFromDB(p.video.replace('idb:', ''));
+          if (blob) {
+            videoSrc = URL.createObjectURL(blob);
+            mediaUrlCache.set(p.video, videoSrc);
+          }
+        }
+        const vBox = document.getElementById('formVideoPreviewBox');
+        const vPreview = document.getElementById('formVideoPreview');
+        const vName = document.getElementById('formVideoName');
+        if (vBox && vPreview && vName) {
+          vPreview.src = videoSrc;
+          vName.textContent = `🎬 Existing Video Reference`;
+          vBox.style.display = 'flex';
+        }
+      }
+
+      // Pictures prefill (Preserve all existing pictures with option to add more!)
+      const existingImages = Array.isArray(p.images) && p.images.length > 0 
+        ? p.images 
+        : (p.image && p.image.trim() ? [p.image] : []);
+
+      if (existingImages.length > 0) {
+        for (let i = 0; i < existingImages.length; i++) {
+          const imgRef = existingImages[i];
+          let blobUrl = mediaUrlCache.get(imgRef);
+          let fileBlob = null;
+          if (imgRef.startsWith('idb:')) {
+            fileBlob = await getMediaBlobFromDB(imgRef.replace('idb:', ''));
+            if (fileBlob) {
+              blobUrl = URL.createObjectURL(fileBlob);
+              mediaUrlCache.set(imgRef, blobUrl);
+            }
+          } else {
+            blobUrl = imgRef;
+          }
+
+          const filename = imgRef.startsWith('idb:') 
+            ? `${p.slug}_picture_${i + 1}.png` 
+            : (imgRef.split('/').pop() || `picture_${i + 1}.png`);
+
+          pendingImageFiles.push({
+            file: fileBlob,
+            blobUrl: blobUrl || imgRef,
+            name: filename,
+            size: fileBlob?.size || 0,
+            id: imgRef,
+            existingRef: imgRef
+          });
+        }
+
+        pendingImageFile = pendingImageFiles[0]?.file || null;
+        pendingImageBlobUrl = pendingImageFiles[0]?.blobUrl || null;
+        renderFormImagePreviews();
+      }
     }
 
     function closeAddPromptModal() {
@@ -3437,25 +3556,34 @@
       let imageUrl = document.getElementById('promptImageUrl').value.trim();
       let videoUrl = document.getElementById('promptVideoUrl').value.trim();
 
-      const slug = title.toLowerCase().replace(/[^\w\-_]/g, '-').replace(/-+/g, '-');
+      const editSlug = document.getElementById('promptEditSlug')?.value?.trim();
+      const slug = editSlug || title.toLowerCase().replace(/[^\w\-_]/g, '-').replace(/-+/g, '-');
 
       // Save all images to IndexedDB & memory cache
       let finalImageUrls = [];
       if (pendingImageFiles.length > 0) {
         for (let i = 0; i < pendingImageFiles.length; i++) {
           const item = pendingImageFiles[i];
-          const imgKey = `img_${slug}_${i}`;
-          await saveMediaBlobToDB(imgKey, item.file, item.name || 'image.png');
-          const idbRef = `idb:${imgKey}`;
-          mediaUrlCache.set(idbRef, item.blobUrl);
-          finalImageUrls.push(idbRef);
+          if (item.existingRef && !item.file) {
+            // Retain already-stored media reference
+            finalImageUrls.push(item.existingRef);
+          } else if (item.file) {
+            // New file or modified file: save to IndexedDB
+            const imgKey = `img_${slug}_${i}`;
+            await saveMediaBlobToDB(imgKey, item.file, item.name || 'image.png');
+            const idbRef = `idb:${imgKey}`;
+            mediaUrlCache.set(idbRef, item.blobUrl);
+            finalImageUrls.push(idbRef);
+          } else if (item.blobUrl) {
+            finalImageUrls.push(item.blobUrl);
+          }
         }
       } else if (imageUrl) {
         finalImageUrls = imageUrl.split(',').map(s => s.trim()).filter(Boolean);
       }
       const primaryImage = finalImageUrls[0] || '';
 
-      // If user uploaded a video file, store in IndexedDB & memory cache
+      // If user uploaded a new video file, store in IndexedDB & memory cache
       if (pendingVideoFile) {
         await saveMediaBlobToDB(`vid_${slug}`, pendingVideoFile, pendingVideoFile.name || 'video.mp4');
         videoUrl = `idb:vid_${slug}`;
@@ -3494,14 +3622,16 @@
           });
           if (res.ok) savedOnServer = true;
 
-          // If images uploaded and server active, upload each to disk
+          // If images uploaded and server active, upload each new file to disk
           if (pendingImageFiles.length > 0) {
             for (const item of pendingImageFiles) {
-              await fetch('/api/upload-media', {
-                method: 'POST',
-                headers: { 'X-File-Name': item.name },
-                body: item.file
-              });
+              if (item.file) {
+                await fetch('/api/upload-media', {
+                  method: 'POST',
+                  headers: { 'X-File-Name': item.name },
+                  body: item.file
+                });
+              }
             }
           }
 
@@ -3519,7 +3649,21 @@
       }
 
       // 2. Save in browser localStorage
-      customPrompts.unshift(newPromptObj);
+      if (editSlug) {
+        const cpIdx = customPrompts.findIndex(cp => cp.slug === editSlug);
+        if (cpIdx !== -1) {
+          customPrompts[cpIdx] = newPromptObj;
+        } else {
+          customPrompts.unshift(newPromptObj);
+        }
+      } else {
+        const cpIdx = customPrompts.findIndex(cp => cp.slug === slug);
+        if (cpIdx !== -1) {
+          customPrompts[cpIdx] = newPromptObj;
+        } else {
+          customPrompts.unshift(newPromptObj);
+        }
+      }
       try {
         localStorage.setItem('prompt_vault_custom_prompts', JSON.stringify(customPrompts));
       } catch (storageErr) {
@@ -3527,12 +3671,16 @@
       }
 
       // Refresh state
-      const existingIdx = allPrompts.findIndex(p => p.slug === slug);
+      const targetSearchSlug = editSlug || slug;
+      const existingIdx = allPrompts.findIndex(p => p.slug === targetSearchSlug || p.slug === slug);
       if (existingIdx !== -1) {
         allPrompts[existingIdx] = newPromptObj;
       } else {
         allPrompts.unshift(newPromptObj);
       }
+
+      // Reset card carousel index for this slug
+      cardCarouselIndices.delete(slug);
 
       updateStatsRibbon();
       renderCategoryPills();
@@ -3540,7 +3688,7 @@
       renderCards();
 
       closeAddPromptModal();
-      showToast(savedOnServer ? '✅ Prompt & media saved to disk!' : '✨ Prompt saved to your library!');
+      showToast(editSlug ? '✅ Prompt & pictures updated!' : (savedOnServer ? '✅ Prompt & media saved to disk!' : '✨ Prompt saved to your library!'));
     }
 
     async function handleDeletePrompt(slug, event) {
