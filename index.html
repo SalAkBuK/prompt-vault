@@ -24,6 +24,8 @@
       --accent-purple-glow: rgba(168, 85, 247, 0.15);
       --accent-green: #10b981;
       --accent-green-glow: rgba(16, 185, 129, 0.15);
+      --accent-pink: #ec4899;
+      --accent-pink-glow: rgba(236, 72, 153, 0.15);
       --pill-bg: #162032;
       --pill-border: #233148;
       --code-bg: #070a10;
@@ -54,6 +56,8 @@
       --accent-purple-glow: rgba(126, 34, 206, 0.12);
       --accent-green: #059669;
       --accent-green-glow: rgba(5, 150, 105, 0.12);
+      --accent-pink: #db2777;
+      --accent-pink-glow: rgba(219, 39, 119, 0.12);
       --pill-bg: #f1f5f9;
       --pill-border: #cbd5e1;
       --code-bg: #f1f5f9;
@@ -79,7 +83,6 @@
       transition: background-color 0.2s ease, color 0.2s ease;
     }
 
-    /* Container */
     .container {
       max-width: 1280px;
       margin: 0 auto;
@@ -154,6 +157,48 @@
       gap: 0.75rem;
     }
 
+    .btn {
+      padding: 0.65rem 0.95rem;
+      border-radius: 8px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      transition: all 0.15s ease;
+      font-family: inherit;
+      border: 1px solid transparent;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background: #1d4ed8;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    .btn-primary.copied {
+      background: #059669 !important;
+    }
+
+    .btn-secondary {
+      background: var(--pill-bg);
+      border-color: var(--pill-border);
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      background: var(--card-hover);
+      color: var(--text-bright);
+      border-color: var(--accent);
+    }
+
     .btn-theme {
       background: var(--pill-bg);
       border: 1px solid var(--pill-border);
@@ -185,6 +230,7 @@
       font-size: 0.86rem;
       color: var(--text-muted);
       flex-wrap: wrap;
+      align-items: center;
     }
 
     .stat-item {
@@ -474,6 +520,12 @@
       margin-bottom: 0.75rem;
     }
 
+    .card-top-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
     .badge-cat {
       font-size: 0.72rem;
       font-weight: 700;
@@ -502,20 +554,25 @@
       border: 1px solid var(--pill-border);
     }
 
-    .card-permalink-btn {
+    .card-icon-btn {
       background: transparent;
       border: none;
       color: var(--text-muted);
       cursor: pointer;
       font-size: 0.85rem;
-      padding: 0.2rem;
-      opacity: 0.6;
+      padding: 0.2rem 0.35rem;
+      border-radius: 4px;
+      opacity: 0.65;
       transition: opacity 0.15s ease, color 0.15s ease;
     }
 
-    .card-permalink-btn:hover {
+    .card-icon-btn:hover {
       opacity: 1;
       color: var(--accent);
+    }
+
+    .card-delete-btn:hover {
+      color: #ef4444 !important;
     }
 
     .card-title {
@@ -542,7 +599,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 0.4rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0.85rem;
     }
 
     .feature-badge {
@@ -567,11 +624,17 @@
       border: 1px solid rgba(56, 189, 248, 0.25);
     }
 
+    .badge-video {
+      background: var(--accent-pink-glow);
+      color: var(--accent-pink);
+      border: 1px solid rgba(236, 72, 153, 0.3);
+    }
+
     .card-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 0.3rem;
-      margin-bottom: 1.15rem;
+      margin-bottom: 1rem;
     }
 
     .card-tag {
@@ -588,6 +651,24 @@
     .card-tag:hover {
       color: var(--accent);
       background: var(--card-hover);
+    }
+
+    /* Embedded Video Player on Card */
+    .card-video-wrap {
+      background: #000;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      margin-bottom: 1.15rem;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      position: relative;
+    }
+
+    .card-video-wrap video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .card-preview-box {
@@ -621,49 +702,6 @@
       gap: 0.6rem;
       border-top: 1px solid var(--card-border);
       padding-top: 1rem;
-    }
-
-    .btn {
-      padding: 0.65rem 0.9rem;
-      border-radius: 8px;
-      font-size: 0.86rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.45rem;
-      transition: all 0.15s ease;
-      font-family: inherit;
-      border: 1px solid transparent;
-    }
-
-    .btn-primary {
-      background: #2563eb;
-      color: #ffffff;
-      flex: 1.3;
-    }
-
-    .btn-primary:hover {
-      background: #1d4ed8;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-    }
-
-    .btn-primary.copied {
-      background: #059669 !important;
-    }
-
-    .btn-secondary {
-      background: var(--pill-bg);
-      border-color: var(--pill-border);
-      color: var(--text);
-      flex: 1;
-    }
-
-    .btn-secondary:hover {
-      background: var(--card-hover);
-      color: var(--text-bright);
-      border-color: var(--accent);
     }
 
     /* Compact List / Table View */
@@ -725,7 +763,7 @@
       white-space: nowrap;
     }
 
-    /* The Deep-Dive Modal Inspector */
+    /* Modal dialogs */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -824,13 +862,13 @@
       border-color: var(--accent);
     }
 
-    /* Modal Navigation Tabs */
     .modal-tabs {
       display: flex;
       padding: 0 1.75rem;
       border-bottom: 1px solid var(--card-border);
       background: var(--bg-alt);
       gap: 0.5rem;
+      overflow-x: auto;
     }
 
     .modal-tab {
@@ -846,6 +884,7 @@
       display: flex;
       align-items: center;
       gap: 0.45rem;
+      white-space: nowrap;
     }
 
     .modal-tab:hover {
@@ -871,7 +910,7 @@
       display: block;
     }
 
-    /* Prompt Tab View */
+    /* Inspector Views */
     .prompt-toolbar {
       display: flex;
       justify-content: space-between;
@@ -905,7 +944,6 @@
       user-select: text;
     }
 
-    /* Placeholder Highlighting & Live Filler */
     .var-placeholder {
       background: rgba(234, 179, 8, 0.18);
       color: #fde047;
@@ -967,7 +1005,26 @@
       border-color: var(--accent);
     }
 
-    /* Example Tab View */
+    /* Modal Video View */
+    .modal-video-wrap {
+      background: #000;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+      max-height: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-video-wrap video {
+      width: 100%;
+      max-height: 480px;
+      outline: none;
+    }
+
+    /* Example Content */
     .example-content {
       line-height: 1.65;
     }
@@ -980,12 +1037,6 @@
 
     .example-content h3:first-child {
       margin-top: 0;
-    }
-
-    .example-content h4 {
-      font-size: 1rem;
-      color: var(--text-bright);
-      margin: 1.2rem 0 0.5rem;
     }
 
     .example-content p {
@@ -1016,7 +1067,7 @@
       font-size: 0.85rem;
     }
 
-    .example-content .code-block-wrapper {
+    .code-block-wrapper {
       background: var(--code-bg);
       border: 1px solid var(--code-border);
       border-radius: 8px;
@@ -1024,7 +1075,7 @@
       overflow: hidden;
     }
 
-    .example-content .code-block-header {
+    .code-block-header {
       background: rgba(255, 255, 255, 0.03);
       border-bottom: 1px solid var(--code-border);
       padding: 0.45rem 0.85rem;
@@ -1036,7 +1087,7 @@
       font-family: var(--font-mono);
     }
 
-    .example-content .code-block-wrapper pre {
+    .code-block-wrapper pre {
       padding: 1rem;
       overflow-x: auto;
       font-family: var(--font-mono);
@@ -1045,16 +1096,7 @@
       line-height: 1.6;
     }
 
-    .example-actions-bar {
-      display: flex;
-      justify-content: flex-end;
-      gap: 0.75rem;
-      margin-top: 1.5rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--card-border);
-    }
-
-    /* Overview & Variables Tab */
+    /* Overview Section */
     .overview-section {
       margin-bottom: 1.75rem;
     }
@@ -1107,7 +1149,6 @@
       border-radius: 4px;
     }
 
-    /* Modal Footer */
     .modal-footer {
       padding: 1rem 1.75rem;
       border-top: 1px solid var(--card-border);
@@ -1125,6 +1166,108 @@
     .modal-footer-actions {
       display: flex;
       gap: 0.75rem;
+    }
+
+    /* Form Styles for Add Prompt Modal */
+    .form-group {
+      margin-bottom: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .form-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-bright);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .form-label span.hint {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .form-input, .form-textarea, .form-select {
+      background: var(--bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 0.75rem 0.9rem;
+      color: var(--text-bright);
+      font-size: 0.92rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .form-textarea {
+      font-family: var(--font-mono);
+      min-height: 140px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    /* Drag and Drop Video Upload Zone */
+    .upload-zone {
+      border: 2px dashed var(--pill-border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      text-align: center;
+      background: var(--bg-alt);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .upload-zone:hover, .upload-zone.dragover {
+      border-color: var(--accent);
+      background: var(--card-hover);
+    }
+
+    .upload-zone-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .upload-zone-text {
+      font-size: 0.88rem;
+      color: var(--text-bright);
+      font-weight: 600;
+    }
+
+    .upload-zone-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .video-preview-box {
+      margin-top: 0.75rem;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+      background: #000;
+      max-height: 220px;
+      display: none;
+    }
+
+    .video-preview-box video {
+      width: 100%;
+      max-height: 220px;
+      display: block;
     }
 
     /* Toast Notification */
@@ -1168,12 +1311,15 @@
 
     .empty-state h3 {
       color: var(--text-bright);
-      font-size: 1.3rem;
+      font-size: 1.35rem;
       margin-bottom: 0.5rem;
     }
 
     @media (max-width: 768px) {
       .cards-grid {
+        grid-template-columns: 1fr;
+      }
+      .form-row {
         grid-template-columns: 1fr;
       }
       .modal {
@@ -1199,9 +1345,12 @@
             <span>Prompt Vault</span>
             <span class="brand-badge">HQ</span>
           </div>
-          <p class="brand-subtitle">Curated AI prompts, real-world examples, and design benchmarks for future me.</p>
+          <p class="brand-subtitle">Curated AI prompts, real-world examples, and video benchmarks for future me.</p>
         </div>
         <div class="header-actions">
+          <button class="btn btn-primary" id="openAddPromptBtn" onclick="openAddPromptModal()">
+            ✨ + Add Prompt
+          </button>
           <button class="btn-theme" id="themeToggleBtn" title="Toggle Dark/Light Mode">
             <span id="themeIcon">☀️</span>
             <span id="themeLabel">Light</span>
@@ -1210,10 +1359,11 @@
       </div>
 
       <div class="stats-ribbon">
-        <div class="stat-item">📁 <strong id="statPromptsCount">9</strong> Prompts</div>
-        <div class="stat-item">🏷️ <strong id="statCategoriesCount">2</strong> Categories</div>
-        <div class="stat-item">💡 <strong id="statExamplesCount">8</strong> Real-World Examples</div>
-        <div class="stat-item">⚡ 1-Click Clipboard Ready</div>
+        <div class="stat-item">📁 <strong id="statPromptsCount">0</strong> Prompts</div>
+        <div class="stat-item">🏷️ <strong id="statCategoriesCount">0</strong> Categories</div>
+        <div class="stat-item">💡 <strong id="statExamplesCount">0</strong> Examples</div>
+        <div class="stat-item">🎬 <strong id="statVideosCount">0</strong> Video References</div>
+        <div class="stat-item">⚡ 1-Click Copy Ready</div>
       </div>
     </div>
   </header>
@@ -1233,7 +1383,7 @@
             type="text"
             id="searchInput"
             class="search-input"
-            placeholder="Search prompts, keywords, tags, or examples (or press /)..."
+            placeholder="Search prompts, keywords, tags, or video benchmarks (or press /)..."
             autofocus
           />
           <button class="search-clear-btn" id="searchClearBtn" title="Clear search">✕</button>
@@ -1295,6 +1445,7 @@
               <th>Title & Overview</th>
               <th>Category</th>
               <th>Tags</th>
+              <th>Video</th>
               <th>Example</th>
               <th>Actions</th>
             </tr>
@@ -1324,6 +1475,9 @@
       <div class="modal-tabs">
         <button class="modal-tab active" data-tab="prompt" onclick="switchModalTab('prompt')">
           📋 Prompt
+        </button>
+        <button class="modal-tab" data-tab="video" id="modalTabVideo" onclick="switchModalTab('video')">
+          🎬 Video Reference
         </button>
         <button class="modal-tab" data-tab="example" id="modalTabExample" onclick="switchModalTab('example')">
           💡 Real-World Example
@@ -1364,6 +1518,19 @@
               Type your values below to customize the prompt before copying:
             </p>
             <div class="filler-inputs-grid" id="fillerInputsGrid"></div>
+          </div>
+        </div>
+
+        <!-- Tab: Video Reference -->
+        <div class="tab-pane" id="tabPaneVideo">
+          <div class="modal-video-wrap" id="modalVideoPlayerContainer">
+            <!-- Video tag injected here -->
+          </div>
+          <div class="prompt-toolbar">
+            <span style="font-size: 0.85rem; color: var(--text-muted);" id="modalVideoInfoText">Reference video attached to this prompt.</span>
+            <button class="btn btn-primary" id="modalVideoCopyBtn">
+              📋 Copy Prompt Text
+            </button>
           </div>
         </div>
 
@@ -1412,6 +1579,118 @@
     </div>
   </div>
 
+  <!-- Modal for Creating New Prompt via GUI -->
+  <div class="modal-overlay" id="addPromptModal">
+    <div class="modal" style="max-width: 820px;">
+      <div class="modal-header">
+        <div class="modal-header-info">
+          <div class="modal-meta-row">
+            <span class="badge-cat default">STUDIO GUI</span>
+          </div>
+          <h2 class="modal-title">✨ Add New Prompt</h2>
+        </div>
+        <button class="modal-close-btn" onclick="closeAddPromptModal()" title="Close (Esc)">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <form id="addPromptForm" onsubmit="handleSavePrompt(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="promptTitle">Prompt Title *</label>
+              <input type="text" id="promptTitle" class="form-input" placeholder="e.g. Cinematic Scroll Drone Sequence" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="promptCategory">Category *</label>
+              <div style="display: flex; gap: 0.5rem;">
+                <select id="promptCategorySelect" class="form-select" style="flex: 1;" onchange="handleCategorySelect(this)">
+                  <option value="creative-web-design">Creative Web Design</option>
+                  <option value="video-production">Video Production</option>
+                  <option value="coding">Coding & Engineering</option>
+                  <option value="writing">Writing & Copy</option>
+                  <option value="__new__">+ Add New Category...</option>
+                </select>
+                <input type="text" id="promptCategoryCustom" class="form-input" style="flex: 1; display: none;" placeholder="Category slug (e.g. 3d-motion)" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="promptTags">
+                Tags <span class="hint">Comma-separated</span>
+              </label>
+              <input type="text" id="promptTags" class="form-input" placeholder="e.g. motion, scrollytelling, canvas, cinematic" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="promptDescription">
+                Description / Intent <span class="hint">When to use</span>
+              </label>
+              <input type="text" id="promptDescription" class="form-input" placeholder="e.g. Builds an Apple-grade scroll video experience" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="promptText">
+              Prompt Text * <span class="hint">The copy-ready prompt</span>
+            </label>
+            <textarea id="promptText" class="form-textarea" placeholder="Paste your LLM prompt here. You can use placeholders like [TOPIC] or [REFERENCE URL]..." required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="promptExample">
+              Real-World Example & Notes <span class="hint">Optional test prompt, reference story, or gotchas</span>
+            </label>
+            <textarea id="promptExample" class="form-textarea" style="min-height: 100px;" placeholder="Add the real-world example, benchmark website, or notes for future you..."></textarea>
+          </div>
+
+          <!-- Video Reference Attachment -->
+          <div class="form-group">
+            <label class="form-label">
+              🎬 Reference Video Attachment <span class="hint">Attach downloaded video clip or MP4 URL</span>
+            </label>
+            
+            <div class="upload-zone" id="videoUploadDropzone" onclick="document.getElementById('videoFileInput').click()">
+              <span class="upload-zone-icon">📹</span>
+              <div class="upload-zone-text" id="uploadZoneText">Drop your downloaded video file here or click to browse</div>
+              <div class="upload-zone-sub">Supports MP4, WebM, MOV (Saved directly in your local browser vault)</div>
+              <input type="file" id="videoFileInput" accept="video/mp4,video/webm,video/quicktime,video/*" style="display: none;" onchange="handleVideoFileSelect(this)" />
+            </div>
+
+            <div style="margin-top: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-size: 0.78rem; color: var(--text-muted);">OR Enter Video URL / Path:</span>
+              <input type="text" id="promptVideoUrl" class="form-input" style="flex: 1; padding: 0.45rem 0.75rem; font-size: 0.82rem;" placeholder="e.g. media/launch-film.mp4 or https://...mp4" oninput="handleVideoUrlInput(this)" />
+            </div>
+
+            <div class="video-preview-box" id="formVideoPreviewContainer">
+              <video id="formVideoPreview" controls playsinline></video>
+            </div>
+          </div>
+
+          <div class="modal-footer" style="padding: 1.25rem 0 0; background: transparent; border-top: 1px solid var(--card-border); margin-top: 1.5rem;">
+            <div style="display: flex; gap: 0.5rem;">
+              <button type="button" class="btn btn-secondary" onclick="exportCurrentFormAsMarkdown()">
+                📥 Download .md
+              </button>
+              <button type="button" class="btn btn-secondary" onclick="copyCurrentFormAsMarkdown()">
+                📋 Copy .md
+              </button>
+            </div>
+            <div style="display: flex; gap: 0.75rem;">
+              <button type="button" class="btn btn-secondary" onclick="closeAddPromptModal()">
+                Cancel
+              </button>
+              <button type="submit" class="btn btn-primary" id="savePromptSubmitBtn">
+                💾 Save Prompt to Vault
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast Notification -->
   <div class="toast-container">
     <div class="toast" id="toast">
@@ -1428,23 +1707,92 @@
   <script>
     // State management
     let allPrompts = [];
+    let customPrompts = [];
     let activeCategory = 'all';
     let activeTag = null;
     let searchQuery = '';
     let currentView = 'grid'; // 'grid' | 'list'
     let activePrompt = null;
     let placeholderValues = {};
+    let pendingVideoFile = null;
+    let pendingVideoBlobUrl = null;
+
+    // IndexedDB for storing offline video files
+    const DB_NAME = 'PromptVaultMediaDB';
+    const DB_VERSION = 1;
+    const STORE_NAME = 'videos';
+
+    function openMediaDB() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open(DB_NAME, DB_VERSION);
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+          }
+        };
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    async function saveVideoBlobToDB(id, fileBlob, filename) {
+      try {
+        const db = await openMediaDB();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_NAME, 'readwrite');
+          const store = tx.objectStore(STORE_NAME);
+          store.put({ id, blob: fileBlob, filename, date: Date.now() });
+          tx.oncomplete = () => resolve(true);
+          tx.onerror = () => reject(tx.error);
+        });
+      } catch (e) {
+        console.warn('Could not save video to IndexedDB', e);
+        return false;
+      }
+    }
+
+    async function getVideoBlobFromDB(id) {
+      try {
+        const db = await openMediaDB();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_NAME, 'readonly');
+          const store = tx.objectStore(STORE_NAME);
+          const req = store.get(id);
+          req.onsuccess = () => resolve(req.result ? req.result.blob : null);
+          req.onerror = () => reject(req.error);
+        });
+      } catch (e) {
+        return null;
+      }
+    }
+
+    async function deleteVideoBlobFromDB(id) {
+      try {
+        const db = await openMediaDB();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_NAME, 'readwrite');
+          const store = tx.objectStore(STORE_NAME);
+          store.delete(id);
+          tx.oncomplete = () => resolve(true);
+          tx.onerror = () => reject(tx.error);
+        });
+      } catch (e) {
+        return false;
+      }
+    }
 
     // Load prompts either via fetch (if served via HTTP) or embedded JSON (if opened directly as file://)
     async function initVault() {
       initTheme();
 
+      let basePrompts = [];
       let loaded = false;
       if (window.location.protocol.startsWith('http')) {
         try {
           const res = await fetch('prompts.json');
           if (res.ok) {
-            allPrompts = await res.json();
+            basePrompts = await res.json();
             loaded = true;
           }
         } catch (e) {
@@ -1456,13 +1804,26 @@
         const embeddedNode = document.getElementById('prompts-data');
         if (embeddedNode && embeddedNode.textContent.trim().length > 5) {
           try {
-            allPrompts = JSON.parse(embeddedNode.textContent);
+            basePrompts = JSON.parse(embeddedNode.textContent);
             loaded = true;
           } catch (e) {
             console.error('Failed parsing embedded prompts', e);
           }
         }
       }
+
+      // Load user-added custom prompts from localStorage
+      try {
+        const stored = localStorage.getItem('prompt_vault_custom_prompts');
+        customPrompts = stored ? JSON.parse(stored) : [];
+      } catch (e) {
+        customPrompts = [];
+      }
+
+      // Merge custom prompts with base prompts (avoid duplicate slugs)
+      const baseSlugs = new Set(basePrompts.map(p => p.slug));
+      const filteredCustom = customPrompts.filter(p => !baseSlugs.has(p.slug));
+      allPrompts = [...filteredCustom, ...basePrompts];
 
       updateStatsRibbon();
       renderCategoryPills();
@@ -1513,6 +1874,8 @@
       document.getElementById('statCategoriesCount').textContent = categories.size;
       const withExamples = allPrompts.filter(p => p.example && p.example.trim().length > 0).length;
       document.getElementById('statExamplesCount').textContent = withExamples;
+      const withVideos = allPrompts.filter(p => p.video && p.video.trim().length > 0).length;
+      document.getElementById('statVideosCount').textContent = withVideos;
     }
 
     // Category Pills
@@ -1560,8 +1923,12 @@
       });
 
       const sortedTags = Object.keys(tagCounts).sort((a, b) => tagCounts[b] - tagCounts[a]);
-      // Show top tags
       const topTags = sortedTags.slice(0, 10);
+
+      if (topTags.length === 0) {
+        bar.innerHTML = '';
+        return;
+      }
 
       let html = `<span class="tag-filter-label">Quick Tags:</span>`;
       topTags.forEach(tag => {
@@ -1603,18 +1970,15 @@
       const tokens = q ? q.split(/\s+/) : [];
 
       return allPrompts.filter(p => {
-        // Category check
         if (activeCategory !== 'all' && p.category !== activeCategory) {
           return false;
         }
 
-        // Tag check
         if (activeTag) {
           const tags = Array.isArray(p.tags) ? p.tags : [];
           if (!tags.includes(activeTag)) return false;
         }
 
-        // Search tokens check
         if (tokens.length > 0) {
           const tagsStr = Array.isArray(p.tags) ? p.tags.join(' ') : (p.tags || '');
           const haystack = `${p.title} ${p.category} ${tagsStr} ${p.description || ''} ${p.overview || ''} ${p.prompt || ''} ${p.example || ''}`.toLowerCase();
@@ -1627,7 +1991,7 @@
     }
 
     // Render Cards or List
-    function renderCards() {
+    async function renderCards() {
       const filtered = filterPrompts();
       const resultsCountEl = document.getElementById('resultsCount');
       const activeFilterBadge = document.getElementById('activeFilterBadge');
@@ -1643,14 +2007,14 @@
           <div class="empty-state">
             <span style="font-size: 2.8rem; display: block; margin-bottom: 0.75rem;">📂</span>
             <h3>Your Prompt Vault is Empty</h3>
-            <p>Ready for you to add your own personal prompts.</p>
-            <p style="margin-top: 0.75rem; font-size: 0.88rem; color: var(--text-muted);">
-              Run <code>python vault.py new &lt;category&gt; "&lt;Title&gt;"</code> to create your first prompt, then run <code>python vault.py build</code>!
-            </p>
+            <p>Ready for you to add your own prompts and video references.</p>
+            <button class="btn btn-primary" onclick="openAddPromptModal()" style="margin-top: 1rem; padding: 0.75rem 1.4rem; font-size: 0.95rem;">
+              ✨ + Add Your First Prompt
+            </button>
           </div>
         `;
         grid.innerHTML = emptyVaultHtml;
-        tableBody.innerHTML = `<tr><td colspan="5">${emptyVaultHtml}</td></tr>`;
+        tableBody.innerHTML = `<tr><td colspan="6">${emptyVaultHtml}</td></tr>`;
         return;
       }
 
@@ -1665,15 +2029,17 @@
           </div>
         `;
         grid.innerHTML = emptyHtml;
-        tableBody.innerHTML = `<tr><td colspan="5">${emptyHtml}</td></tr>`;
+        tableBody.innerHTML = `<tr><td colspan="6">${emptyHtml}</td></tr>`;
         return;
       }
 
-      // Render Grid
+      // Render Grid Cards
       grid.innerHTML = filtered.map(p => {
         const catClass = p.category === 'creative-web-design' ? 'creative-web-design' : (p.category === 'video-production' ? 'video-production' : 'default');
         const catLabel = p.category.replace(/-/g, ' ').toUpperCase();
         const hasExample = p.example && p.example.trim().length > 0;
+        const hasVideo = p.video && p.video.trim().length > 0;
+        const isCustom = p.isCustom || customPrompts.some(cp => cp.slug === p.slug);
         const tags = Array.isArray(p.tags) ? p.tags : [];
         const previewSnippet = escapeHtml((p.prompt || '').slice(0, 160));
         const pIndex = allPrompts.indexOf(p);
@@ -1683,15 +2049,17 @@
             <div>
               <div class="card-top">
                 <span class="badge-cat ${catClass}">${catLabel}</span>
-                <button class="card-permalink-btn" title="Copy direct link" onclick="copyPermalink('${p.slug}', event)">
-                  🔗
-                </button>
+                <div class="card-top-actions">
+                  ${isCustom ? `<button class="card-icon-btn card-delete-btn" title="Delete prompt" onclick="handleDeletePrompt('${p.slug}', event)">🗑️</button>` : ''}
+                  <button class="card-icon-btn" title="Copy direct link" onclick="copyPermalink('${p.slug}', event)">🔗</button>
+                </div>
               </div>
 
               <h3 class="card-title">${escapeHtml(p.title)}</h3>
               <p class="card-desc">${escapeHtml(p.description || p.overview || '')}</p>
 
               <div class="card-badges">
+                ${hasVideo ? `<span class="feature-badge badge-video">🎬 Video Reference</span>` : ''}
                 ${hasExample ? `<span class="feature-badge badge-example">💡 Real Example</span>` : ''}
                 ${p.variables ? `<span class="feature-badge badge-vars">🧩 Editable Variables</span>` : ''}
               </div>
@@ -1700,6 +2068,12 @@
                 ${tags.slice(0, 4).map(t => `<span class="card-tag" onclick="toggleTag('${t}'); event.stopPropagation();">#${escapeHtml(t)}</span>`).join('')}
                 ${tags.length > 4 ? `<span class="card-tag">+${tags.length - 4}</span>` : ''}
               </div>
+
+              ${hasVideo ? `
+                <div class="card-video-wrap" id="card-video-${p.slug}">
+                  <video controls playsinline preload="metadata" src="${escapeHtml(p.video)}"></video>
+                </div>
+              ` : ''}
 
               <div class="card-preview-box">
                 ${previewSnippet}
@@ -1718,11 +2092,25 @@
         `;
       }).join('');
 
-      // Render Table
+      // Check and wire video blobs from IndexedDB for any idb: videos
+      filtered.forEach(async p => {
+        if (p.video && p.video.startsWith('idb:')) {
+          const videoId = p.video.replace('idb:', '');
+          const blob = await getVideoBlobFromDB(videoId);
+          if (blob) {
+            const blobUrl = URL.createObjectURL(blob);
+            const videoEl = document.querySelector(`#card-video-${p.slug} video`);
+            if (videoEl) videoEl.src = blobUrl;
+          }
+        }
+      });
+
+      // Render Table View
       tableBody.innerHTML = filtered.map(p => {
         const catClass = p.category === 'creative-web-design' ? 'creative-web-design' : (p.category === 'video-production' ? 'video-production' : 'default');
         const catLabel = p.category.replace(/-/g, ' ').toUpperCase();
         const hasExample = p.example && p.example.trim().length > 0;
+        const hasVideo = p.video && p.video.trim().length > 0;
         const tags = Array.isArray(p.tags) ? p.tags.slice(0, 3) : [];
         const pIndex = allPrompts.indexOf(p);
 
@@ -1739,6 +2127,9 @@
               <div style="display:flex; flex-wrap:wrap; gap:4px;">
                 ${tags.map(t => `<span class="card-tag" onclick="toggleTag('${t}')">#${escapeHtml(t)}</span>`).join('')}
               </div>
+            </td>
+            <td>
+              ${hasVideo ? `<span class="feature-badge badge-video">🎬 Video</span>` : '<span style="color:var(--text-muted); font-size:0.8rem;">—</span>'}
             </td>
             <td>
               ${hasExample ? `<span class="feature-badge badge-example">💡 Yes</span>` : '<span style="color:var(--text-muted); font-size:0.8rem;">—</span>'}
@@ -1794,16 +2185,17 @@
     // Keyboard Shortcuts
     function setupKeyboardShortcuts() {
       window.addEventListener('keydown', (e) => {
-        // Press / to focus search if not in an input
-        if (e.key === '/' && document.activeElement !== searchInput && document.activeElement.tagName !== 'INPUT') {
+        if (e.key === '/' && document.activeElement !== searchInput && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
           e.preventDefault();
           searchInput.focus();
         }
 
-        // Press Esc to close modal or clear search
         if (e.key === 'Escape') {
-          const modal = document.getElementById('promptModal');
-          if (modal.classList.contains('open')) {
+          const promptModal = document.getElementById('promptModal');
+          const addModal = document.getElementById('addPromptModal');
+          if (addModal.classList.contains('open')) {
+            closeAddPromptModal();
+          } else if (promptModal.classList.contains('open')) {
             closeModal();
           } else if (searchInput.value) {
             searchQuery = '';
@@ -1816,24 +2208,22 @@
     }
 
     // Modal Operations
-    function openModal(index) {
+    async function openModal(index) {
       activePrompt = allPrompts[index];
       if (!activePrompt) return;
 
-      // Update URL hash
       if (history.replaceState) {
         history.replaceState(null, null, `#${activePrompt.slug}`);
       } else {
         window.location.hash = activePrompt.slug;
       }
 
-      // Meta
       const catClass = activePrompt.category === 'creative-web-design' ? 'creative-web-design' : (activePrompt.category === 'video-production' ? 'video-production' : 'default');
       const catBadge = document.getElementById('modalCategoryBadge');
       catBadge.textContent = activePrompt.category.replace(/-/g, ' ').toUpperCase();
       catBadge.className = `badge-cat ${catClass}`;
 
-      document.getElementById('modalFilePath').textContent = activePrompt.rel_path;
+      document.getElementById('modalFilePath').textContent = activePrompt.rel_path || `prompts/${activePrompt.category}/${activePrompt.slug}.md`;
       document.getElementById('modalTitle').textContent = activePrompt.title;
 
       // Tab 1: Prompt Code & Metrics
@@ -1843,13 +2233,29 @@
       const wordCount = promptText.trim().split(/\s+/).filter(Boolean).length;
       document.getElementById('modalPromptMetrics').textContent = `${charCount.toLocaleString()} characters · ${wordCount.toLocaleString()} words`;
 
-      // Copy buttons bindings
       document.getElementById('modalCopyPromptBtn').onclick = (e) => copyText(promptText, e.currentTarget);
       document.getElementById('modalFooterCopyBtn').onclick = (e) => copyText(promptText, e.currentTarget);
+      document.getElementById('modalVideoCopyBtn').onclick = (e) => copyText(promptText, e.currentTarget);
       document.getElementById('modalCopyLinkBtn').onclick = () => copyPermalink(activePrompt.slug);
 
-      // Build live template filler
       setupPlaceholderFiller(promptText);
+
+      // Video Tab
+      const videoTabBtn = document.getElementById('modalTabVideo');
+      const videoContainer = document.getElementById('modalVideoPlayerContainer');
+      if (activePrompt.video && activePrompt.video.trim()) {
+        videoTabBtn.style.display = 'flex';
+        let videoSrc = activePrompt.video;
+        if (videoSrc.startsWith('idb:')) {
+          const videoId = videoSrc.replace('idb:', '');
+          const blob = await getVideoBlobFromDB(videoId);
+          if (blob) videoSrc = URL.createObjectURL(blob);
+        }
+        videoContainer.innerHTML = `<video src="${escapeHtml(videoSrc)}" controls playsinline></video>`;
+      } else {
+        videoTabBtn.style.display = 'none';
+        videoContainer.innerHTML = '';
+      }
 
       // Tab 2: Example
       const exampleTabBtn = document.getElementById('modalTabExample');
@@ -1861,7 +2267,6 @@
         exampleTabBtn.style.display = 'flex';
         exampleContainer.innerHTML = renderMarkdown(activePrompt.example);
         exampleActions.style.display = 'flex';
-        
         const textToCopy = activePrompt.example_code || activePrompt.example;
         exampleCopyBtn.onclick = (e) => copyText(textToCopy, e.currentTarget);
       } else {
@@ -1887,8 +2292,12 @@
       const tags = Array.isArray(activePrompt.tags) ? activePrompt.tags : [];
       tagsContainer.innerHTML = tags.map(t => `<span class="card-tag">#${escapeHtml(t)}</span>`).join('');
 
-      // Reset to Prompt tab
-      switchModalTab('prompt');
+      // If video exists, default to video tab, otherwise prompt tab
+      if (activePrompt.video && activePrompt.video.trim()) {
+        switchModalTab('video');
+      } else {
+        switchModalTab('prompt');
+      }
 
       document.getElementById('promptModal').classList.add('open');
       document.body.style.overflow = 'hidden';
@@ -1897,7 +2306,10 @@
     function closeModal() {
       document.getElementById('promptModal').classList.remove('open');
       document.body.style.overflow = '';
-      // Remove hash cleanly
+      // Stop modal video if playing
+      const v = document.querySelector('#modalVideoPlayerContainer video');
+      if (v) v.pause();
+
       if (history.replaceState) {
         history.replaceState(null, null, ' ');
       }
@@ -1909,11 +2321,12 @@
     });
 
     function switchModalTab(tabId) {
-      document.querySelectorAll('.modal-tab').forEach(t => {
+      document.querySelectorAll('#promptModal .modal-tab').forEach(t => {
         t.classList.toggle('active', t.getAttribute('data-tab') === tabId);
       });
 
       document.getElementById('tabPanePrompt').classList.toggle('active', tabId === 'prompt');
+      document.getElementById('tabPaneVideo').classList.toggle('active', tabId === 'video');
       document.getElementById('tabPaneExample').classList.toggle('active', tabId === 'example');
       document.getElementById('tabPaneOverview').classList.toggle('active', tabId === 'overview');
     }
@@ -1928,7 +2341,6 @@
       toggleBtn.classList.remove('active');
       placeholderValues = {};
 
-      // Match [SOME PLACEHOLDER] but ignore markdown links [text](url)
       const matches = promptText.match(/\[([A-Z0-9_\s\/\-\—\.\?\:]{3,})\]/g);
       const uniqueVars = matches ? Array.from(new Set(matches)) : [];
 
@@ -1940,7 +2352,7 @@
       toggleBtn.style.display = 'inline-flex';
       toggleBtn.textContent = `🧩 Fill Placeholders (${uniqueVars.length})`;
 
-      grid.innerHTML = uniqueVars.map((v, i) => {
+      grid.innerHTML = uniqueVars.map((v) => {
         const cleanName = v.slice(1, -1);
         return `
           <div class="filler-field">
@@ -1982,6 +2394,275 @@
       }
     }
 
+    // ============================================
+    // GUI Modal for Adding New Prompts
+    // ============================================
+    function openAddPromptModal() {
+      // Populate category dropdown with current categories
+      const catSelect = document.getElementById('promptCategorySelect');
+      const categories = Array.from(new Set(allPrompts.map(p => p.category))).filter(Boolean);
+      
+      let optsHtml = `
+        <option value="creative-web-design">Creative Web Design</option>
+        <option value="video-production">Video Production</option>
+        <option value="coding">Coding & Engineering</option>
+        <option value="writing">Writing & Copy</option>
+      `;
+
+      categories.forEach(c => {
+        if (!['creative-web-design', 'video-production', 'coding', 'writing'].includes(c)) {
+          const formatted = c.replace(/-/g, ' ').replace(/\b\w/g, ch => ch.toUpperCase());
+          optsHtml += `<option value="${escapeHtml(c)}">${escapeHtml(formatted)}</option>`;
+        }
+      });
+      optsHtml += `<option value="__new__">+ Add New Category...</option>`;
+      catSelect.innerHTML = optsHtml;
+
+      // Reset form
+      document.getElementById('addPromptForm').reset();
+      document.getElementById('promptCategoryCustom').style.display = 'none';
+      document.getElementById('promptCategorySelect').style.display = 'block';
+      document.getElementById('formVideoPreviewContainer').style.display = 'none';
+      document.getElementById('formVideoPreview').src = '';
+      document.getElementById('uploadZoneText').textContent = 'Drop your downloaded video file here or click to browse';
+      pendingVideoFile = null;
+      pendingVideoBlobUrl = null;
+
+      document.getElementById('addPromptModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => document.getElementById('promptTitle').focus(), 100);
+    }
+
+    function closeAddPromptModal() {
+      document.getElementById('addPromptModal').classList.remove('open');
+      document.body.style.overflow = '';
+      const v = document.getElementById('formVideoPreview');
+      if (v) v.pause();
+    }
+
+    function handleCategorySelect(selectEl) {
+      const customInput = document.getElementById('promptCategoryCustom');
+      if (selectEl.value === '__new__') {
+        selectEl.style.display = 'none';
+        customInput.style.display = 'block';
+        customInput.focus();
+      }
+    }
+
+    // Video File Selection & Drag-and-Drop
+    function handleVideoFileSelect(inputEl) {
+      if (inputEl.files && inputEl.files[0]) {
+        processSelectedVideoFile(inputEl.files[0]);
+      }
+    }
+
+    function processSelectedVideoFile(file) {
+      pendingVideoFile = file;
+      pendingVideoBlobUrl = URL.createObjectURL(file);
+
+      const previewBox = document.getElementById('formVideoPreviewContainer');
+      const videoEl = document.getElementById('formVideoPreview');
+      videoEl.src = pendingVideoBlobUrl;
+      previewBox.style.display = 'block';
+
+      document.getElementById('uploadZoneText').textContent = `✅ Attached: ${file.name} (${(file.size / (1024 * 1024)).toFixed(1)} MB)`;
+      document.getElementById('promptVideoUrl').value = `media/${file.name}`;
+    }
+
+    function handleVideoUrlInput(inputEl) {
+      const url = inputEl.value.trim();
+      if (url && (url.endsWith('.mp4') || url.endsWith('.webm') || url.startsWith('http') || url.startsWith('media/'))) {
+        const previewBox = document.getElementById('formVideoPreviewContainer');
+        const videoEl = document.getElementById('formVideoPreview');
+        videoEl.src = url;
+        previewBox.style.display = 'block';
+      }
+    }
+
+    // Drag and Drop Zone Setup
+    const dropzone = document.getElementById('videoUploadDropzone');
+    dropzone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropzone.classList.add('dragover');
+    });
+    dropzone.addEventListener('dragleave', () => {
+      dropzone.classList.remove('dragover');
+    });
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        processSelectedVideoFile(e.dataTransfer.files[0]);
+      }
+    });
+
+    // Form submission
+    async function handleSavePrompt(e) {
+      e.preventDefault();
+      const title = document.getElementById('promptTitle').value.trim();
+      const customCat = document.getElementById('promptCategoryCustom');
+      const selectCat = document.getElementById('promptCategorySelect');
+      let category = customCat.style.display === 'block' ? customCat.value.trim() : selectCat.value;
+      category = category.toLowerCase().replace(/\s+/g, '-');
+
+      const tagsRaw = document.getElementById('promptTags').value.trim();
+      const tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim().toLowerCase().replace(/^#/, '')).filter(Boolean) : [];
+      const description = document.getElementById('promptDescription').value.trim();
+      const promptText = document.getElementById('promptText').value.trim();
+      const exampleText = document.getElementById('promptExample').value.trim();
+      let videoUrl = document.getElementById('promptVideoUrl').value.trim();
+
+      const slug = title.toLowerCase().replace(/[^\w\-_]/g, '-').replace(/-+/g, '-');
+
+      // If user uploaded a local video file, store in IndexedDB
+      if (pendingVideoFile) {
+        await saveVideoBlobToDB(slug, pendingVideoFile, pendingVideoFile.name);
+        videoUrl = `idb:${slug}`;
+      }
+
+      const newPromptObj = {
+        slug: slug,
+        title: title,
+        category: category,
+        tags: tags,
+        description: description,
+        version: "1.0",
+        overview: description,
+        prompt: promptText,
+        variables: "",
+        example: exampleText,
+        example_code: exampleText,
+        video: videoUrl,
+        rel_path: `prompts/${category}/${slug}.md`,
+        isCustom: true
+      };
+
+      // 1. If running with local python vault.py serve, attempt server save
+      let savedOnServer = false;
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        try {
+          const res = await fetch('/api/save-prompt', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newPromptObj)
+          });
+          if (res.ok) savedOnServer = true;
+
+          // If video uploaded and server active, upload to disk
+          if (pendingVideoFile) {
+            await fetch('/api/upload-video', {
+              method: 'POST',
+              headers: { 'X-File-Name': pendingVideoFile.name },
+              body: pendingVideoFile
+            });
+          }
+        } catch (err) {
+          console.warn('Server save not reachable, using local browser storage');
+        }
+      }
+
+      // 2. Save in browser localStorage so it's always available
+      customPrompts.unshift(newPromptObj);
+      localStorage.setItem('prompt_vault_custom_prompts', JSON.stringify(customPrompts));
+
+      // Refresh state
+      const existingIdx = allPrompts.findIndex(p => p.slug === slug);
+      if (existingIdx !== -1) {
+        allPrompts[existingIdx] = newPromptObj;
+      } else {
+        allPrompts.unshift(newPromptObj);
+      }
+
+      updateStatsRibbon();
+      renderCategoryPills();
+      renderTagFilters();
+      renderCards();
+
+      closeAddPromptModal();
+      showToast(savedOnServer ? '✅ Prompt & video saved to disk!' : '✨ Prompt saved to your library!');
+    }
+
+    async function handleDeletePrompt(slug, event) {
+      if (event) event.stopPropagation();
+      if (!confirm('Are you sure you want to remove this prompt from your library?')) return;
+
+      customPrompts = customPrompts.filter(p => p.slug !== slug);
+      localStorage.setItem('prompt_vault_custom_prompts', JSON.stringify(customPrompts));
+      await deleteVideoBlobFromDB(slug);
+
+      allPrompts = allPrompts.filter(p => p.slug !== slug);
+
+      updateStatsRibbon();
+      renderCategoryPills();
+      renderTagFilters();
+      renderCards();
+      showToast('🗑️ Prompt removed');
+    }
+
+    function generateMarkdownString() {
+      const title = document.getElementById('promptTitle').value.trim() || 'Untitled Prompt';
+      const customCat = document.getElementById('promptCategoryCustom');
+      const selectCat = document.getElementById('promptCategorySelect');
+      let category = customCat.style.display === 'block' ? customCat.value.trim() : selectCat.value;
+      category = category.toLowerCase().replace(/\s+/g, '-');
+
+      const tagsRaw = document.getElementById('promptTags').value.trim();
+      const tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim().toLowerCase()).filter(Boolean) : [];
+      const description = document.getElementById('promptDescription').value.trim();
+      const promptText = document.getElementById('promptText').value.trim();
+      const exampleText = document.getElementById('promptExample').value.trim();
+      const video = document.getElementById('promptVideoUrl').value.trim();
+
+      const frontmatter = [
+        '---',
+        `title: "${title}"`,
+        `category: "${category}"`,
+        `tags: ${JSON.stringify(tags)}`,
+        `description: "${description}"`,
+        'version: "1.0"',
+      ];
+      if (video) frontmatter.push(`video: "${video}"`);
+      frontmatter.push('---', '');
+
+      const body = [
+        `# ${title}`,
+        '',
+        '## 🎯 Overview',
+        description || 'Describe what this prompt does.',
+        '',
+        '## 📋 Prompt',
+        '```text',
+        promptText,
+        '```',
+      ];
+
+      if (exampleText) {
+        body.push('', '## 💡 Example', exampleText);
+      }
+
+      return frontmatter.join('\n') + '\n' + body.join('\n') + '\n';
+    }
+
+    function exportCurrentFormAsMarkdown() {
+      const md = generateMarkdownString();
+      const title = document.getElementById('promptTitle').value.trim() || 'prompt';
+      const slug = title.toLowerCase().replace(/[^\w\-_]/g, '-');
+      const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${slug}.md`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('📥 Downloaded .md file!');
+    }
+
+    function copyCurrentFormAsMarkdown() {
+      const md = generateMarkdownString();
+      copyText(md);
+      showToast('📋 Markdown copied to clipboard!');
+    }
+
     // Direct Hash navigation
     function checkUrlHash() {
       const hash = window.location.hash.replace('#', '').trim();
@@ -2014,7 +2695,6 @@
           }, 1800);
         }
       } catch (err) {
-        // Fallback for older browsers
         const textarea = document.createElement('textarea');
         textarea.value = text;
         textarea.style.position = 'fixed';
@@ -2053,7 +2733,6 @@
       if (!md) return '';
       let text = md.replace(/\r\n/g, '\n');
 
-      // 1. Protect code blocks
       const codeBlocks = [];
       text = text.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
         const id = `%%%CODEBLOCK_${codeBlocks.length}%%%`;
@@ -2072,7 +2751,6 @@
         return id;
       });
 
-      // 2. Protect inline code
       const inlineCodes = [];
       text = text.replace(/`([^`\n]+)`/g, (match, code) => {
         const id = `%%%INLINE_${inlineCodes.length}%%%`;
@@ -2080,7 +2758,6 @@
         return id;
       });
 
-      // 3. Simple table parsing
       text = text.replace(/(\|[^\n]+\|\n\|[^\n-]+\|\n(?:\|[^\n]+\|\n?)+)/g, (tableMatch) => {
         const lines = tableMatch.trim().split('\n');
         if (lines.length < 2) return tableMatch;
@@ -2092,25 +2769,20 @@
         return `<table class="variables-table"><thead><tr>${headers}</tr></thead><tbody>${rows}</tbody></table>`;
       });
 
-      // 4. Headings
       text = text.replace(/^#### (.*?)$/gm, '<h4>$1</h4>');
       text = text.replace(/^### (.*?)$/gm, '<h3>$1</h3>');
       text = text.replace(/^## (.*?)$/gm, '<h2>$1</h2>');
       text = text.replace(/^# (.*?)$/gm, '<h1>$1</h1>');
 
-      // 5. Bold & Italics
       text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
       text = text.replace(/\*([^*\n]+)\*/g, '<em>$1</em>');
 
-      // 6. Unordered Lists
       text = text.replace(/^\s*[-*]\s+(.*)$/gm, '<li>$1</li>');
       text = text.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
 
-      // 7. Numbered Lists
       text = text.replace(/^\s*\d+\.\s+(.*)$/gm, '<li class="num-item">$1</li>');
       text = text.replace(/(<li class="num-item">.*<\/li>\n?)+/g, '<ol>$&</ol>');
 
-      // 8. Paragraphs
       const paragraphs = text.split(/\n{2,}/);
       text = paragraphs.map(p => {
         p = p.trim();
@@ -2121,7 +2793,6 @@
         return `<p>${p.replace(/\n/g, '<br>')}</p>`;
       }).join('\n\n');
 
-      // 9. Restore inline code and code blocks
       inlineCodes.forEach((html, i) => {
         text = text.replace(`%%%INLINE_${i}%%%`, html);
       });
@@ -2146,7 +2817,6 @@
         .replace(/"/g, '&quot;');
     }
 
-    // Run on startup
     window.addEventListener('DOMContentLoaded', initVault);
   </script>
 </body>

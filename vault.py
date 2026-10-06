@@ -82,6 +82,7 @@ def get_all_prompts() -> list[dict]:
             "tags": meta.get("tags", []),
             "description": meta.get("description", ""),
             "version": meta.get("version", "1.0"),
+            "video": meta.get("video", ""),
             "body": body,
             "content": content,
         })
@@ -423,6 +424,7 @@ def cmd_build(args=None):
             "variables": variables,
             "example": example_sec,
             "example_code": example_code,
+            "video": p.get("video", ""),
             "rel_path": p["rel_path"],
         })
 
@@ -450,6 +452,115 @@ def cmd_build(args=None):
             index_path.write_text(new_index, encoding="utf-8")
 
     print(f"✅ Generated {CATALOG_FILE.name} and {json_path.name} with {len(prompts)} prompts across {len(categories)} categories.")
+
+
+
+def cmd_serve(args):
+    """Start local server with web GUI and auto-saving API."""
+    import http.server
+    import socketserver
+    import urllib.parse
+    import json
+
+    port = getattr(args, "port", 3000) or 3000
+
+    class VaultHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
+        def __init__(self, *a, **kw):
+            super().__init__(*a, directory=str(BASE_DIR), **kw)
+
+        def do_POST(self):
+            parsed = urllib.parse.urlparse(self.path)
+            if parsed.path == "/api/save-prompt":
+                content_len = int(self.headers.get("Content-Length", 0))
+                post_data = self.rfile.read(content_len)
+                try:
+                    payload = json.loads(post_data.decode("utf-8"))
+                    category = payload.get("category", "general").strip().lower().replace(" ", "-")
+                    title = payload.get("title", "").strip()
+                    if not title:
+                        raise ValueError("Title is required")
+
+                    slug = payload.get("slug") or re.sub(r"[^\w\-_]", "", title.lower().replace(" ", "-"))
+                    cat_dir = PROMPTS_DIR / category
+                    cat_dir.mkdir(parents=True, exist_ok=True)
+                    target_path = cat_dir / f"{slug}.md"
+
+                    tags = payload.get("tags", [])
+                    if isinstance(tags, str):
+                        tags = [t.strip() for t in tags.split(",") if t.strip()]
+
+                    description = payload.get("description", "").strip()
+                    prompt_text = payload.get("prompt", "").strip()
+                    example_text = payload.get("example", "").strip()
+                    video = payload.get("video", "").strip()
+
+                    frontmatter_lines = [
+                        "---",
+                        f'title: "{title}"',
+                        f'category: "{category}"',
+                        f'tags: {json.dumps(tags)}',
+                        f'description: "{description}"',
+                        'version: "1.0"',
+                    ]
+                    if video:
+                        frontmatter_lines.append(f'video: "{video}"')
+                    frontmatter_lines.append("---\n")
+
+                    body_sections = [
+                        f"# {title}\n",
+                        "## 🎯 Overview\n" + (description or "Overview of this prompt.") + "\n",
+                        "## 📋 Prompt\n```text\n" + prompt_text + "\n```\n",
+                    ]
+                    if example_text:
+                        body_sections.append("## 💡 Example\n" + example_text + "\n")
+
+                    full_md = "\n".join(frontmatter_lines) + "\n".join(body_sections)
+                    target_path.write_text(full_md, encoding="utf-8")
+
+                    # Rebuild catalogs
+                    cmd_build()
+
+                    self.send_response(200)
+                    self.send_header("Content-Type", "application/json")
+                    self.end_headers()
+                    self.wfile.write(json.dumps({"success": True, "slug": slug, "path": target_path.as_posix()}).encode("utf-8"))
+                except Exception as err:
+                    self.send_response(400)
+                    self.send_header("Content-Type", "application/json")
+                    self.end_headers()
+                    self.wfile.write(json.dumps({"success": False, "error": str(err)}).encode("utf-8"))
+            elif parsed.path == "/api/upload-video":
+                try:
+                    content_len = int(self.headers.get("Content-Length", 0))
+                    filename = self.headers.get("X-File-Name", "reference-video.mp4")
+                    filename = re.sub(r"[^\w\-_.]", "_", filename)
+                    media_dir = BASE_DIR / "media"
+                    media_dir.mkdir(parents=True, exist_ok=True)
+                    dest = media_dir / filename
+                    with open(dest, "wb") as f:
+                        f.write(self.rfile.read(content_len))
+                    self.send_response(200)
+                    self.send_header("Content-Type", "application/json")
+                    self.end_headers()
+                    self.wfile.write(json.dumps({"success": True, "url": f"media/{filename}"}).encode("utf-8"))
+                except Exception as err:
+                    self.send_response(400)
+                    self.send_header("Content-Type", "application/json")
+                    self.end_headers()
+                    self.wfile.write(json.dumps({"success": False, "error": str(err)}).encode("utf-8"))
+            else:
+                self.send_response(404)
+                self.end_headers()
+
+    socketserver.TCPServer.allow_reuse_address = True
+    with socketserver.TCPServer(("", port), VaultHTTPRequestHandler) as httpd:
+        print(f"\n⚡ Prompt Vault Studio running at http://localhost:{port}")
+        print("✨ Add prompts and video references via GUI with auto-save to disk!")
+        print("Press Ctrl+C to stop.\n")
+        try:
+            httpd.serve_forever()
+        except KeyboardInterrupt:
+            print("\nShutting down server.")
 
 
 def main():
@@ -480,6 +591,10 @@ def main():
     # build
     subparsers.add_parser("build", help="Rebuild CATALOG.md table of contents and prompts.json")
 
+    # serve
+    serve_parser = subparsers.add_parser("serve", help="Start local web studio with GUI and auto-saving API")
+    serve_parser.add_argument("--port", "-p", type=int, default=3000, help="Port to run on (default: 3000)")
+
     args = parser.parse_args()
 
     if not args.command:
@@ -493,6 +608,7 @@ def main():
         "copy": cmd_copy,
         "view": cmd_view,
         "build": cmd_build,
+        "serve": cmd_serve,
     }
 
     cmd_map[args.command](args)
